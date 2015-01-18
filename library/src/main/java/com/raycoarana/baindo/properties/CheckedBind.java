@@ -16,60 +16,56 @@
 
 package com.raycoarana.baindo.properties;
 
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.widget.TextView;
+import android.widget.Checkable;
+import android.widget.CompoundButton;
 
 import com.raycoarana.baindo.BindableSource;
 import com.raycoarana.baindo.WorkDispatcher;
 import com.raycoarana.baindo.observables.AbstractProperty;
 
-import java.util.Observable;
+public class CheckedBind extends BaseObservableBind<AbstractProperty<Boolean>> implements CompoundButton.OnCheckedChangeListener {
 
-public class TextBind extends BaseObservableBind<AbstractProperty<CharSequence>> implements TextWatcher {
-
-    public TextBind(BindableSource bindableSource, WorkDispatcher workDispatcher) {
+    public CheckedBind(BindableSource bindableSource, WorkDispatcher workDispatcher) {
         super(bindableSource, workDispatcher);
     }
 
     @Override
-    public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) {
-    }
-
-    @Override
-    public void onTextChanged(CharSequence charSequence, int i, int i2, int i3) {
-    }
-
-    @Override
-    public void afterTextChanged(final Editable editable) {
+    public void onCheckedChanged(CompoundButton buttonView, final boolean isChecked) {
         doInBackgroundThread(new Runnable() {
-            @Override
             public void run() {
-                mTarget.setValue(editable, TextBind.this);
+                mTarget.setValue(isChecked);
             }
         });
+
     }
 
     @Override
     protected void bindView() {
-        TextView textView = getView();
-        textView.addTextChangedListener(this);
+        Checkable view = getView();
+        if(view instanceof CompoundButton) {
+            ((CompoundButton)view).setOnCheckedChangeListener(this);
+        } else {
+            throw new IllegalStateException(String.format("Check binder doesn't supports %s in WRITE or READ_WRITE modes",
+                                                          view.getClass().getName()));
+        }
     }
 
     @Override
     protected void unbindView() {
-        TextView textView = getView();
-        textView.removeTextChangedListener(this);
+        Checkable view = getView();
+        if(view instanceof CompoundButton) {
+            ((CompoundButton)view).setOnCheckedChangeListener(null);
+        }
     }
 
     @Override
     protected void updateView() {
-        TextView textView = getView();
-        textView.setText(mTarget.getValue());
+        Checkable view = getView();
+        view.setChecked(mTarget.getValue() != null ? mTarget.getValue() : false);
     }
 
-    private TextView getView() {
-        return (TextView) mView;
+    private Checkable getView() {
+        return (Checkable) mView;
     }
 
 }

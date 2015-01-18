@@ -37,4 +37,11 @@ public class ViewModel {
         }
     };
 
+    public Command OpenCheckSampleCommand = new Command() {
+        @Override
+        public void execute() {
+            mNavigationService.navigateToCheckActivity();
+        }
+    };
+
 }

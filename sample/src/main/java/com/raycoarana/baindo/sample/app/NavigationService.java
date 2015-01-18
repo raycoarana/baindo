@@ -20,6 +20,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 
+import com.raycoarana.baindo.sample.check.view.CheckActivity;
 import com.raycoarana.baindo.sample.click.view.ClickActivity;
 import com.raycoarana.baindo.sample.text.view.TextActivity;
 
@@ -53,6 +54,10 @@ public class NavigationService {
 
     public void navigateToTextActivity() {
         startActivity(new Intent(mContext, TextActivity.class));
+    }
+
+    public void navigateToCheckActivity() {
+        startActivity(new Intent(mContext, CheckActivity.class));
     }
 
     private void startActivity(Intent intent) {

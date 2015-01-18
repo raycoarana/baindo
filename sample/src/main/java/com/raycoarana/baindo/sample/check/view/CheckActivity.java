@@ -14,30 +14,29 @@
  *     limitations under the License.
  */
 
-package com.raycoarana.baindo.sample.main.view;
+package com.raycoarana.baindo.sample.check.view;
 
 import android.os.Bundle;
 
 import com.raycoarana.baindo.app.BaindoActivity;
 import com.raycoarana.baindo.sample.R;
-import com.raycoarana.baindo.sample.main.viewmodel.ViewModel;
+import com.raycoarana.baindo.sample.check.viewmodel.ViewModel;
 
-public class MainActivity extends BaindoActivity {
+public class CheckActivity extends BaindoActivity {
 
     private ViewModel mViewModel = new ViewModel();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_check);
 
         bindViews();
     }
 
     private void bindViews() {
-        bind().click().of(R.id.click_sample).to(mViewModel.OpenClickSampleCommand);
-        bind().click().of(R.id.text_sample).to(mViewModel.OpenTextSampleCommand);
-        bind().click().of(R.id.check_sample).to(mViewModel.OpenCheckSampleCommand);
+        bind().isChecked().of(R.id.power).to(mViewModel.PowerOn).writeOnly();
+        bind().visibility().of(R.id.activated).to(mViewModel.PowerOn).readOnly();
+        bind().invisibility().of(R.id.deactivated).to(mViewModel.PowerOn).readOnly();
     }
-
 }

@@ -26,6 +26,23 @@ import com.raycoarana.baindo.viewmodel.Command;
 public interface Binder {
 
     /**
+     * Selects the IsChecked property as the source of the binding
+     */
+    ViewToBindSelector<AbstractProperty<Boolean>> isChecked();
+
+    /**
+     * Selects the Visibility property as the source of the binding
+     */
+    ViewToBindSelector<AbstractProperty<Boolean>> visibility();
+
+    /**
+     * Selects the Visibility property as the source of the binging, but mapping it in the
+     * opposite way of what visibility do. True value will make the view to be gone, False value
+     * will make the view to be shown.
+     */
+    ViewToBindSelector<AbstractProperty<Boolean>> invisibility();
+
+    /**
      * Selects the OnClickListener event as the source of the binding
      */
     ViewToBindSelector<Command> click();

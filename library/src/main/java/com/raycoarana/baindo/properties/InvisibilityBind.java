@@ -16,8 +16,21 @@
 
 package com.raycoarana.baindo.properties;
 
-enum BindWay {
-    READ_ONLY,
-    WRITE_ONLY,
-    READ_WRITE
+import android.view.View;
+
+import com.raycoarana.baindo.BindableSource;
+import com.raycoarana.baindo.WorkDispatcher;
+
+public class InvisibilityBind extends VisibilityBind {
+
+    public InvisibilityBind(BindableSource bindableSource, WorkDispatcher workDispatcher) {
+        super(bindableSource, workDispatcher);
+    }
+
+    @Override
+    protected void updateView() {
+        boolean visible = mTarget.getValue() != null ? mTarget.getValue() : false;
+        mView.setVisibility(visible ? View.GONE : View.VISIBLE);
+    }
+
 }

@@ -18,8 +18,11 @@ package com.raycoarana.baindo;
 
 import com.raycoarana.baindo.binding.ViewToBindSelector;
 import com.raycoarana.baindo.observables.AbstractProperty;
+import com.raycoarana.baindo.properties.CheckedBind;
 import com.raycoarana.baindo.properties.CommandBind;
+import com.raycoarana.baindo.properties.InvisibilityBind;
 import com.raycoarana.baindo.properties.TextBind;
+import com.raycoarana.baindo.properties.VisibilityBind;
 import com.raycoarana.baindo.viewmodel.Command;
 
 /**
@@ -34,6 +37,30 @@ class BinderImpl implements Binder, Unbindable {
     public BinderImpl(BindableSource bindableSource, WorkDispatcher workDispatcher) {
         mBindableSource = bindableSource;
         mWorkDispatcher = workDispatcher;
+    }
+
+    /**
+     * @see com.raycoarana.baindo.Binder#isChecked()
+     */
+    @Override
+    public ViewToBindSelector<AbstractProperty<Boolean>> isChecked() {
+        return setAsSourceOfBind(new CheckedBind(mBindableSource, mWorkDispatcher));
+    }
+
+    /**
+     * @see com.raycoarana.baindo.Binder#visibility()
+     */
+    @Override
+    public ViewToBindSelector<AbstractProperty<Boolean>> visibility() {
+        return setAsSourceOfBind(new VisibilityBind(mBindableSource, mWorkDispatcher));
+    }
+
+    /**
+     * @see com.raycoarana.baindo.Binder#invisibility()
+     */
+    @Override
+    public ViewToBindSelector<AbstractProperty<Boolean>> invisibility() {
+        return setAsSourceOfBind(new InvisibilityBind(mBindableSource, mWorkDispatcher));
     }
 
     /**

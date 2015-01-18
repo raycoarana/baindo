@@ -43,6 +43,16 @@ public abstract class BaseObservableBind<T extends Observable> extends BaseBind<
      */
     protected abstract void updateView();
 
+    @Override
+    public void update(Observable observable, Object o) {
+        doInUIThread(new Runnable() {
+            @Override
+            public void run() {
+                updateView();
+            }
+        });
+    }
+
     protected void bind() {
         updateView();
         onBind();
