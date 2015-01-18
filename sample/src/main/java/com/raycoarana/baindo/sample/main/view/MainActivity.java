@@ -14,17 +14,30 @@
  *     limitations under the License.
  */
 
-package com.raycoarana.baindo.sample;
+package com.raycoarana.baindo.sample.main.view;
 
 import android.app.Activity;
 import android.os.Bundle;
 
-public class MainActivity extends Activity {
+import com.raycoarana.baindo.app.BaindoActivity;
+import com.raycoarana.baindo.sample.R;
+import com.raycoarana.baindo.sample.main.viewmodel.ViewModel;
+
+public class MainActivity extends BaindoActivity {
+
+    private ViewModel mViewModel = new ViewModel();
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        bindViews();
+    }
+
+    private void bindViews() {
+        bind().click().of(R.id.click_sample).to(mViewModel.OpenClickSampleCommand);
+        bind().click().of(R.id.text_sample).to(mViewModel.OpenTextSampleCommand);
     }
 
 }
