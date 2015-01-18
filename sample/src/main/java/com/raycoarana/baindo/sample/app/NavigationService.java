@@ -22,6 +22,7 @@ import android.content.Intent;
 
 import com.raycoarana.baindo.sample.check.view.CheckActivity;
 import com.raycoarana.baindo.sample.click.view.ClickActivity;
+import com.raycoarana.baindo.sample.progress.view.ProgressActivity;
 import com.raycoarana.baindo.sample.text.view.TextActivity;
 
 import java.lang.ref.WeakReference;
@@ -58,6 +59,10 @@ public class NavigationService {
 
     public void navigateToCheckActivity() {
         startActivity(new Intent(mContext, CheckActivity.class));
+    }
+
+    public void navigateToProgressActivity() {
+        startActivity(new Intent(mContext, ProgressActivity.class));
     }
 
     private void startActivity(Intent intent) {

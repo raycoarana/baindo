@@ -29,8 +29,7 @@ public class InvisibilityBind extends VisibilityBind {
 
     @Override
     protected void updateView() {
-        boolean visible = mTarget.getValue() != null ? mTarget.getValue() : false;
-        mView.setVisibility(visible ? View.GONE : View.VISIBLE);
+        mView.setVisibility(getValueOrFalse() ? View.GONE : View.VISIBLE);
     }
 
 }

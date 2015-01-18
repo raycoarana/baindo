@@ -16,6 +16,7 @@
         <activity android:name=".click.view.ClickActivity"/>
         <activity android:name=".text.view.TextActivity"/>
         <activity android:name=".check.view.CheckActivity"/>
+        <activity android:name=".progress.view.ProgressActivity"/>
 
 	</application>
 

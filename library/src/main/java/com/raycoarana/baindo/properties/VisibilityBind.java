@@ -40,8 +40,12 @@ public class VisibilityBind extends BaseObservableBind<AbstractProperty<Boolean>
 
     @Override
     protected void updateView() {
-        boolean visible = mTarget.getValue() != null ? mTarget.getValue() : false;
-        mView.setVisibility(visible ? View.VISIBLE : View.GONE);
+        mView.setVisibility(getValueOrFalse() ? View.VISIBLE : View.GONE);
+    }
+
+    protected boolean getValueOrFalse() {
+        Boolean value = mTarget.getValue();
+        return value != null ? value : false;
     }
 
 }

@@ -21,6 +21,7 @@ import com.raycoarana.baindo.observables.AbstractProperty;
 import com.raycoarana.baindo.properties.CheckedBind;
 import com.raycoarana.baindo.properties.CommandBind;
 import com.raycoarana.baindo.properties.InvisibilityBind;
+import com.raycoarana.baindo.properties.ProgressBind;
 import com.raycoarana.baindo.properties.TextBind;
 import com.raycoarana.baindo.properties.VisibilityBind;
 import com.raycoarana.baindo.viewmodel.Command;
@@ -69,6 +70,14 @@ class BinderImpl implements Binder, Unbindable {
     @Override
     public ViewToBindSelector<Command> click() {
         return setAsSourceOfBind(new CommandBind(mBindableSource, mWorkDispatcher));
+    }
+
+    /**
+     * @see com.raycoarana.baindo.Binder#progress()
+     */
+    @Override
+    public ViewToBindSelector<AbstractProperty<Integer>> progress() {
+        return setAsSourceOfBind(new ProgressBind(mBindableSource, mWorkDispatcher));
     }
 
     /**

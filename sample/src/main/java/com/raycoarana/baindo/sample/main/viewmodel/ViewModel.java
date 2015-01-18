@@ -44,4 +44,11 @@ public class ViewModel {
         }
     };
 
+    public Command OpenPrpgressSampleCommand = new Command() {
+        @Override
+        public void execute() {
+            mNavigationService.navigateToProgressActivity();
+        }
+    };
+
 }

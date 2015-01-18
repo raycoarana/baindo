@@ -48,6 +48,11 @@ public interface Binder {
     ViewToBindSelector<Command> click();
 
     /**
+     * Selects the Progress property as the source of the binding
+     */
+    ViewToBindSelector<AbstractProperty<Integer>> progress();
+
+    /**
      * Selects the Text property as the source of the binding
      */
     ViewToBindSelector<AbstractProperty<CharSequence>> text();
