@@ -25,7 +25,6 @@ import com.raycoarana.baindo.WorkDispatcher;
 import com.raycoarana.baindo.binding.BindLevel;
 import com.raycoarana.baindo.binding.BindTarget;
 import com.raycoarana.baindo.binding.ViewToBindSelector;
-import com.raycoarana.baindo.viewmodel.Command;
 
 /**
  * Base class to create bind between a view property and a Command/Property of a ViewModel.
@@ -34,13 +33,20 @@ public abstract class BaseBind<T> implements ViewToBindSelector<T>, BindTarget<T
 
     private BindableSource mBindableSource;
     private WorkDispatcher mWorkDispatcher;
+    private BindLevel mBindLevel;
     protected View mView;
     protected T mTarget;
     protected BindWay mBindWay;
 
     public BaseBind(BindableSource bindableSource, WorkDispatcher workDispatcher) {
+        this(bindableSource, workDispatcher, null);
+        mBindLevel = this;
+    }
+
+    public BaseBind(BindableSource bindableSource, WorkDispatcher workDispatcher, BindLevel bindLevel) {
         mBindableSource = bindableSource;
         mWorkDispatcher = workDispatcher;
+        mBindLevel = bindLevel;
     }
 
     /**
@@ -75,12 +81,10 @@ public abstract class BaseBind<T> implements ViewToBindSelector<T>, BindTarget<T
     @Override
     public BindLevel to(T target) {
         mTarget = target;
-        if(target instanceof Command) {
+        if(mBindLevel == FINAL_BIND_LEVEL) {
             bind();
-            return COMMAND_BIND_LEVEL;
-        } else {
-            return this;
         }
+        return mBindLevel;
     }
 
     /**
@@ -135,20 +139,20 @@ public abstract class BaseBind<T> implements ViewToBindSelector<T>, BindTarget<T
         mWorkDispatcher.doInBackgroundThread(runnable);
     }
 
-    private static final BindLevel COMMAND_BIND_LEVEL = new BindLevel() {
+    protected static final BindLevel FINAL_BIND_LEVEL = new BindLevel() {
         @Override
         public void readOnly() {
-            throw new IllegalStateException("Commands don't need a Bind Level. Remove readOnly() from the bind statement.");
+            throw new IllegalStateException("This bind don't need a direction. Remove readOnly() from the bind statement.");
         }
 
         @Override
         public void writeOnly() {
-            throw new IllegalStateException("Commands don't need a Bind Level. Remove writeOnly() from the bind statement.");
+            throw new IllegalStateException("This bind don't need a direction. Remove writeOnly() from the bind statement.");
         }
 
         @Override
         public void readWrite() {
-            throw new IllegalStateException("Commands don't need a Bind Level. Remove readWrite() from the bind statement.");
+            throw new IllegalStateException("This bind don't need a direction. Remove readWrite() from the bind statement.");
         }
     };
 

@@ -14,30 +14,25 @@
  *     limitations under the License.
  */
 
-package com.pedrogomez.renderers;
+package com.raycoarana.baindo.sample.uiaction.viewmodel;
 
-import android.view.View;
+import com.raycoarana.baindo.observables.AbstractProperty;
+import com.raycoarana.baindo.observables.Property;
 
-import java.util.Collection;
+public class ViewModel {
 
-/**
- * Hack to change the visibility of some methods.
- */
-public abstract class ExtensibleRendererBuilder<T> extends RendererBuilder<T> {
+    public AbstractProperty<Integer> TransparencyPercent = new AbstractProperty<Integer>() {
+        @Override
+        public Integer getValue() {
+            return (int) (Transparency.getValue() * 100);
+        }
 
-    public ExtensibleRendererBuilder(Collection<Renderer<T>> prototypes) {
-        super(prototypes);
-    }
+        @Override
+        public void onValueChanged(Integer newValue) {
+            Transparency.setValue(newValue / 100.f);
+        }
+    };
 
-    @Override
-    protected RendererBuilder withConvertView(View convertView) {
-        return super.withConvertView(convertView);
-    }
-
-    @Override
-    protected Renderer build() {
-        return super.build();
-    }
+    public Property<Float> Transparency = new Property<>(0.5f);
 
 }
-

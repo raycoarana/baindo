@@ -16,6 +16,8 @@
 
 package com.raycoarana.baindo;
 
+import com.raycoarana.baindo.binding.BindTarget;
+import com.raycoarana.baindo.binding.UIAction;
 import com.raycoarana.baindo.binding.ViewToBindSelector;
 import com.raycoarana.baindo.observables.AbstractProperty;
 import com.raycoarana.baindo.properties.CheckedBind;
@@ -23,6 +25,7 @@ import com.raycoarana.baindo.properties.CommandBind;
 import com.raycoarana.baindo.properties.InvisibilityBind;
 import com.raycoarana.baindo.properties.ProgressBind;
 import com.raycoarana.baindo.properties.TextBind;
+import com.raycoarana.baindo.properties.UIActionBind;
 import com.raycoarana.baindo.properties.VisibilityBind;
 import com.raycoarana.baindo.viewmodel.Command;
 
@@ -86,6 +89,11 @@ class BinderImpl implements Binder, Unbindable {
     @Override
     public ViewToBindSelector<AbstractProperty<CharSequence>> text() {
         return setAsSourceOfBind(new TextBind(mBindableSource, mWorkDispatcher));
+    }
+
+    @Override
+    public <T> BindTarget<AbstractProperty<T>> uiAction(UIAction<T> uiAction) {
+        return setAsSourceOfBind(new UIActionBind<>(uiAction, mWorkDispatcher));
     }
 
     private <T extends Unbindable> T setAsSourceOfBind(T t) {

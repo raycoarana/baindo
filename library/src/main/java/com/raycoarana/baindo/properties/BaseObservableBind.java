@@ -18,6 +18,7 @@ package com.raycoarana.baindo.properties;
 
 import com.raycoarana.baindo.BindableSource;
 import com.raycoarana.baindo.WorkDispatcher;
+import com.raycoarana.baindo.binding.BindLevel;
 
 import java.util.Observable;
 import java.util.Observer;
@@ -26,6 +27,10 @@ public abstract class BaseObservableBind<T extends Observable> extends BaseBind<
 
     public BaseObservableBind(BindableSource bindableSource, WorkDispatcher workDispatcher) {
         super(bindableSource, workDispatcher);
+    }
+
+    public BaseObservableBind(BindableSource bindableSource, WorkDispatcher workDispatcher, BindLevel bindLevel) {
+        super(bindableSource, workDispatcher, bindLevel);
     }
 
     /**

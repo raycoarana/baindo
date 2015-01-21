@@ -16,6 +16,8 @@
 
 package com.raycoarana.baindo;
 
+import com.raycoarana.baindo.binding.BindTarget;
+import com.raycoarana.baindo.binding.UIAction;
 import com.raycoarana.baindo.binding.ViewToBindSelector;
 import com.raycoarana.baindo.observables.AbstractProperty;
 import com.raycoarana.baindo.viewmodel.Command;
@@ -56,5 +58,11 @@ public interface Binder {
      * Selects the Text property as the source of the binding
      */
     ViewToBindSelector<AbstractProperty<CharSequence>> text();
+
+    /**
+     * Selects an UI Action as the source of the binding. I will be executed every time the
+     * property is changed.
+     */
+    <T> BindTarget<AbstractProperty<T>> uiAction(UIAction<T> uiAction);
 
 }

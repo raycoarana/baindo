@@ -24,6 +24,7 @@ import com.raycoarana.baindo.sample.check.view.CheckActivity;
 import com.raycoarana.baindo.sample.click.view.ClickActivity;
 import com.raycoarana.baindo.sample.progress.view.ProgressActivity;
 import com.raycoarana.baindo.sample.text.view.TextActivity;
+import com.raycoarana.baindo.sample.uiaction.view.UIActionActivity;
 
 import java.lang.ref.WeakReference;
 
@@ -63,6 +64,10 @@ public class NavigationService {
 
     public void navigateToProgressActivity() {
         startActivity(new Intent(mContext, ProgressActivity.class));
+    }
+
+    public void navigateToUIActionActivity() {
+        startActivity(new Intent(mContext, UIActionActivity.class));
     }
 
     private void startActivity(Intent intent) {

@@ -28,7 +28,7 @@ import com.raycoarana.baindo.viewmodel.Command;
 public class CommandBind extends BaseBind<Command> {
 
     public CommandBind(BindableSource bindableSource, WorkDispatcher workDispatcher) {
-        super(bindableSource, workDispatcher);
+        super(bindableSource, workDispatcher, FINAL_BIND_LEVEL);
     }
 
     @Override

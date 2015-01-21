@@ -14,30 +14,10 @@
  *     limitations under the License.
  */
 
-package com.pedrogomez.renderers;
+package com.raycoarana.baindo.binding;
 
-import android.view.View;
+public interface UIAction<T> {
 
-import java.util.Collection;
-
-/**
- * Hack to change the visibility of some methods.
- */
-public abstract class ExtensibleRendererBuilder<T> extends RendererBuilder<T> {
-
-    public ExtensibleRendererBuilder(Collection<Renderer<T>> prototypes) {
-        super(prototypes);
-    }
-
-    @Override
-    protected RendererBuilder withConvertView(View convertView) {
-        return super.withConvertView(convertView);
-    }
-
-    @Override
-    protected Renderer build() {
-        return super.build();
-    }
+    void onUpdate(T value);
 
 }
-

@@ -14,32 +14,41 @@
  *     limitations under the License.
  */
 
-package com.raycoarana.baindo.sample.main.view;
+package com.raycoarana.baindo.sample.uiaction.view;
 
 import android.os.Bundle;
+import android.widget.ImageView;
 
 import com.raycoarana.baindo.app.BaindoActivity;
+import com.raycoarana.baindo.binding.UIAction;
 import com.raycoarana.baindo.sample.R;
-import com.raycoarana.baindo.sample.main.viewmodel.ViewModel;
+import com.raycoarana.baindo.sample.uiaction.viewmodel.ViewModel;
 
-public class MainActivity extends BaindoActivity {
+public class UIActionActivity extends BaindoActivity {
 
     private ViewModel mViewModel = new ViewModel();
-
+    private ImageView mImageView;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_uiaction);
 
         bindViews();
     }
 
     private void bindViews() {
-        bind().click().of(R.id.click_sample).to(mViewModel.OpenClickSampleCommand);
-        bind().click().of(R.id.text_sample).to(mViewModel.OpenTextSampleCommand);
-        bind().click().of(R.id.check_sample).to(mViewModel.OpenCheckSampleCommand);
-        bind().click().of(R.id.progress_sample).to(mViewModel.OpenProgressSampleCommand);
-        bind().click().of(R.id.uiaction_sample).to(mViewModel.OpenUIActionSampleCommand);
+        mImageView = (ImageView) findViewById(R.id.image);
+
+        bind().progress().of(R.id.transparency).to(mViewModel.TransparencyPercent).writeOnly();
+        bind().uiAction(mImageTransparencyControl).to(mViewModel.Transparency);
     }
+
+    private UIAction<Float> mImageTransparencyControl = new UIAction<Float>() {
+        @Override
+        public void onUpdate(Float value) {
+            //Do any UI action in response to a ViewModel's property change
+            mImageView.setAlpha(value);
+        }
+    };
 
 }

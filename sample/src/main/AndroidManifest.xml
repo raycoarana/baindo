@@ -17,6 +17,7 @@
         <activity android:name=".text.view.TextActivity"/>
         <activity android:name=".check.view.CheckActivity"/>
         <activity android:name=".progress.view.ProgressActivity"/>
+        <activity android:name=".uiaction.view.UIActionActivity"/>
 
 	</application>
 
