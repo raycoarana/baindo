@@ -14,17 +14,7 @@
  *     limitations under the License.
  */
 
-package com.raycoarana.baindo.sample.uiaction.viewmodel;
+package com.raycoarana.baindo.sample.adapter.dynamicitems.viewmodel;
 
-import com.raycoarana.baindo.observables.Property;
-import com.raycoarana.baindo.viewmodel.Command;
-
-public class ViewModel {
-
-    public Property<Boolean> IsFavorite = new Property<>(false);
-
-    public Property<CharSequence> Name = new Property<>("Sophie Shaw");
-
-    public Command ToggleFavorite = () -> IsFavorite.setValue(!IsFavorite.getValue());
-
+public class ItemViewModel {
 }

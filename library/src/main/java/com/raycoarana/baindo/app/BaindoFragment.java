@@ -43,6 +43,13 @@ public class BaindoFragment extends Fragment implements BindableSource {
         return mBinderDelegate.bind(this);
     }
 
+    /**
+     * Unbind all views, use it with Transition API to do your animations
+     */
+    public void unbind() {
+        mBinderDelegate.unbind();
+    }
+
     @Override
     public void onDestroy() {
         super.onDestroy();

@@ -34,7 +34,7 @@ import java.util.Observer;
  */
 public class Observable extends java.util.Observable {
 
-    List<Observer> observers = new ArrayList<Observer>();
+    List<Observer> observers = new ArrayList<>();
 
     /**
      * Constructs a new {@code Observable} object.

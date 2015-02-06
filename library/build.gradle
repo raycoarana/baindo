@@ -1,4 +1,5 @@
 apply plugin: 'com.android.library'
+apply plugin: 'me.tatarka.retrolambda'
 apply plugin: 'robolectric'
 apply plugin: 'com.github.kt3k.coveralls'
 apply from: '../scripts/gradle-mvn-push.gradle'
@@ -14,6 +15,10 @@ android {
         targetSdkVersion 21
         versionCode 1
         versionName "1.0"
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
     buildTypes {
         release {
@@ -31,7 +36,7 @@ android {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
 
-    compile 'com.github.pedrovgs:renderers:1.4'
+    compile 'com.github.pedrovgs:renderers:1.5-SNAPSHOT'
 
     androidTestCompile 'org.hamcrest:hamcrest-integration:1.1'
     androidTestCompile 'org.hamcrest:hamcrest-core:1.1'

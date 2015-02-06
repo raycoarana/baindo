@@ -26,6 +26,4 @@ public interface BindTarget<T> {
      */
     BindLevel to(T target);
 
-    //BindTarget<T> using(AdapterFactory<? extends T> adapterFactory);
-
 }

@@ -15,9 +15,11 @@
   ~     limitations under the License.
   -->
 
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/content"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-</RelativeLayout>
+<transitionManager xmlns:android="http://schemas.android.com/apk/res/android">
+    <transition android:fromScene="@layout/activity_uiaction_normal"
+                android:toScene="@layout/activity_uiaction_favorite"
+                android:transition="@transition/changebounds"/>
+    <transition android:fromScene="@layout/activity_uiaction_favorite"
+                android:toScene="@layout/activity_uiaction_normal"
+                android:transition="@transition/changebounds"/>
+</transitionManager>

@@ -14,17 +14,16 @@
  *     limitations under the License.
  */
 
-package com.raycoarana.baindo.sample.uiaction.viewmodel;
+package com.raycoarana.baindo.sample.adapter.staticitems.view;
 
-import com.raycoarana.baindo.observables.Property;
-import com.raycoarana.baindo.viewmodel.Command;
+import android.view.LayoutInflater;
 
-public class ViewModel {
+import com.raycoarana.baindo.renderer.AdapterFactory;
 
-    public Property<Boolean> IsFavorite = new Property<>(false);
+public class StaticItemsAdapterFactory extends AdapterFactory<String> {
 
-    public Property<CharSequence> Name = new Property<>("Sophie Shaw");
-
-    public Command ToggleFavorite = () -> IsFavorite.setValue(!IsFavorite.getValue());
+    public StaticItemsAdapterFactory(LayoutInflater layoutInflater) {
+        super(layoutInflater, new StaticItemsRendererBuilder());
+    }
 
 }

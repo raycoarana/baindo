@@ -20,4 +20,27 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <ImageView
+        android:id="@+id/photo"
+        android:scaleType="centerCrop"
+        android:src="@drawable/photo"
+        android:layout_width="match_parent"
+        android:layout_height="280dp" />
+
+    <TextView
+        android:id="@+id/name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/favorite"
+        android:layout_alignBottom="@+id/photo"
+        android:background="#66000000"/>
+
+    <ImageView
+        android:id="@+id/favorite"
+        android:src="@drawable/ic_favorite_unchecked"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_alignBottom="@+id/photo"
+        android:layout_alignParentRight="true"/>
+
 </RelativeLayout>

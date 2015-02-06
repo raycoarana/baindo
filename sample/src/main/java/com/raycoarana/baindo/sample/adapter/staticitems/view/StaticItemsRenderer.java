@@ -14,29 +14,28 @@
  *     limitations under the License.
  */
 
-package com.raycoarana.baindo.properties;
+package com.raycoarana.baindo.sample.adapter.staticitems.view;
 
-import com.raycoarana.baindo.BindableSource;
-import com.raycoarana.baindo.WorkDispatcher;
-import com.raycoarana.baindo.viewmodel.Command;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
 
-/**
- * Binds/unbind a Command to a view's OnClickListener event.
- */
-public class CommandBind extends BaseBind<Command> {
+import com.raycoarana.baindo.renderer.BinderRenderer;
 
-    public CommandBind(BindableSource bindableSource, WorkDispatcher workDispatcher) {
-        super(bindableSource, workDispatcher, FINAL_BIND_LEVEL);
+public class StaticItemsRenderer extends BinderRenderer<String> {
+
+    private TextView mTextView;
+
+    @Override
+    protected View inflate(LayoutInflater inflater, ViewGroup parent) {
+        mTextView = (TextView) inflater.inflate(android.R.layout.simple_list_item_1, parent, false);
+        return mTextView;
     }
 
     @Override
-    protected void bind() {
-        mView.setOnClickListener(view -> doInBackgroundThread(mTarget::execute));
-    }
-
-    @Override
-    protected void onUnbind() {
-        mView.setOnClickListener(null);
+    public void render() {
+        mTextView.setText(getContent());
     }
 
 }

@@ -20,6 +20,8 @@ import com.raycoarana.baindo.binding.BindTarget;
 import com.raycoarana.baindo.binding.UIAction;
 import com.raycoarana.baindo.binding.ViewToBindSelector;
 import com.raycoarana.baindo.observables.AbstractProperty;
+import com.raycoarana.baindo.observables.AbstractCollectionProperty;
+import com.raycoarana.baindo.renderer.AdapterFactory;
 import com.raycoarana.baindo.viewmodel.Command;
 
 /**
@@ -31,6 +33,11 @@ public interface Binder {
      * Selects the IsChecked property as the source of the binding
      */
     ViewToBindSelector<AbstractProperty<Boolean>> isChecked();
+
+    /**
+     * Selects the Enable property as the source of the binding
+     */
+    ViewToBindSelector<AbstractProperty<Boolean>> enable();
 
     /**
      * Selects the Visibility property as the source of the binding
@@ -65,4 +72,5 @@ public interface Binder {
      */
     <T> BindTarget<AbstractProperty<T>> uiAction(UIAction<T> uiAction);
 
+    <T> ViewToBindSelector<AbstractCollectionProperty<T>> adapterWithFactory(AdapterFactory<T> adapterFactory);
 }

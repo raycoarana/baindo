@@ -47,6 +47,13 @@ public class BaindoActivity extends Activity implements BindableSource {
         return mBinderDelegate.bind(this);
     }
 
+    /**
+     * Unbind all views, use it with Transition API to do your animations
+     */
+    public void unbind() {
+        mBinderDelegate.unbind();
+    }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();

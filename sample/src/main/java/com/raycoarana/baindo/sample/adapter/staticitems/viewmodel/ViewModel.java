@@ -14,17 +14,34 @@
  *     limitations under the License.
  */
 
-package com.raycoarana.baindo.sample.uiaction.viewmodel;
+package com.raycoarana.baindo.sample.adapter.staticitems.viewmodel;
 
+import com.raycoarana.baindo.observables.CollectionProperty;
 import com.raycoarana.baindo.observables.Property;
 import com.raycoarana.baindo.viewmodel.Command;
 
+import java.util.Random;
+
 public class ViewModel {
 
-    public Property<Boolean> IsFavorite = new Property<>(false);
+    private Random mRandom = new Random();
 
-    public Property<CharSequence> Name = new Property<>("Sophie Shaw");
+    public Property<Boolean> CanRemoveItems = new Property<>(false);
+    public CollectionProperty<String> Items = new CollectionProperty<>();
 
-    public Command ToggleFavorite = () -> IsFavorite.setValue(!IsFavorite.getValue());
+    public Command AddCommand = () -> {
+        String newValue = calculateNewValue();
+        Items.add(newValue);
+        CanRemoveItems.setValue(true);
+    };
+
+    private String calculateNewValue() {
+        return String.valueOf(Math.abs(mRandom.nextInt() % 100));
+    }
+
+    public Command RemoveCommand = () -> {
+        Items.remove(0);
+        CanRemoveItems.setValue(Items.size() > 0);
+    };
 
 }

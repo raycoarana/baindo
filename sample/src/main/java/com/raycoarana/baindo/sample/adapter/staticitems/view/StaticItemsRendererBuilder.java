@@ -14,30 +14,19 @@
  *     limitations under the License.
  */
 
-package com.pedrogomez.renderers;
+package com.raycoarana.baindo.sample.adapter.staticitems.view;
 
-import android.view.View;
+import com.raycoarana.baindo.renderer.BinderRenderer;
+import com.raycoarana.baindo.renderer.BinderRendererBuilder;
 
-import java.util.Collection;
+import java.util.HashMap;
 
-/**
- * Hack to change the visibility of some methods.
- */
-public abstract class ExtensibleRendererBuilder<T> extends RendererBuilder<T> {
+public class StaticItemsRendererBuilder extends BinderRendererBuilder<String> {
 
-    public ExtensibleRendererBuilder(Collection<Renderer<T>> prototypes) {
-        super(prototypes);
-    }
-
-    @Override
-    protected RendererBuilder withConvertView(View convertView) {
-        return super.withConvertView(convertView);
-    }
-
-    @Override
-    protected Renderer build() {
-        return super.build();
+    public StaticItemsRendererBuilder() {
+        super(new HashMap<Class<? extends String>, BinderRenderer<String>>(){{
+            put(String.class, new StaticItemsRenderer());
+        }});
     }
 
 }
-

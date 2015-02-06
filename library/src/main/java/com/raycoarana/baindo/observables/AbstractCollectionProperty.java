@@ -14,17 +14,30 @@
  *     limitations under the License.
  */
 
-package com.raycoarana.baindo.sample.uiaction.viewmodel;
+package com.raycoarana.baindo.observables;
 
-import com.raycoarana.baindo.observables.Property;
-import com.raycoarana.baindo.viewmodel.Command;
+import com.pedrogomez.renderers.AdapteeCollection;
 
-public class ViewModel {
+import java.util.Collection;
 
-    public Property<Boolean> IsFavorite = new Property<>(false);
+public abstract class AbstractCollectionProperty<T> extends com.raycoarana.baindo.observables.Observable implements AdapteeCollection<T> {
 
-    public Property<CharSequence> Name = new Property<>("Sophie Shaw");
+    public boolean add(T element) {
+        return false;
+    }
 
-    public Command ToggleFavorite = () -> IsFavorite.setValue(!IsFavorite.getValue());
+    public boolean remove(Object element) {
+        return false;
+    }
+
+    public boolean addAll(Collection<? extends T> elements) {
+        return false;
+    }
+
+    public boolean removeAll(Collection<?> elements) {
+        return false;
+    }
+
+    public void clear() {}
 
 }

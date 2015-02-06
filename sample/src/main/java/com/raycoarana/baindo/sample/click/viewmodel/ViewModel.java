@@ -26,13 +26,6 @@ public class ViewModel {
 
     public final Property<CharSequence> Message = new Property<>();
 
-    public final Command SayHelloCommand = new Command() {
-
-        @Override
-        public void execute() {
-            Message.setValue("Hello!!!");
-        }
-
-    };
+    public final Command SayHelloCommand = () -> Message.setValue("Hello!!!");
 
 }

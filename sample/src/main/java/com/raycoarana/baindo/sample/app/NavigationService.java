@@ -20,6 +20,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 
+import com.raycoarana.baindo.sample.adapter.staticitems.view.StaticItemsActivity;
 import com.raycoarana.baindo.sample.check.view.CheckActivity;
 import com.raycoarana.baindo.sample.click.view.ClickActivity;
 import com.raycoarana.baindo.sample.progress.view.ProgressActivity;
@@ -68,6 +69,10 @@ public class NavigationService {
 
     public void navigateToUIActionActivity() {
         startActivity(new Intent(mContext, UIActionActivity.class));
+    }
+
+    public void navigateToStaticItemsActivity() {
+        startActivity(new Intent(mContext, StaticItemsActivity.class));
     }
 
     private void startActivity(Intent intent) {

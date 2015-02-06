@@ -24,8 +24,6 @@ import com.raycoarana.baindo.BindableSource;
 import com.raycoarana.baindo.WorkDispatcher;
 import com.raycoarana.baindo.observables.AbstractProperty;
 
-import java.util.Observable;
-
 public class TextBind extends BaseObservableBind<AbstractProperty<CharSequence>> implements TextWatcher {
 
     public TextBind(BindableSource bindableSource, WorkDispatcher workDispatcher) {
@@ -42,12 +40,7 @@ public class TextBind extends BaseObservableBind<AbstractProperty<CharSequence>>
 
     @Override
     public void afterTextChanged(final Editable editable) {
-        doInBackgroundThread(new Runnable() {
-            @Override
-            public void run() {
-                mTarget.setValue(editable, TextBind.this);
-            }
-        });
+        doInBackgroundThread(() -> mTarget.setValue(editable, TextBind.this));
     }
 
     @Override

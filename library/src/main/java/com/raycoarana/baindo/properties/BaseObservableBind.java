@@ -50,12 +50,7 @@ public abstract class BaseObservableBind<T extends Observable> extends BaseBind<
 
     @Override
     public void update(Observable observable, Object o) {
-        doInUIThread(new Runnable() {
-            @Override
-            public void run() {
-                updateView();
-            }
-        });
+        doInUIThread(this::updateView);
     }
 
     protected void bind() {

@@ -23,39 +23,16 @@ public class ViewModel {
 
     private NavigationService mNavigationService = NavigationService.getInstance();
 
-    public Command OpenClickSampleCommand = new Command() {
-        @Override
-        public void execute() {
-            mNavigationService.navigateToClickActivity();
-        }
-    };
+    public Command OpenClickSampleCommand = mNavigationService::navigateToClickActivity;
 
-    public Command OpenTextSampleCommand = new Command() {
-        @Override
-        public void execute() {
-            mNavigationService.navigateToTextActivity();
-        }
-    };
+    public Command OpenTextSampleCommand = mNavigationService::navigateToTextActivity;
 
-    public Command OpenCheckSampleCommand = new Command() {
-        @Override
-        public void execute() {
-            mNavigationService.navigateToCheckActivity();
-        }
-    };
+    public Command OpenCheckSampleCommand = mNavigationService::navigateToCheckActivity;
 
-    public Command OpenProgressSampleCommand = new Command() {
-        @Override
-        public void execute() {
-            mNavigationService.navigateToProgressActivity();
-        }
-    };
+    public Command OpenProgressSampleCommand = mNavigationService::navigateToProgressActivity;
 
-    public Command OpenUIActionSampleCommand = new Command() {
-        @Override
-        public void execute() {
-            mNavigationService.navigateToUIActionActivity();
-        }
-    };
+    public Command OpenUIActionSampleCommand = mNavigationService::navigateToUIActionActivity;
+
+    public Command OpenStaticItemsAdapterSampleCommand = mNavigationService::navigateToStaticItemsActivity;
 
 }

@@ -70,9 +70,13 @@ public class BinderDelegate {
      * Activity/Fragment as a BindableSource.
      */
     public Binder bind(BindableSource bindableSource) {
-        BinderImpl binder = new BinderImpl(bindableSource, mWorkDispatcher);
+        BinderImpl binder = new BinderImpl(bindableSource, mWorkDispatcher, this);
         mUnbindables.add(binder);
         return binder;
+    }
+
+    public Binder bindRenderer(BindableSource bindableSource) {
+        return new BinderImpl(bindableSource, mWorkDispatcher, this);
     }
 
     /**
@@ -82,11 +86,15 @@ public class BinderDelegate {
      * Call this method in the onDestroy() method of your Activity/Fragment.
      */
     public void onDestroy() {
+        unbind();
+        mBackgroundHandler.getLooper().quit();
+    }
+
+    public void unbind() {
         for(Unbindable unbindable : mUnbindables) {
             unbindable.unbind();
         }
         mUnbindables.clear();
-        mBackgroundHandler.getLooper().quit();
     }
 
     /**
@@ -137,5 +145,4 @@ public class BinderDelegate {
         }
 
     };
-
 }

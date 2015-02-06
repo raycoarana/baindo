@@ -18,25 +18,32 @@ package com.raycoarana.baindo.properties;
 
 import com.raycoarana.baindo.BindableSource;
 import com.raycoarana.baindo.WorkDispatcher;
-import com.raycoarana.baindo.viewmodel.Command;
+import com.raycoarana.baindo.observables.AbstractProperty;
 
-/**
- * Binds/unbind a Command to a view's OnClickListener event.
- */
-public class CommandBind extends BaseBind<Command> {
+public class EnabledBind extends BaseObservableBind<AbstractProperty<Boolean>> {
 
-    public CommandBind(BindableSource bindableSource, WorkDispatcher workDispatcher) {
-        super(bindableSource, workDispatcher, FINAL_BIND_LEVEL);
+    public EnabledBind(BindableSource bindableSource, WorkDispatcher workDispatcher) {
+        super(bindableSource, workDispatcher);
     }
 
     @Override
-    protected void bind() {
-        mView.setOnClickListener(view -> doInBackgroundThread(mTarget::execute));
+    protected void bindView() {
+        throw new IllegalStateException("Enabled bind doesn't support WRITE or READ_WRITE mode.");
     }
 
     @Override
-    protected void onUnbind() {
-        mView.setOnClickListener(null);
+    protected void unbindView() {
+        throw new IllegalStateException("Enabled bind doesn't support WRITE or READ_WRITE mode.");
+    }
+
+    @Override
+    protected void updateView() {
+        mView.setEnabled(getValueOrFalse());
+    }
+
+    protected boolean getValueOrFalse() {
+        Boolean value = mTarget.getValue();
+        return value != null ? value : false;
     }
 
 }

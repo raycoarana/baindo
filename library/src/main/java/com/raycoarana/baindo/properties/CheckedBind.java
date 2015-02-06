@@ -31,11 +31,7 @@ public class CheckedBind extends BaseObservableBind<AbstractProperty<Boolean>> i
 
     @Override
     public void onCheckedChanged(CompoundButton buttonView, final boolean isChecked) {
-        doInBackgroundThread(new Runnable() {
-            public void run() {
-                mTarget.setValue(isChecked);
-            }
-        });
+        doInBackgroundThread(() -> mTarget.setValue(isChecked));
 
     }
 

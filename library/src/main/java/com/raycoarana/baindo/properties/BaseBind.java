@@ -117,15 +117,6 @@ public abstract class BaseBind<T> implements ViewToBindSelector<T>, BindTarget<T
     }
 
     /**
-     * @see com.raycoarana.baindo.binding.BindTarget#using
-     */
-    /*
-    @Override
-    public BindTarget<T> using(AdapterFactory<? extends T> adapterFactory) {
-        throw new RuntimeException("Not implemented");
-    }*/
-
-    /**
      * Execute some work on the UI thread.
      */
     public void doInUIThread(Runnable runnable) {
@@ -142,17 +133,17 @@ public abstract class BaseBind<T> implements ViewToBindSelector<T>, BindTarget<T
     protected static final BindLevel FINAL_BIND_LEVEL = new BindLevel() {
         @Override
         public void readOnly() {
-            throw new IllegalStateException("This bind don't need a direction. Remove readOnly() from the bind statement.");
+            throw new IllegalStateException("This bind doesn't need a direction. Remove readOnly() from bind statement.");
         }
 
         @Override
         public void writeOnly() {
-            throw new IllegalStateException("This bind don't need a direction. Remove writeOnly() from the bind statement.");
+            throw new IllegalStateException("This bind doesn't need a direction. Remove writeOnly() from bind statement.");
         }
 
         @Override
         public void readWrite() {
-            throw new IllegalStateException("This bind don't need a direction. Remove readWrite() from the bind statement.");
+            throw new IllegalStateException("This bind doesn't need a direction. Remove readWrite() from bind statement.");
         }
     };
 
