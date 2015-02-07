@@ -72,5 +72,14 @@ public interface Binder {
      */
     <T> BindTarget<AbstractProperty<T>> uiAction(UIAction<T> uiAction);
 
+    /**
+     * Prepares an adapter's binding with its factory
+     */
     <T> ViewToBindSelector<AbstractCollectionProperty<T>> adapterWithFactory(AdapterFactory<T> adapterFactory);
+
+    /**
+     * Selects the Selected item index property of an AdapterView
+     */
+    ViewToBindSelector<AbstractProperty<Integer>> selectedIndex();
+
 }

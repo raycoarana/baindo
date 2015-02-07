@@ -26,6 +26,7 @@ import com.raycoarana.baindo.properties.CommandBind;
 import com.raycoarana.baindo.properties.EnabledBind;
 import com.raycoarana.baindo.properties.InvisibilityBind;
 import com.raycoarana.baindo.properties.ProgressBind;
+import com.raycoarana.baindo.properties.SelectedIndexBind;
 import com.raycoarana.baindo.properties.TextBind;
 import com.raycoarana.baindo.properties.UIActionBind;
 import com.raycoarana.baindo.properties.VisibilityBind;
@@ -105,16 +106,29 @@ class BinderImpl implements Binder, Unbindable {
         return setAsSourceOfBind(new TextBind(mBindableSource, mWorkDispatcher));
     }
 
+    /**
+     * @see com.raycoarana.baindo.Binder#uiAction(com.raycoarana.baindo.binding.UIAction)
+     */
     @Override
     public <T> BindTarget<AbstractProperty<T>> uiAction(UIAction<T> uiAction) {
         return setAsSourceOfBind(new UIActionBind<>(uiAction, mWorkDispatcher));
     }
 
+    /**
+     * @see com.raycoarana.baindo.Binder#adapterWithFactory(com.raycoarana.baindo.renderer.AdapterFactory)
+     */
     @Override
     public <T> ViewToBindSelector<AbstractCollectionProperty<T>> adapterWithFactory(AdapterFactory<T> adapterFactory) {
         return setAsSourceOfBind(new AdapterBind<>(mBindableSource, mWorkDispatcher, mBinderDelegate, adapterFactory));
     }
 
+    /**
+     * @see com.raycoarana.baindo.Binder#selectedIndex()
+     */
+    @Override
+    public ViewToBindSelector<AbstractProperty<Integer>> selectedIndex() {
+        return setAsSourceOfBind(new SelectedIndexBind(mBindableSource, mWorkDispatcher));
+    }
 
 
     private <T extends Unbindable> T setAsSourceOfBind(T t) {

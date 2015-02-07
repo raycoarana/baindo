@@ -20,7 +20,18 @@ import java.util.Observer;
 
 public abstract class AbstractProperty<T> extends Observable {
 
-    public abstract T getValue();
+    protected T mValue;
+
+    public AbstractProperty() {
+    }
+
+    public AbstractProperty(T defaultValue) {
+        mValue = defaultValue;
+    }
+
+    public T getValue() {
+        return mValue;
+    }
     public abstract void onValueChanged(T newValue);
 
     /**

@@ -18,8 +18,6 @@ package com.raycoarana.baindo.observables;
 
 public class Property<T> extends AbstractProperty<T> {
 
-    private T mValue;
-
     public Property() {
     }
 

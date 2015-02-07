@@ -16,6 +16,7 @@
 
 package com.raycoarana.baindo.sample.adapter.staticitems.viewmodel;
 
+import com.raycoarana.baindo.observables.AbstractProperty;
 import com.raycoarana.baindo.observables.CollectionProperty;
 import com.raycoarana.baindo.observables.Property;
 import com.raycoarana.baindo.viewmodel.Command;
@@ -28,6 +29,17 @@ public class ViewModel {
 
     public Property<Boolean> CanRemoveItems = new Property<>(false);
     public CollectionProperty<String> Items = new CollectionProperty<>();
+    public Property<CharSequence> SelectedItem = new Property<>();
+    public AbstractProperty<Integer> SelectedItemIndex = new AbstractProperty<Integer>() {
+
+        @Override
+        public void onValueChanged(Integer newValue) {
+            mValue = newValue;
+            String selectedItem = newValue != null ? Items.get(newValue) : null;
+            SelectedItem.setValue(selectedItem);
+        }
+
+    };
 
     public Command AddCommand = () -> {
         String newValue = calculateNewValue();
@@ -41,6 +53,11 @@ public class ViewModel {
 
     public Command RemoveCommand = () -> {
         Items.remove(0);
+        Integer selectedItemIndex = SelectedItemIndex.getValue() - 1;
+        if(selectedItemIndex < 0) {
+            selectedItemIndex = Items.size() > 0 ? 0 : null;
+        }
+        SelectedItemIndex.setValue(selectedItemIndex);
         CanRemoveItems.setValue(Items.size() > 0);
     };
 

@@ -34,11 +34,16 @@
         android:layout_below="@+id/add"
         android:text="Remove"/>
 
-    <ListView
-        android:id="@android:id/list"
+    <Spinner
+        android:id="@+id/spinner"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/remove"
-        android:layout_alignParentBottom="true"/>
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/remove"/>
+
+    <TextView
+        android:id="@+id/selected"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/spinner" />
 
 </RelativeLayout>
