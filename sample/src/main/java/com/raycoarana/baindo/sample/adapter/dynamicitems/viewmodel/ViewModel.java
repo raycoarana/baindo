@@ -16,6 +16,8 @@
 
 package com.raycoarana.baindo.sample.adapter.dynamicitems.viewmodel;
 
+import android.util.Log;
+
 import com.raycoarana.baindo.observables.CollectionProperty;
 import com.raycoarana.baindo.observables.Property;
 import com.raycoarana.baindo.viewmodel.Command;
@@ -35,7 +37,7 @@ public class ViewModel {
     };
 
     public Command RemoveCommand = () -> {
-        Items.remove(0);
+        Items.remove(0).StopCommand.execute();
         CanRemoveItems.setValue(Items.size() > 0);
     };
 

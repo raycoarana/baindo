@@ -17,8 +17,8 @@
 package com.raycoarana.baindo.sample.adapter.dynamicitems.viewmodel;
 
 import com.raycoarana.baindo.observables.Property;
-import com.raycoarana.baindo.sample.app.MessageService;
 import com.raycoarana.baindo.sample.adapter.dynamicitems.services.TimerService;
+import com.raycoarana.baindo.sample.app.MessageService;
 import com.raycoarana.baindo.viewmodel.Command;
 
 import java.util.TimerTask;
@@ -33,7 +33,13 @@ public class ItemViewModel {
     public Property<CharSequence> Ticks = new Property<>();
 
     public Command ShowCommand = () -> MessageService.show(Ticks.getValue().toString());
-    
+
+    public Command StopCommand = () -> {
+        if(mTimer != null) {
+            mTimer.cancel();
+        }
+    };
+
     public ItemViewModel(int id) {
         mId = id;
         mTicks = ZERO;
@@ -43,9 +49,6 @@ public class ItemViewModel {
     private void tick() {
         mTicks++;
         Ticks.setValue(mId + " => Ticks: " + mTicks);
-        if(mTicks == 0) {
-            mTimer.cancel();
-        }
     }
 
 }
