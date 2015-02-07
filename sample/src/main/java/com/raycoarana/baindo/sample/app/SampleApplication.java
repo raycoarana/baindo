@@ -27,6 +27,7 @@ public class SampleApplication extends Application implements Application.Activi
         super.onCreate();
         NavigationService.getInstance()
                          .updateContext(this);
+        MessageService.initialize(this);
 
         this.registerActivityLifecycleCallbacks(this);
     }

@@ -29,8 +29,7 @@ import java.util.Map;
 public abstract class BinderRendererBuilder<T> extends RendererBuilder<T> {
 
     private final Map<Class<? extends T>, ? extends BinderRenderer<T>> mContentToPrototypeMap;
-    private HashSet<Renderer> mRenderers = new HashSet<>();
-    private BinderDelegate mBinderDelegate;
+    private HashSet<BinderRenderer> mRenderers = new HashSet<>();
     private View convertView;
 
     @SuppressWarnings("unchecked")
@@ -40,7 +39,9 @@ public abstract class BinderRendererBuilder<T> extends RendererBuilder<T> {
     }
 
     protected void injectDelegate(BinderDelegate binderDelegate) {
-        mBinderDelegate = binderDelegate;
+        for(BinderRenderer binderRenderer : mContentToPrototypeMap.values()) {
+            binderRenderer.injectDelegate(binderDelegate);
+        }
     }
 
     protected RendererBuilder withConvertView(View convertView) {
@@ -50,10 +51,11 @@ public abstract class BinderRendererBuilder<T> extends RendererBuilder<T> {
     }
 
     protected Renderer build() {
-        unbindRenderer(convertView);
+        BinderRenderer oldRenderer = unbindRenderer(convertView);
         BinderRenderer newRenderer = (BinderRenderer) super.build();
-        newRenderer.injectDelegate(mBinderDelegate);
-        mRenderers.add(newRenderer);
+        if(oldRenderer != newRenderer) {
+            mRenderers.add(newRenderer);
+        }
         return newRenderer;
     }
 
@@ -68,18 +70,19 @@ public abstract class BinderRendererBuilder<T> extends RendererBuilder<T> {
     }
 
     @SuppressWarnings("unchecked")
-    private void unbindRenderer(View convertView) {
+    private BinderRenderer unbindRenderer(View convertView) {
         if(convertView != null && convertView.getTag() != null) {
-            Renderer renderer = (Renderer) convertView.getTag();
-            renderer.onRecycle(null);
-            mRenderers.remove(renderer);
+            BinderRenderer renderer = (BinderRenderer) convertView.getTag();
+            renderer.unbind();
+            return renderer;
         }
+        return null;
     }
 
     @SuppressWarnings("unchecked")
     public void destroy() {
-        for(Renderer renderer : mRenderers) {
-            renderer.onRecycle(null);
+        for(BinderRenderer renderer: mRenderers) {
+            renderer.unbind();
         }
     }
 

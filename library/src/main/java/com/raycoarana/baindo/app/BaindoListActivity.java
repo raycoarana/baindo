@@ -56,8 +56,8 @@ public class BaindoListActivity extends ListActivity implements BindableSource {
 
     @Override
     protected void onDestroy() {
-        super.onDestroy();
         mBinderDelegate.onDestroy();
+        super.onDestroy();
     }
 
 }

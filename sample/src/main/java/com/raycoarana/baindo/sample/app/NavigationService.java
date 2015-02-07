@@ -20,6 +20,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 
+import com.raycoarana.baindo.sample.adapter.dynamicitems.view.DynamicItemsActivity;
 import com.raycoarana.baindo.sample.adapter.staticitems.view.StaticItemsActivity;
 import com.raycoarana.baindo.sample.check.view.CheckActivity;
 import com.raycoarana.baindo.sample.click.view.ClickActivity;
@@ -73,6 +74,10 @@ public class NavigationService {
 
     public void navigateToStaticItemsActivity() {
         startActivity(new Intent(mContext, StaticItemsActivity.class));
+    }
+
+    public void navigateToDynamicItemsActivity() {
+        startActivity(new Intent(mContext, DynamicItemsActivity.class));
     }
 
     private void startActivity(Intent intent) {

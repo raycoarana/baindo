@@ -20,6 +20,7 @@
         <activity android:name=".progress.view.ProgressActivity" />
         <activity android:name=".uiaction.view.UIActionActivity" />
         <activity android:name=".adapter.staticitems.view.StaticItemsActivity" />
+        <activity android:name=".adapter.dynamicitems.view.DynamicItemsActivity" />
 
     </application>
 

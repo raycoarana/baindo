@@ -14,34 +14,37 @@
  *     limitations under the License.
  */
 
-package com.raycoarana.baindo.sample.main.view;
+package com.raycoarana.baindo.sample.adapter.dynamicitems.view;
 
 import android.os.Bundle;
 
-import com.raycoarana.baindo.app.BaindoActivity;
+import com.raycoarana.baindo.app.BaindoListActivity;
 import com.raycoarana.baindo.sample.R;
-import com.raycoarana.baindo.sample.main.viewmodel.ViewModel;
+import com.raycoarana.baindo.sample.adapter.dynamicitems.viewmodel.ViewModel;
 
-public class MainActivity extends BaindoActivity {
+public class DynamicItemsActivity extends BaindoListActivity {
 
+    private DynamicItemsAdapterFactory mDynamicItemsAdapterFactory;
     private ViewModel mViewModel = new ViewModel();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_dynamic_item_adapter);
 
+        initialize();
         bindViews();
     }
 
+    private void initialize() {
+        mDynamicItemsAdapterFactory = new DynamicItemsAdapterFactory(getLayoutInflater());
+    }
+
     private void bindViews() {
-        bind().click().of(R.id.click_sample).to(mViewModel.OpenClickSampleCommand);
-        bind().click().of(R.id.text_sample).to(mViewModel.OpenTextSampleCommand);
-        bind().click().of(R.id.check_sample).to(mViewModel.OpenCheckSampleCommand);
-        bind().click().of(R.id.progress_sample).to(mViewModel.OpenProgressSampleCommand);
-        bind().click().of(R.id.uiaction_sample).to(mViewModel.OpenUIActionSampleCommand);
-        bind().click().of(R.id.static_items_adapter_sample).to(mViewModel.OpenStaticItemsAdapterSampleCommand);
-        bind().click().of(R.id.dynamic_items_adapter_sample).to(mViewModel.OpenDynamicItemsAdapterSampleCommand);
+        bind().click().of(R.id.add).to(mViewModel.AddCommand);
+        bind().click().of(R.id.remove).to(mViewModel.RemoveCommand);
+        bind().enable().of(R.id.remove).to(mViewModel.CanRemoveItems).readOnly();
+        bind().adapterWithFactory(mDynamicItemsAdapterFactory).of(getListView()).to(mViewModel.Items);
     }
 
 }

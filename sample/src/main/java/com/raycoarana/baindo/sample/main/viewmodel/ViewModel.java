@@ -35,4 +35,6 @@ public class ViewModel {
 
     public Command OpenStaticItemsAdapterSampleCommand = mNavigationService::navigateToStaticItemsActivity;
 
+    public Command OpenDynamicItemsAdapterSampleCommand = mNavigationService::navigateToDynamicItemsActivity;
+
 }

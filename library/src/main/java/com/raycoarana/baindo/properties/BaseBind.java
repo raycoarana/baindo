@@ -31,12 +31,15 @@ import com.raycoarana.baindo.binding.ViewToBindSelector;
  */
 public abstract class BaseBind<T> implements ViewToBindSelector<T>, BindTarget<T>, Unbindable, BindLevel {
 
+    protected enum State { BINDED, UNBINDED }
+
     private BindableSource mBindableSource;
     private WorkDispatcher mWorkDispatcher;
     private BindLevel mBindLevel;
     protected View mView;
     protected T mTarget;
-    protected BindWay mBindWay;
+    protected BindWay mBindWay = BindWay.READ_WRITE;
+    protected State state;
 
     public BaseBind(BindableSource bindableSource, WorkDispatcher workDispatcher) {
         this(bindableSource, workDispatcher, null);
@@ -102,14 +105,17 @@ public abstract class BaseBind<T> implements ViewToBindSelector<T>, BindTarget<T
      */
     @Override
     public void unbind() {
-        onUnbind();
-        destroy();
+        synchronized (this) {
+            onUnbind();
+            destroy();
+            state = State.UNBINDED;
+        }
     }
 
     /**
      * Remove any reference to any other object
      */
-    public void destroy() {
+    private void destroy() {
         mBindableSource = null;
         mWorkDispatcher = null;
         mView = null;
@@ -120,14 +126,22 @@ public abstract class BaseBind<T> implements ViewToBindSelector<T>, BindTarget<T
      * Execute some work on the UI thread.
      */
     public void doInUIThread(Runnable runnable) {
-        mWorkDispatcher.doInUIThread(runnable);
+        synchronized (this) {
+            if(state == State.BINDED) {
+                mWorkDispatcher.doInUIThread(runnable);
+            }
+        }
     }
 
     /**
      * Execute some work on the ViewModel background thread.
      */
     public void doInBackgroundThread(Runnable runnable) {
-        mWorkDispatcher.doInBackgroundThread(runnable);
+        synchronized (this) {
+            if(state == State.BINDED) {
+                mWorkDispatcher.doInBackgroundThread(runnable);
+            }
+        }
     }
 
     protected static final BindLevel FINAL_BIND_LEVEL = new BindLevel() {

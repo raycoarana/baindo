@@ -16,5 +16,36 @@
 
 package com.raycoarana.baindo.sample.adapter.dynamicitems.viewmodel;
 
+import com.raycoarana.baindo.observables.Property;
+import com.raycoarana.baindo.sample.app.MessageService;
+import com.raycoarana.baindo.sample.adapter.dynamicitems.services.TimerService;
+import com.raycoarana.baindo.viewmodel.Command;
+
+import java.util.TimerTask;
+
 public class ItemViewModel {
+
+    private static final int ZERO = 0;
+    private final int mId;
+    private int mTicks;
+    private TimerTask mTimer;
+
+    public Property<CharSequence> Ticks = new Property<>();
+
+    public Command ShowCommand = () -> MessageService.show(Ticks.getValue().toString());
+    
+    public ItemViewModel(int id) {
+        mId = id;
+        mTicks = ZERO;
+        mTimer = TimerService.getInstance().create(this::tick);
+    }
+
+    private void tick() {
+        mTicks++;
+        Ticks.setValue(mId + " => Ticks: " + mTicks);
+        if(mTicks == 0) {
+            mTimer.cancel();
+        }
+    }
+
 }

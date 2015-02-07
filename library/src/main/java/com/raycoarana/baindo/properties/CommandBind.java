@@ -31,7 +31,18 @@ public class CommandBind extends BaseBind<Command> {
 
     @Override
     protected void bind() {
-        mView.setOnClickListener(view -> doInBackgroundThread(mTarget::execute));
+        synchronized (this) {
+            mView.setOnClickListener(view -> doInBackgroundThread(this::execute));
+            state = State.BINDED;
+        }
+    }
+
+    private void execute() {
+        synchronized (this) {
+            if (state == State.BINDED) {
+                mTarget.execute();
+            }
+        }
     }
 
     @Override

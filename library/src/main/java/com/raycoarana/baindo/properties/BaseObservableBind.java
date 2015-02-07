@@ -50,29 +50,38 @@ public abstract class BaseObservableBind<T extends Observable> extends BaseBind<
 
     @Override
     public void update(Observable observable, Object o) {
-        doInUIThread(this::updateView);
+        doInUIThread(() -> {
+            synchronized (this) {
+                if (state == State.BINDED) {
+                    updateView();
+                }
+            }
+        });
     }
 
     protected void bind() {
-        updateView();
-        onBind();
+        synchronized (this) {
+            updateView();
+            onBind();
+            state = State.BINDED;
+        }
     }
 
     @Override
     protected void onUnbind() {
-        if(mBindWay == BindWay.READ_WRITE || mBindWay == BindWay.WRITE_ONLY) {
+        if (mBindWay == BindWay.READ_WRITE || mBindWay == BindWay.WRITE_ONLY) {
             unbindView();
         }
-        if(mBindWay == BindWay.READ_WRITE || mBindWay == BindWay.READ_ONLY) {
+        if (mBindWay == BindWay.READ_WRITE || mBindWay == BindWay.READ_ONLY) {
             mTarget.deleteObserver(this);
         }
     }
 
     private void onBind() {
-        if(mBindWay == BindWay.READ_WRITE || mBindWay == BindWay.WRITE_ONLY) {
+        if (mBindWay == BindWay.READ_WRITE || mBindWay == BindWay.WRITE_ONLY) {
             bindView();
         }
-        if(mBindWay == BindWay.READ_WRITE || mBindWay == BindWay.READ_ONLY) {
+        if (mBindWay == BindWay.READ_WRITE || mBindWay == BindWay.READ_ONLY) {
             mTarget.addObserver(this);
         }
     }

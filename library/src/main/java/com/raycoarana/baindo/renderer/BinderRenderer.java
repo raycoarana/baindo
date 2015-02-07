@@ -48,10 +48,11 @@ public abstract class BinderRenderer<T> extends Renderer<T> implements BindableS
         this.unbind();
     }
 
-    private void unbind() {
+    void unbind() {
         for(Unbindable unbindable : mRendererBinders) {
             unbindable.unbind();
         }
+        mRendererBinders.clear();
     }
 
     protected Binder bind() {
@@ -61,6 +62,13 @@ public abstract class BinderRenderer<T> extends Renderer<T> implements BindableS
     }
 
     @Override
+    public void render() {
+        bindViews();
+    }
+
+    protected abstract void bindViews();
+
+    @Override
     public View findViewById(int id) {
         return getRootView().findViewById(id);
     }
@@ -68,8 +76,7 @@ public abstract class BinderRenderer<T> extends Renderer<T> implements BindableS
     @Override
     protected Object clone() throws CloneNotSupportedException {
         BinderRenderer clone = (BinderRenderer) super.clone();
-        clone.mBinderDelegate = mBinderDelegate;
-        clone.mRendererBinders.clear();
+        clone.mRendererBinders = new ArrayList();
         return clone;
     }
 

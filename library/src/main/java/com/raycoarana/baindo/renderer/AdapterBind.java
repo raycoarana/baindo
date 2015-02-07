@@ -38,9 +38,12 @@ public class AdapterBind<T> extends BaseObservableBind<AbstractCollectionPropert
     }
 
     protected void bind() {
-        bindView();
-        updateView();
-        mTarget.addObserver(this);
+        synchronized (this) {
+            bindView();
+            updateView();
+            mTarget.addObserver(this);
+            state = State.BINDED;
+        }
     }
 
     @SuppressWarnings("unchecked")

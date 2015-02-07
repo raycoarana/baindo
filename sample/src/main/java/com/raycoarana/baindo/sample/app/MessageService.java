@@ -14,28 +14,25 @@
  *     limitations under the License.
  */
 
-package com.raycoarana.baindo.sample.adapter.staticitems.view;
+package com.raycoarana.baindo.sample.app;
 
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
+import android.content.Context;
+import android.widget.Toast;
 
-import com.raycoarana.baindo.renderer.BinderRenderer;
+import java.lang.ref.WeakReference;
 
-public class StaticItemsRenderer extends BinderRenderer<String> {
+public class MessageService {
 
-    private TextView mTextView;
+    private static WeakReference<Context> mContext;
 
-    @Override
-    protected View inflate(LayoutInflater inflater, ViewGroup parent) {
-        mTextView = (TextView) inflater.inflate(android.R.layout.simple_list_item_1, parent, false);
-        return mTextView;
+    static void initialize(Context context) {
+        mContext = new WeakReference<>(context);
     }
 
-    @Override
-    public void bindViews() {
-        mTextView.setText(getContent());
+    public static void show(String message) {
+        Context context = mContext.get();
+        if (context != null) {
+            Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
+        }
     }
-
 }

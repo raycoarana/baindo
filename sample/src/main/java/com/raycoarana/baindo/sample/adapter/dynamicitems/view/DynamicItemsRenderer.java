@@ -14,7 +14,7 @@
  *     limitations under the License.
  */
 
-package com.raycoarana.baindo.sample.adapter.staticitems.view;
+package com.raycoarana.baindo.sample.adapter.dynamicitems.view;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,20 +22,21 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.raycoarana.baindo.renderer.BinderRenderer;
+import com.raycoarana.baindo.sample.R;
+import com.raycoarana.baindo.sample.adapter.dynamicitems.viewmodel.ItemViewModel;
 
-public class StaticItemsRenderer extends BinderRenderer<String> {
-
-    private TextView mTextView;
+public class DynamicItemsRenderer extends BinderRenderer<ItemViewModel> {
 
     @Override
     protected View inflate(LayoutInflater inflater, ViewGroup parent) {
-        mTextView = (TextView) inflater.inflate(android.R.layout.simple_list_item_1, parent, false);
-        return mTextView;
+        return inflater.inflate(android.R.layout.simple_list_item_1, parent, false);
     }
 
     @Override
     public void bindViews() {
-        mTextView.setText(getContent());
+        ItemViewModel viewModel = getContent();
+        bind().click().of(getRootView()).to(viewModel.ShowCommand);
+        bind().text().of(getRootView()).to(viewModel.Ticks).readOnly();
     }
 
 }

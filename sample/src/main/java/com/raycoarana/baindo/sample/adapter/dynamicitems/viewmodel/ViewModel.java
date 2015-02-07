@@ -16,5 +16,27 @@
 
 package com.raycoarana.baindo.sample.adapter.dynamicitems.viewmodel;
 
+import com.raycoarana.baindo.observables.CollectionProperty;
+import com.raycoarana.baindo.observables.Property;
+import com.raycoarana.baindo.viewmodel.Command;
+
 public class ViewModel {
+
+    private static final int ZERO = 0;
+
+    private int mNextId = ZERO;
+
+    public Property<Boolean> CanRemoveItems = new Property<>(false);
+    public CollectionProperty<ItemViewModel> Items = new CollectionProperty<>();
+
+    public Command AddCommand = () -> {
+        Items.add(new ItemViewModel(mNextId++));
+        CanRemoveItems.setValue(true);
+    };
+
+    public Command RemoveCommand = () -> {
+        Items.remove(0);
+        CanRemoveItems.setValue(Items.size() > 0);
+    };
+
 }
