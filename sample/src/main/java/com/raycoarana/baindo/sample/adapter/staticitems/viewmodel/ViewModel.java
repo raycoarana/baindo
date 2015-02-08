@@ -54,7 +54,7 @@ public class ViewModel {
     public Command RemoveCommand = () -> {
         Items.remove(0);
         Integer selectedItemIndex = SelectedItemIndex.getValue() - 1;
-        if(selectedItemIndex < 0) {
+        if (selectedItemIndex < 0) {
             selectedItemIndex = Items.size() > 0 ? 0 : null;
         }
         SelectedItemIndex.setValue(selectedItemIndex);

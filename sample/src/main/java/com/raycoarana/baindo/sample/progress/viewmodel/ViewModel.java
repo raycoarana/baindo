@@ -23,19 +23,14 @@ public class ViewModel {
 
     private static final int PENGING_PERCENT = 100;
 
-    private int mPercentDone = 0;
-
-    public AbstractProperty<Integer> PercentDone = new AbstractProperty<Integer>() {
-        @Override
-        public Integer getValue() {
-            return mPercentDone;
-        }
+    public AbstractProperty<Integer> PercentDone = new AbstractProperty<Integer>(0) {
 
         @Override
         public void onValueChanged(Integer newValue) {
-            mPercentDone = newValue;
+            mValue = newValue;
             PercentLeft.setValue(PENGING_PERCENT - newValue);
         }
+
     };
 
     public Property<Integer> PercentLeft = new Property<>(PENGING_PERCENT);

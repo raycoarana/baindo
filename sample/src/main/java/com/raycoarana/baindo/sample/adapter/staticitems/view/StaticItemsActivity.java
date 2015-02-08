@@ -19,7 +19,6 @@ package com.raycoarana.baindo.sample.adapter.staticitems.view;
 import android.os.Bundle;
 
 import com.raycoarana.baindo.app.BaindoActivity;
-import com.raycoarana.baindo.app.BaindoListActivity;
 import com.raycoarana.baindo.sample.R;
 import com.raycoarana.baindo.sample.adapter.staticitems.viewmodel.ViewModel;
 
@@ -44,7 +43,7 @@ public class StaticItemsActivity extends BaindoActivity {
     private void bindViews() {
         bind().click().of(R.id.add).to(mViewModel.AddCommand);
         bind().click().of(R.id.remove).to(mViewModel.RemoveCommand);
-        bind().enable().of(R.id.remove).to(mViewModel.CanRemoveItems).readOnly();
+        bind().enabled().of(R.id.remove).to(mViewModel.CanRemoveItems).readOnly();
         bind().adapterWithFactory(mStaticItemsAdapterFactory).of(R.id.spinner).to(mViewModel.Items);
         bind().selectedIndex().of(R.id.spinner).to(mViewModel.SelectedItemIndex).readWrite();
         bind().text().of(R.id.selected).to(mViewModel.SelectedItem).readOnly();

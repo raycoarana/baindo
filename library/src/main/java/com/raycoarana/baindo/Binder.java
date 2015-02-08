@@ -37,7 +37,7 @@ public interface Binder {
     /**
      * Selects the Enable property as the source of the binding
      */
-    ViewToBindSelector<AbstractProperty<Boolean>> enable();
+    ViewToBindSelector<AbstractProperty<Boolean>> enabled();
 
     /**
      * Selects the Visibility property as the source of the binding

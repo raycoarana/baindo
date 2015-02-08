@@ -43,7 +43,7 @@ public class DynamicItemsActivity extends BaindoListActivity {
     private void bindViews() {
         bind().click().of(R.id.add).to(mViewModel.AddCommand);
         bind().click().of(R.id.remove).to(mViewModel.RemoveCommand);
-        bind().enable().of(R.id.remove).to(mViewModel.CanRemoveItems).readOnly();
+        bind().enabled().of(R.id.remove).to(mViewModel.CanRemoveItems).readOnly();
         bind().adapterWithFactory(mDynamicItemsAdapterFactory).of(getListView()).to(mViewModel.Items);
     }
 

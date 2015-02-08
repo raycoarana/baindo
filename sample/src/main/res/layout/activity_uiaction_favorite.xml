@@ -37,7 +37,7 @@
 
     <ImageView
         android:id="@+id/favorite"
-        android:src="@drawable/ic_favorite_unchecked"
+        android:src="@drawable/ic_favorite"
         android:layout_width="48dp"
         android:layout_height="48dp"
         android:layout_alignBottom="@+id/photo"

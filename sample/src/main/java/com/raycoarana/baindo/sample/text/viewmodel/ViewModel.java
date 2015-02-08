@@ -25,19 +25,13 @@ import com.raycoarana.baindo.observables.Property;
  */
 public class ViewModel {
 
-    private String mRawMessage;
     public AbstractProperty<CharSequence> RawMessage = new AbstractProperty<CharSequence>() {
 
         @Override
-        public CharSequence getValue() {
-            return mRawMessage;
-        }
-
-        @Override
         public void onValueChanged(CharSequence newValue) {
-            mRawMessage = newValue.toString();
+            mValue = newValue.toString();
             doHardWork();
-            ManipulatedMessage.setValue(mRawMessage);
+            ManipulatedMessage.setValue(mValue);
         }
 
     };
