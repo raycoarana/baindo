@@ -21,6 +21,7 @@ import android.view.View;
 import com.pedrogomez.renderers.Renderer;
 import com.pedrogomez.renderers.RendererBuilder;
 import com.raycoarana.baindo.BinderDelegate;
+import com.raycoarana.baindo.UnbindableCollectorProvider;
 
 import java.util.Collection;
 import java.util.HashSet;
@@ -41,6 +42,12 @@ public abstract class BinderRendererBuilder<T> extends RendererBuilder<T> {
     protected void injectDelegate(BinderDelegate binderDelegate) {
         for(BinderRenderer binderRenderer : mContentToPrototypeMap.values()) {
             binderRenderer.injectDelegate(binderDelegate);
+        }
+    }
+
+    protected void injectUnbindableCollectorProvider(UnbindableCollectorProvider unbindableCollectorProvider) {
+        for(BinderRenderer binderRenderer : mContentToPrototypeMap.values()) {
+            binderRenderer.injectUnbindableCollectorProvider(unbindableCollectorProvider);
         }
     }
 

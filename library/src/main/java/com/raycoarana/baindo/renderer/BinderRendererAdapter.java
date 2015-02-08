@@ -23,6 +23,8 @@ import com.pedrogomez.renderers.RendererAdapter;
 import com.pedrogomez.renderers.RendererBuilder;
 import com.raycoarana.baindo.BinderDelegate;
 import com.raycoarana.baindo.Unbindable;
+import com.raycoarana.baindo.UnbindableCollector;
+import com.raycoarana.baindo.UnbindableCollectorProvider;
 
 public class BinderRendererAdapter<T> extends RendererAdapter<T> implements Unbindable {
 
@@ -38,6 +40,10 @@ public class BinderRendererAdapter<T> extends RendererAdapter<T> implements Unbi
 
     void injectBinderDelegate(BinderDelegate binderDelegate) {
         mRendererBuilder.injectDelegate(binderDelegate);
+    }
+
+    void injectUnbindableCollectorProvider(UnbindableCollectorProvider unbindableCollectorProvider) {
+        mRendererBuilder.injectUnbindableCollectorProvider(unbindableCollectorProvider);
     }
 
     @Override

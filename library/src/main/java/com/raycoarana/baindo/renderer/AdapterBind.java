@@ -22,6 +22,7 @@ import android.widget.BaseAdapter;
 import com.raycoarana.baindo.BindableSource;
 import com.raycoarana.baindo.BinderDelegate;
 import com.raycoarana.baindo.Unbindable;
+import com.raycoarana.baindo.UnbindableCollectorProvider;
 import com.raycoarana.baindo.WorkDispatcher;
 import com.raycoarana.baindo.observables.AbstractCollectionProperty;
 import com.raycoarana.baindo.properties.BaseObservableBind;
@@ -30,11 +31,17 @@ public class AdapterBind<T> extends BaseObservableBind<AbstractCollectionPropert
 
     private AdapterFactory<T> mAdapterFactory;
     private BinderDelegate mBinderDelegate;
+    private UnbindableCollectorProvider mUnbindableCollectorProvider;
 
-    public AdapterBind(BindableSource bindableSource, WorkDispatcher workDispatcher, BinderDelegate binderDelegate, AdapterFactory<T> adapterFactory) {
+    public AdapterBind(BindableSource bindableSource,
+                       WorkDispatcher workDispatcher,
+                       BinderDelegate binderDelegate,
+                       AdapterFactory<T> adapterFactory,
+                       UnbindableCollectorProvider unbindableCollectorProvider) {
         super(bindableSource, workDispatcher, FINAL_BIND_LEVEL);
         mBinderDelegate = binderDelegate;
         mAdapterFactory = adapterFactory;
+        mUnbindableCollectorProvider = unbindableCollectorProvider;
     }
 
     protected void bind() {
@@ -52,7 +59,9 @@ public class AdapterBind<T> extends BaseObservableBind<AbstractCollectionPropert
         AdapterView adapterView = (AdapterView) mView;
         BaseAdapter baseAdapter = mAdapterFactory.build(mTarget);
         if(baseAdapter instanceof BinderRendererAdapter) {
-            ((BinderRendererAdapter) baseAdapter).injectBinderDelegate(mBinderDelegate);
+            BinderRendererAdapter binderRendererAdapter = (BinderRendererAdapter) baseAdapter;
+            binderRendererAdapter.injectBinderDelegate(mBinderDelegate);
+            binderRendererAdapter.injectUnbindableCollectorProvider(mUnbindableCollectorProvider);
         }
         adapterView.setAdapter(baseAdapter);
     }

@@ -1,43 +1,51 @@
 apply plugin: 'jacoco'
 
 jacoco {
-    toolVersion = "0.7.1.201405082137"
+    toolVersion = "0.7.2.201409121644"
 }
 
-// get class dirs for project dependencies
-FileTree getJacocoClassDirs(List projects) {
-    def classDirs = fileTree(dir: "${buildDir}/intermediates/classes/debug",
-                             excludes: ['**/BuildConfig.class', '**/R.class', '**/R$*.class'])
-    projects.each {
-        def projBuildDir = project(it).buildDir
-        classDirs += fileTree(dir: "${projBuildDir}/intermediates/classes/release",
-                              excludes: ['**/BuildConfig.class', '**/R.class', '**/R$*.class'])
-    }
-    return classDirs
-}
+// Define coverage source.
+// If you have rs/aidl etc... add them here.
+def coverageSourceDirs = [
+        'src/main/java'
+]
 
-// get source dirs for project dependencies
-FileCollection getJacocoSrcDirs(List projects) {
-    Set srcDirs = android.sourceSets.main.java.srcDirs
-    projects.each {
-        def projDir = project(it).projectDir
-        srcDirs.add("${projDir}/src") // assume that android main sourceSets is here
-    }
-    return files(srcDirs)
-}
-
-// generate coverage report for this project and all its project dependencies
-task jacocoTestReport(type: JacocoReport, dependsOn: test) {
+task jacocoTestReport(type: JacocoReport, dependsOn: "test") {
+    group = "Reporting"
+    description = "Generate Jacoco coverage reports after running tests."
     reports {
         xml.enabled = true
-        csv.enabled = false
-        xml.destination = "${buildDir}/reports/jacoco/test/jacocoTestReport.xml"
-        html.destination = "${buildDir}/reports/coverage"
+        html.enabled = true
     }
+    classDirectories = fileTree(
+            dir: "${buildDir}/intermediates/classes/debug",
+            excludes: ['**/BuildConfig.class', '**/R.class', '**/R$*.class'])
 
-    // TODO: automatically get project dependencies recursively
-    def dependencies = [] // your gradle project dependencies go here
-    classDirectories = getJacocoClassDirs(dependencies)
-    sourceDirectories = getJacocoSrcDirs(dependencies)
+    additionalSourceDirs = files(coverageSourceDirs)
+    sourceDirectories = files(coverageSourceDirs)
     executionData = files("${buildDir}/jacoco/testDebug.exec")
+
+    def renamedFilesMap = [:]
+
+    // Hacky fix for issue: https://code.google.com/p/android/issues/detail?id=69174.
+    // Rename files with '$$' before generating report, and then rename back after
+    doFirst {
+        new File("${buildDir}/intermediates/classes/debug").eachFileRecurse { file ->
+            if (file.name.contains('$$')) {
+                def oldPath = file.path
+                def newPath = oldPath.replace('$$', '$')
+                file.renameTo(newPath)
+                renamedFilesMap[newPath] = oldPath
+            }
+        }
+    }
+    doLast {
+        renamedFilesMap.each() {
+            def newPath, def oldPath ->
+                new File(newPath as String).renameTo(oldPath as String)
+        }
+
+        // Move report into location where coveralls is looking for it
+        new File("${buildDir}/reports/jacoco/jacocoTestReport").renameTo("${buildDir}/reports/jacoco/test")
+    }
 }

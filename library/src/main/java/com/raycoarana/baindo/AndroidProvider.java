@@ -16,25 +16,29 @@
 
 package com.raycoarana.baindo;
 
+import android.os.Handler;
+import android.os.Looper;
+
 /**
- * Executes work at the thread you desire. If are already in that thread, simple runs it. If not,
- * post it at the appropriate thread.
+ * This class is responsible of any interaction with Android OS classes.
  */
-public interface WorkDispatcher {
+class AndroidProvider {
 
-    /**
-     * Ensures that this Runnable is executed in the UI Thread.
-     */
-    void doInUIThread(Runnable runnable);
+    public Handler buildHandlerWithMainLooper() {
+        return new Handler(Looper.getMainLooper());
+    }
 
-    /**
-     * Ensures that this Runnable is executed in the ViewModel Background Thread.
-     */
-    void doInBackgroundThread(Runnable runnable);
+    public Handler buildHandler() {
+        Looper.prepare();
+        return new Handler(Looper.myLooper());
+    }
 
-    /**
-     * Kills the background thread and prepare the object to be disposed
-     */
-    void onDestroy();
+    public void loop() {
+        Looper.loop();
+    }
+
+    public boolean isCurrentTheMainThread() {
+        return Looper.myLooper() == Looper.getMainLooper();
+    }
 
 }

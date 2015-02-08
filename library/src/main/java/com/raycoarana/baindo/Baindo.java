@@ -16,25 +16,18 @@
 
 package com.raycoarana.baindo;
 
-/**
- * Executes work at the thread you desire. If are already in that thread, simple runs it. If not,
- * post it at the appropriate thread.
- */
-public interface WorkDispatcher {
+public final class Baindo {
 
-    /**
-     * Ensures that this Runnable is executed in the UI Thread.
-     */
-    void doInUIThread(Runnable runnable);
+    private Baindo(){}
 
-    /**
-     * Ensures that this Runnable is executed in the ViewModel Background Thread.
-     */
-    void doInBackgroundThread(Runnable runnable);
+    public static BinderDelegate buildBinderDelegate() {
+        return new BinderDelegate(new BaindoBinderFactory(new UnbindableCollectorProvider()),
+                                  buildWorkDispatcher(),
+                                  new UnbindableCollector());
+    }
 
-    /**
-     * Kills the background thread and prepare the object to be disposed
-     */
-    void onDestroy();
+    static WorkDispatcher buildWorkDispatcher() {
+        return new BaindoWorkDispatcher(new AndroidProvider());
+    }
 
 }

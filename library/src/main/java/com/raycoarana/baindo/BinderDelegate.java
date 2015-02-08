@@ -16,16 +16,11 @@
 
 package com.raycoarana.baindo;
 
-import android.os.Handler;
-import android.os.Looper;
-
-import java.util.ArrayList;
-
 /**
  * BinderDelegate let you introduce Baindo in your Activities and Fragments in four simple steps.
  *
  * First make your Activity/Fragment implements BindableSource.
- * Then Instantiate a BinderDelegate in the onCreate() method of your Activity/Fragment.
+ * Then get an instance of a BinderDelegate in the onCreate() method of your Activity/Fragment.
  * Override onDestroy() method and all binderDelegate.onDestroy().
  * Finally create a method called bind() that calls binderDelegate.bind(this):
  *
@@ -39,29 +34,16 @@ import java.util.ArrayList;
  */
 public class BinderDelegate {
 
-    private Handler mHandler = new Handler(Looper.getMainLooper());
-    private Handler mBackgroundHandler;
-    private ArrayList<Unbindable> mUnbindables;
+    private final BaindoBinderFactory mBaindoBinderFactory;
+    private final WorkDispatcher mWorkDispatcher;
+    private final UnbindableCollector mUnbindableCollector;
 
-    public BinderDelegate() {
-        mUnbindables = new ArrayList<>();
-        mBackgroundThread.start();
-        waitUntilBackgroundThreadIsReady();
-    }
-
-    /**
-     * Waits for the background thread to be ready to start receiving events.
-     */
-    private void waitUntilBackgroundThreadIsReady() {
-        synchronized (mBackgroundThread) {
-            while(mBackgroundHandler == null) {
-                try {
-                    mBackgroundThread.wait();
-                } catch (InterruptedException e) {
-                    //Do nothing
-                }
-            }
-        }
+    BinderDelegate(BaindoBinderFactory baindoBinderFactory,
+                   WorkDispatcher workDispatcher,
+                   UnbindableCollector unbindableCollector) {
+        mBaindoBinderFactory = baindoBinderFactory;
+        mWorkDispatcher = workDispatcher;
+        mUnbindableCollector = unbindableCollector;
     }
 
     /**
@@ -70,13 +52,15 @@ public class BinderDelegate {
      * Activity/Fragment as a BindableSource.
      */
     public Binder bind(BindableSource bindableSource) {
-        BinderImpl binder = new BinderImpl(bindableSource, mWorkDispatcher, this);
-        mUnbindables.add(binder);
-        return binder;
+        return bind(bindableSource, mUnbindableCollector);
     }
 
-    public Binder bindRenderer(BindableSource bindableSource) {
-        return new BinderImpl(bindableSource, mWorkDispatcher, this);
+    /**
+     * Creates a binder with the provided BindableSource and UnbindableCollector, for use in Adapters
+     * like binder that have its own UnbindableCollector.
+     */
+    public Binder bind(BindableSource bindableSource, UnbindableCollector unbindableCollector) {
+        return mBaindoBinderFactory.build(bindableSource, mWorkDispatcher, this, unbindableCollector);
     }
 
     /**
@@ -87,62 +71,14 @@ public class BinderDelegate {
      */
     public void onDestroy() {
         unbind();
-        mBackgroundHandler.getLooper().quit();
+        mWorkDispatcher.onDestroy();
     }
 
+    /**
+     * Unbind and destroy all binders created by this delegate.
+     */
     public void unbind() {
-        for(Unbindable unbindable : mUnbindables) {
-            unbindable.unbind();
-        }
-        mUnbindables.clear();
+        mUnbindableCollector.unbindAndReleaseAll();
     }
 
-    /**
-     * Executes a loop that process all notifications sent to the ViewModel.
-     */
-    private final Thread mBackgroundThread = new Thread(new Runnable() {
-
-        @Override
-        public void run() {
-            synchronized (mBackgroundThread) {
-                Looper.prepare();
-                mBackgroundHandler = new Handler(Looper.myLooper());
-                mBackgroundThread.notify();
-            }
-            Looper.loop();
-        }
-
-    });
-
-    /**
-     * Dispatches work to the UI thread or the ViewModel's Background thread. It detects the
-     * current thread and executes or dispatches the work no the requested thread as needed.
-     */
-    private final WorkDispatcher mWorkDispatcher = new WorkDispatcher() {
-
-        /**
-         * @see com.raycoarana.baindo.WorkDispatcher#doInUIThread(Runnable)
-         */
-        @Override
-        public void doInUIThread(Runnable runnable) {
-            if(Looper.myLooper() == Looper.getMainLooper()) {
-                runnable.run();
-            } else {
-                mHandler.post(runnable);
-            }
-        }
-
-        /**
-         * @see com.raycoarana.baindo.WorkDispatcher#doInBackgroundThread(Runnable)
-         */
-        @Override
-        public void doInBackgroundThread(Runnable runnable) {
-            if(Looper.myLooper() == Looper.getMainLooper()) {
-                mBackgroundHandler.post(runnable);
-            } else {
-                runnable.run();
-            }
-        }
-
-    };
 }

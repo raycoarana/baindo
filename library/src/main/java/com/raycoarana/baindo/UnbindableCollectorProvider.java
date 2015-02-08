@@ -17,24 +17,12 @@
 package com.raycoarana.baindo;
 
 /**
- * Executes work at the thread you desire. If are already in that thread, simple runs it. If not,
- * post it at the appropriate thread.
+ * Provider of UnbindableCollector
  */
-public interface WorkDispatcher {
+public class UnbindableCollectorProvider {
 
-    /**
-     * Ensures that this Runnable is executed in the UI Thread.
-     */
-    void doInUIThread(Runnable runnable);
-
-    /**
-     * Ensures that this Runnable is executed in the ViewModel Background Thread.
-     */
-    void doInBackgroundThread(Runnable runnable);
-
-    /**
-     * Kills the background thread and prepare the object to be disposed
-     */
-    void onDestroy();
+    public UnbindableCollector get() {
+        return new UnbindableCollector();
+    }
 
 }

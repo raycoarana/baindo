@@ -16,25 +16,26 @@
 
 package com.raycoarana.baindo;
 
-/**
- * Executes work at the thread you desire. If are already in that thread, simple runs it. If not,
- * post it at the appropriate thread.
- */
-public interface WorkDispatcher {
+import java.util.ArrayList;
 
-    /**
-     * Ensures that this Runnable is executed in the UI Thread.
-     */
-    void doInUIThread(Runnable runnable);
+public class UnbindableCollector {
 
-    /**
-     * Ensures that this Runnable is executed in the ViewModel Background Thread.
-     */
-    void doInBackgroundThread(Runnable runnable);
+    private final ArrayList<Unbindable> mUnbindables;
 
-    /**
-     * Kills the background thread and prepare the object to be disposed
-     */
-    void onDestroy();
+    public UnbindableCollector() {
+        mUnbindables = new ArrayList<>();
+    }
+
+    public <T extends Unbindable> T collect(T unbindable) {
+        mUnbindables.add(unbindable);
+        return unbindable;
+    }
+
+    public void unbindAndReleaseAll() {
+        for(Unbindable unbindable : mUnbindables) {
+            unbindable.unbind();
+        }
+        mUnbindables.clear();
+    }
 
 }

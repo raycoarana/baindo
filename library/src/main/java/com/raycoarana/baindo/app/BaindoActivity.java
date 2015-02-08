@@ -16,10 +16,13 @@
 
 package com.raycoarana.baindo.app;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 
+import com.raycoarana.baindo.Baindo;
 import com.raycoarana.baindo.BindableSource;
 import com.raycoarana.baindo.Binder;
 import com.raycoarana.baindo.BinderDelegate;
@@ -31,13 +34,14 @@ public class BaindoActivity extends Activity implements BindableSource {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mBinderDelegate = new BinderDelegate();
+        mBinderDelegate = Baindo.buildBinderDelegate();
     }
 
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Override
     public void onCreate(Bundle savedInstanceState, PersistableBundle persistentState) {
         super.onCreate(savedInstanceState, persistentState);
-        mBinderDelegate = new BinderDelegate();
+        mBinderDelegate = Baindo.buildBinderDelegate();
     }
 
     /**

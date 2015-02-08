@@ -21,6 +21,7 @@ import android.app.ListFragment;
 import android.os.Bundle;
 import android.view.View;
 
+import com.raycoarana.baindo.Baindo;
 import com.raycoarana.baindo.BindableSource;
 import com.raycoarana.baindo.Binder;
 import com.raycoarana.baindo.BinderDelegate;
@@ -33,7 +34,7 @@ public class BaindoListFragment extends ListFragment implements BindableSource {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mBinderDelegate = new BinderDelegate();
+        mBinderDelegate = Baindo.buildBinderDelegate();
     }
 
     /**

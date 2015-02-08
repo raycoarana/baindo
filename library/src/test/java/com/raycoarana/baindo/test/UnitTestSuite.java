@@ -14,27 +14,8 @@
  *     limitations under the License.
  */
 
-package com.raycoarana.baindo;
+package com.raycoarana.baindo.test;
 
-/**
- * Executes work at the thread you desire. If are already in that thread, simple runs it. If not,
- * post it at the appropriate thread.
- */
-public interface WorkDispatcher {
-
-    /**
-     * Ensures that this Runnable is executed in the UI Thread.
-     */
-    void doInUIThread(Runnable runnable);
-
-    /**
-     * Ensures that this Runnable is executed in the ViewModel Background Thread.
-     */
-    void doInBackgroundThread(Runnable runnable);
-
-    /**
-     * Kills the background thread and prepare the object to be disposed
-     */
-    void onDestroy();
+public abstract class UnitTestSuite extends TestSuite {
 
 }

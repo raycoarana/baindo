@@ -22,17 +22,22 @@ import com.pedrogomez.renderers.Renderer;
 import com.raycoarana.baindo.BindableSource;
 import com.raycoarana.baindo.Binder;
 import com.raycoarana.baindo.BinderDelegate;
-import com.raycoarana.baindo.Unbindable;
-
-import java.util.ArrayList;
+import com.raycoarana.baindo.UnbindableCollector;
+import com.raycoarana.baindo.UnbindableCollectorProvider;
 
 public abstract class BinderRenderer<T> extends Renderer<T> implements BindableSource {
 
+    private UnbindableCollectorProvider mUnbindableCollectorProvider;
     private BinderDelegate mBinderDelegate;
-    private ArrayList<Unbindable> mRendererBinders = new ArrayList<>();
+    private UnbindableCollector mUnbindableCollector = new UnbindableCollector();
 
     void injectDelegate(BinderDelegate binderDelegate) {
         mBinderDelegate = binderDelegate;
+    }
+
+    void injectUnbindableCollectorProvider(UnbindableCollectorProvider unbindableCollectorProvider) {
+        mUnbindableCollectorProvider = unbindableCollectorProvider;
+        mUnbindableCollector = unbindableCollectorProvider.get();
     }
 
     @Override
@@ -49,16 +54,11 @@ public abstract class BinderRenderer<T> extends Renderer<T> implements BindableS
     }
 
     void unbind() {
-        for(Unbindable unbindable : mRendererBinders) {
-            unbindable.unbind();
-        }
-        mRendererBinders.clear();
+        mUnbindableCollector.unbindAndReleaseAll();
     }
 
     protected Binder bind() {
-        Binder binder = mBinderDelegate.bindRenderer(this);
-        mRendererBinders.add((Unbindable)binder);
-        return binder;
+        return mBinderDelegate.bind(this, mUnbindableCollector);
     }
 
     @Override
@@ -76,7 +76,7 @@ public abstract class BinderRenderer<T> extends Renderer<T> implements BindableS
     @Override
     protected Object clone() throws CloneNotSupportedException {
         BinderRenderer clone = (BinderRenderer) super.clone();
-        clone.mRendererBinders = new ArrayList();
+        clone.mUnbindableCollector = mUnbindableCollectorProvider.get();
         return clone;
     }
 

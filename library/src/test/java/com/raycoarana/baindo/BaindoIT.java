@@ -16,25 +16,26 @@
 
 package com.raycoarana.baindo;
 
-/**
- * Executes work at the thread you desire. If are already in that thread, simple runs it. If not,
- * post it at the appropriate thread.
- */
-public interface WorkDispatcher {
+import com.raycoarana.baindo.test.IntegrationTestSuite;
 
-    /**
-     * Ensures that this Runnable is executed in the UI Thread.
-     */
-    void doInUIThread(Runnable runnable);
+import org.junit.Test;
+import org.robolectric.annotation.Config;
 
-    /**
-     * Ensures that this Runnable is executed in the ViewModel Background Thread.
-     */
-    void doInBackgroundThread(Runnable runnable);
+import static org.junit.Assert.assertNotNull;
 
-    /**
-     * Kills the background thread and prepare the object to be disposed
-     */
-    void onDestroy();
+@Config(emulateSdk = 18)
+public class BaindoIT extends IntegrationTestSuite {
+
+    @Test
+    public void shouldProvideBinderDelegate() {
+        BinderDelegate binderDelegate = Baindo.buildBinderDelegate();
+        assertNotNull(binderDelegate);
+    }
+
+    @Test
+    public void shouldProvideWorkDispatcher() {
+        WorkDispatcher workDispatcher = Baindo.buildWorkDispatcher();
+        assertNotNull(workDispatcher);
+    }
 
 }

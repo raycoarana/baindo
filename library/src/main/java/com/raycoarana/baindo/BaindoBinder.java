@@ -37,17 +37,24 @@ import com.raycoarana.baindo.viewmodel.Command;
 /**
  * Creates binders
  */
-class BinderImpl implements Binder, Unbindable {
+class BaindoBinder implements Binder {
 
     private final WorkDispatcher mWorkDispatcher;
+    private final UnbindableCollectorProvider mUnbindableCollectorProvider;
+    private final UnbindableCollector mParentUnbindableCollector;
     private BindableSource mBindableSource;
     private BinderDelegate mBinderDelegate;
-    private Unbindable mViewPropertyBind;
 
-    public BinderImpl(BindableSource bindableSource, WorkDispatcher workDispatcher, BinderDelegate binderDelegate) {
+    public BaindoBinder(BindableSource bindableSource,
+                        WorkDispatcher workDispatcher,
+                        BinderDelegate binderDelegate,
+                        UnbindableCollector parentUnbindableCollector,
+                        UnbindableCollectorProvider unbindableCollectorProvider) {
         mBindableSource = bindableSource;
         mWorkDispatcher = workDispatcher;
         mBinderDelegate = binderDelegate;
+        mUnbindableCollectorProvider = unbindableCollectorProvider;
+        mParentUnbindableCollector = parentUnbindableCollector;
     }
 
     /**
@@ -55,15 +62,15 @@ class BinderImpl implements Binder, Unbindable {
      */
     @Override
     public ViewToBindSelector<AbstractProperty<Boolean>> isChecked() {
-        return setAsSourceOfBind(new CheckedBind(mBindableSource, mWorkDispatcher));
+        return mParentUnbindableCollector.collect(new CheckedBind(mBindableSource, mWorkDispatcher));
     }
 
     /**
-     * @see com.raycoarana.baindo.Binder#enable()
+     * @see com.raycoarana.baindo.Binder#enabled()
      */
     @Override
-    public ViewToBindSelector<AbstractProperty<Boolean>> enable() {
-        return setAsSourceOfBind(new EnabledBind(mBindableSource, mWorkDispatcher));
+    public ViewToBindSelector<AbstractProperty<Boolean>> enabled() {
+        return mParentUnbindableCollector.collect(new EnabledBind(mBindableSource, mWorkDispatcher));
     }
 
     /**
@@ -71,7 +78,7 @@ class BinderImpl implements Binder, Unbindable {
      */
     @Override
     public ViewToBindSelector<AbstractProperty<Boolean>> visibility() {
-        return setAsSourceOfBind(new VisibilityBind(mBindableSource, mWorkDispatcher));
+        return mParentUnbindableCollector.collect(new VisibilityBind(mBindableSource, mWorkDispatcher));
     }
 
     /**
@@ -79,7 +86,7 @@ class BinderImpl implements Binder, Unbindable {
      */
     @Override
     public ViewToBindSelector<AbstractProperty<Boolean>> invisibility() {
-        return setAsSourceOfBind(new InvisibilityBind(mBindableSource, mWorkDispatcher));
+        return mParentUnbindableCollector.collect(new InvisibilityBind(mBindableSource, mWorkDispatcher));
     }
 
     /**
@@ -87,7 +94,7 @@ class BinderImpl implements Binder, Unbindable {
      */
     @Override
     public ViewToBindSelector<Command> click() {
-        return setAsSourceOfBind(new CommandBind(mBindableSource, mWorkDispatcher));
+        return mParentUnbindableCollector.collect(new CommandBind(mBindableSource, mWorkDispatcher));
     }
 
     /**
@@ -95,7 +102,7 @@ class BinderImpl implements Binder, Unbindable {
      */
     @Override
     public ViewToBindSelector<AbstractProperty<Integer>> progress() {
-        return setAsSourceOfBind(new ProgressBind(mBindableSource, mWorkDispatcher));
+        return mParentUnbindableCollector.collect(new ProgressBind(mBindableSource, mWorkDispatcher));
     }
 
     /**
@@ -103,7 +110,7 @@ class BinderImpl implements Binder, Unbindable {
      */
     @Override
     public ViewToBindSelector<AbstractProperty<CharSequence>> text() {
-        return setAsSourceOfBind(new TextBind(mBindableSource, mWorkDispatcher));
+        return mParentUnbindableCollector.collect(new TextBind(mBindableSource, mWorkDispatcher));
     }
 
     /**
@@ -111,7 +118,7 @@ class BinderImpl implements Binder, Unbindable {
      */
     @Override
     public <T> BindTarget<AbstractProperty<T>> uiAction(UIAction<T> uiAction) {
-        return setAsSourceOfBind(new UIActionBind<>(uiAction, mWorkDispatcher));
+        return mParentUnbindableCollector.collect(new UIActionBind<>(uiAction, mWorkDispatcher));
     }
 
     /**
@@ -119,7 +126,11 @@ class BinderImpl implements Binder, Unbindable {
      */
     @Override
     public <T> ViewToBindSelector<AbstractCollectionProperty<T>> adapterWithFactory(AdapterFactory<T> adapterFactory) {
-        return setAsSourceOfBind(new AdapterBind<>(mBindableSource, mWorkDispatcher, mBinderDelegate, adapterFactory));
+        return mParentUnbindableCollector.collect(new AdapterBind<>(mBindableSource,
+                                                              mWorkDispatcher,
+                                                              mBinderDelegate,
+                                                              adapterFactory,
+                                                              mUnbindableCollectorProvider));
     }
 
     /**
@@ -127,24 +138,7 @@ class BinderImpl implements Binder, Unbindable {
      */
     @Override
     public ViewToBindSelector<AbstractProperty<Integer>> selectedIndex() {
-        return setAsSourceOfBind(new SelectedIndexBind(mBindableSource, mWorkDispatcher));
-    }
-
-
-    private <T extends Unbindable> T setAsSourceOfBind(T t) {
-        mViewPropertyBind = t;
-        return t;
-    }
-
-    /**
-     * Unbind the view property from the view model
-     */
-    @Override
-    public void unbind() {
-        if(mViewPropertyBind != null) {
-            mViewPropertyBind.unbind();
-        }
-        mBindableSource = null;
+        return mParentUnbindableCollector.collect(new SelectedIndexBind(mBindableSource, mWorkDispatcher));
     }
 
 }
