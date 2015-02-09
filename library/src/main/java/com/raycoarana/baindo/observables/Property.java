@@ -22,12 +22,7 @@ public class Property<T> extends AbstractProperty<T> {
     }
 
     public Property(T defaultValue) {
-        mValue = defaultValue;
-    }
-
-    @Override
-    public T getValue() {
-        return mValue;
+        super(defaultValue);
     }
 
     @Override

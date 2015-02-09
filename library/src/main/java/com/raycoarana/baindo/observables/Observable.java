@@ -49,6 +49,7 @@ public class Observable extends java.util.Observable {
      * @param observer
      *            the Observer to add.
      */
+    @Override
     public void addObserver(Observer observer) {
         if (observer == null) {
             throw new NullPointerException("observer == null");
@@ -64,6 +65,7 @@ public class Observable extends java.util.Observable {
      *
      * @return the number of observers.
      */
+    @Override
     public int countObservers() {
         return observers.size();
     }
@@ -75,6 +77,7 @@ public class Observable extends java.util.Observable {
      * @param observer
      *            the observer to remove.
      */
+    @Override
     public synchronized void deleteObserver(Observer observer) {
         observers.remove(observer);
     }
@@ -82,6 +85,7 @@ public class Observable extends java.util.Observable {
     /**
      * Removes all observers from the list of observers.
      */
+    @Override
     public synchronized void deleteObservers() {
         observers.clear();
     }
@@ -93,6 +97,7 @@ public class Observable extends java.util.Observable {
      * <p>
      * Equivalent to calling {@code notifyObservers(null)}.
      */
+    @Override
     public void notifyObservers() {
         notifyObservers(null);
     }
@@ -106,6 +111,7 @@ public class Observable extends java.util.Observable {
      *            the argument passed to {@code update()}.
      */
     @SuppressWarnings("unchecked")
+    @Override
     public void notifyObservers(Object data) {
         notifyObservers(null);
     }
