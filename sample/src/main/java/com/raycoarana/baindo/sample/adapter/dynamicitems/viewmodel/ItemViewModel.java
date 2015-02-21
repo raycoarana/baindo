@@ -32,18 +32,31 @@ public class ItemViewModel {
 
     public Property<CharSequence> Ticks = new Property<>();
 
-    public Command ShowCommand = () -> MessageService.show(Ticks.getValue().toString());
+    public Command ShowCommand = new Command() {
+        @Override
+        public void execute() {
+            MessageService.show(Ticks.getValue().toString());
+        }
+    };
 
-    public Command StopCommand = () -> {
-        if(mTimer != null) {
-            mTimer.cancel();
+    public Command StopCommand = new Command() {
+        @Override
+        public void execute() {
+            if(mTimer != null) {
+                mTimer.cancel();
+            }
         }
     };
 
     public ItemViewModel(int id) {
         mId = id;
         mTicks = ZERO;
-        mTimer = TimerService.getInstance().create(this::tick);
+        mTimer = TimerService.getInstance().create(new Runnable() {
+            @Override
+            public void run() {
+                tick();
+            }
+        });
     }
 
     private void tick() {

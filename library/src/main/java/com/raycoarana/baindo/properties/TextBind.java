@@ -40,10 +40,13 @@ public class TextBind extends BaseObservableBind<AbstractProperty<CharSequence>>
 
     @Override
     public void afterTextChanged(final Editable editable) {
-        doInBackgroundThread(() -> {
-            synchronized (this) {
-                if (state == State.BINDED) {
-                    mTarget.setValue(editable, TextBind.this);
+        doInBackgroundThread(new Runnable() {
+            @Override
+            public void run() {
+                synchronized (this) {
+                    if (state == State.BINDED) {
+                        mTarget.setValue(editable, TextBind.this);
+                    }
                 }
             }
         });

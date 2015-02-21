@@ -1,6 +1,4 @@
 apply plugin: 'com.android.library'
-apply plugin: 'me.tatarka.retrolambda'
-apply plugin: 'robolectric'
 apply plugin: 'com.github.kt3k.coveralls'
 apply from: '../scripts/gradle-mvn-push.gradle'
 apply from: '../scripts/idea.gradle'
@@ -17,8 +15,8 @@ android {
         versionName "1.0"
     }
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_1_7
+        targetCompatibility JavaVersion.VERSION_1_7
     }
     buildTypes {
         release {
@@ -26,52 +24,20 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-    sourceSets {
-        androidTest {
-            setRoot('src/test')
-        }
-    }
-}
-
-robolectric {
-    include '**/*Test.class'
-    include '**/*IT.class'
-    exclude '**/espresso/**/*.class'
 }
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
 
-    compile 'com.github.pedrovgs:renderers:1.5-SNAPSHOT'
+    compile 'com.github.pedrovgs:renderers:1.5'
 
-    androidTestCompile 'org.hamcrest:hamcrest-integration:1.1'
-    androidTestCompile 'org.hamcrest:hamcrest-core:1.1'
-    androidTestCompile 'org.hamcrest:hamcrest-library:1.1'
-
-    androidTestCompile 'org.mockito:mockito-core:1.10.8'
-
-    androidTestCompile 'org.powermock:powermock-module-junit4:1.6.1'
-    androidTestCompile 'org.powermock:powermock-api-mockito:1.6.1'
-
-    androidTestCompile('junit:junit:4.11') {
-        exclude module: 'hamcrest-core'
-    }
-
-    androidTestCompile('org.robolectric:robolectric:2.4') {
-        exclude module: 'classworlds'
+    testCompile 'junit:junit:4.12'
+    testCompile 'org.mockito:mockito-core:1.10.8'
+    testCompile 'org.powermock:powermock-module-junit4:1.6.1'
+    testCompile 'org.powermock:powermock-api-mockito:1.6.1'
+    testCompile('org.robolectric:robolectric:2.4') {
         exclude module: 'commons-logging'
         exclude module: 'httpclient'
-        exclude module: 'maven-artifact'
-        exclude module: 'maven-artifact-manager'
-        exclude module: 'maven-error-diagnostics'
-        exclude module: 'maven-model'
-        exclude module: 'maven-project'
-        exclude module: 'maven-settings'
-        exclude module: 'plexus-container-default'
-        exclude module: 'plexus-interpolation'
-        exclude module: 'plexus-utils'
-        exclude module: 'wagon-file'
-        exclude module: 'wagon-http-lightweight'
-        exclude module: 'wagon-provider-api'
     }
+
 }

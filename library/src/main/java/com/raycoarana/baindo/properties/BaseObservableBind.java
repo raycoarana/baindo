@@ -50,10 +50,13 @@ public abstract class BaseObservableBind<T extends Observable> extends BaseBind<
 
     @Override
     public void update(Observable observable, Object o) {
-        doInUIThread(() -> {
-            synchronized (this) {
-                if (state == State.BINDED) {
-                    updateView();
+        doInUIThread(new Runnable() {
+            @Override
+            public void run() {
+                synchronized (this) {
+                    if (state == State.BINDED) {
+                        updateView();
+                    }
                 }
             }
         });
@@ -61,7 +64,6 @@ public abstract class BaseObservableBind<T extends Observable> extends BaseBind<
 
     protected void bind() {
         synchronized (this) {
-            updateView();
             onBind();
             state = State.BINDED;
         }
@@ -78,11 +80,12 @@ public abstract class BaseObservableBind<T extends Observable> extends BaseBind<
     }
 
     private void onBind() {
+        if (mBindWay == BindWay.READ_WRITE || mBindWay == BindWay.READ_ONLY) {
+            updateView();
+            mTarget.addObserver(this);
+        }
         if (mBindWay == BindWay.READ_WRITE || mBindWay == BindWay.WRITE_ONLY) {
             bindView();
-        }
-        if (mBindWay == BindWay.READ_WRITE || mBindWay == BindWay.READ_ONLY) {
-            mTarget.addObserver(this);
         }
     }
 

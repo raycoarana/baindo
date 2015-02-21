@@ -16,6 +16,8 @@
 
 package com.raycoarana.baindo.properties;
 
+import android.view.View;
+
 import com.raycoarana.baindo.BindableSource;
 import com.raycoarana.baindo.WorkDispatcher;
 import com.raycoarana.baindo.viewmodel.Command;
@@ -32,7 +34,17 @@ public class CommandBind extends BaseBind<Command> {
     @Override
     protected void bind() {
         synchronized (this) {
-            mView.setOnClickListener(view -> doInBackgroundThread(this::execute));
+            mView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    doInBackgroundThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            execute();
+                        }
+                    });
+                }
+            });
             state = State.BINDED;
         }
     }

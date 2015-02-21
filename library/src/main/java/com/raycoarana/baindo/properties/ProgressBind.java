@@ -31,10 +31,13 @@ public class ProgressBind extends BaseObservableBind<AbstractProperty<Integer>> 
 
     @Override
     public void onProgressChanged(SeekBar seekBar, final int progress, boolean fromUser) {
-        doInBackgroundThread(() -> {
-            synchronized (this) {
-                if (state == State.BINDED) {
-                    mTarget.setValue(progress);
+        doInBackgroundThread(new Runnable() {
+            @Override
+            public void run() {
+                synchronized (this) {
+                    if (state == State.BINDED) {
+                        mTarget.setValue(progress);
+                    }
                 }
             }
         });

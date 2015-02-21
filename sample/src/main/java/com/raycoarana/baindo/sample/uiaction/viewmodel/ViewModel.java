@@ -23,8 +23,13 @@ public class ViewModel {
 
     public Property<Boolean> IsFavorite = new Property<>(false);
 
-    public Property<CharSequence> Name = new Property<>("Sophie Shaw");
+    public Property<CharSequence> Name = new Property<CharSequence>("Sophie Shaw");
 
-    public Command ToggleFavorite = () -> IsFavorite.setValue(!IsFavorite.getValue());
+    public Command ToggleFavorite = new Command() {
+        @Override
+        public void execute() {
+            IsFavorite.setValue(!IsFavorite.getValue());
+        }
+    };
 
 }

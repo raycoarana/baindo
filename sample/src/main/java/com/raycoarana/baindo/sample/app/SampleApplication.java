@@ -19,6 +19,9 @@ package com.raycoarana.baindo.sample.app;
 import android.app.Activity;
 import android.app.Application;
 import android.os.Bundle;
+import android.os.StrictMode;
+
+import com.raycoarana.baindo.sample.BuildConfig;
 
 public class SampleApplication extends Application implements Application.ActivityLifecycleCallbacks {
 
@@ -28,6 +31,18 @@ public class SampleApplication extends Application implements Application.Activi
         NavigationService.getInstance()
                          .updateContext(this);
         MessageService.initialize(this);
+
+        if (BuildConfig.DEBUG) {
+            StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder()
+                    .detectAll()
+                    .penaltyLog()
+                    .penaltyFlashScreen()
+                    .build());
+            StrictMode.setVmPolicy(new StrictMode.VmPolicy.Builder()
+                    .detectAll()
+                    .penaltyLog()
+                    .build());
+        }
 
         this.registerActivityLifecycleCallbacks(this);
     }

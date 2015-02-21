@@ -66,18 +66,21 @@ public class UIActionActivity extends BaindoActivity {
         bind().text().of(R.id.name).to(mViewModel.Name).readOnly();
     }
 
-    private UIAction<Boolean> mFavoriteUIAction = (Boolean isFavorite) -> {
+    private UIAction<Boolean> mFavoriteUIAction = new UIAction<Boolean>() {
+        @Override
+        public void onUpdate(Boolean isFavorite) {
             //Do any UI action in response to a ViewModel's property change
             Scene scene = isFavorite ? mFavoriteScene : mNormalScene;
             transitionTo(scene);
+        }
     };
 
     private void transitionTo(Scene scene) {
-        if(scene != mCurrent) {
+        if (scene != mCurrent) {
             boolean mustRebind = mCurrent != null;
             mCurrent = scene;
             mTransitionManager.transitionTo(scene);
-            if(mustRebind) {
+            if (mustRebind) {
                 unbind();
                 bindViews();
             }

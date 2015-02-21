@@ -52,13 +52,11 @@ public class CollectionProperty<T> extends AbstractCollectionProperty<T> impleme
 
     @Override
     public boolean add(T object) {
-        boolean changed = mList.add(object);
+        mList.add(object);
 
-        if(changed) {
-            setChanged();
-            notifyObservers();
-        }
-        return changed;
+        setChanged();
+        notifyObservers();
+        return true;
     }
 
     @Override

@@ -41,24 +41,30 @@ public class ViewModel {
 
     };
 
-    public Command AddCommand = () -> {
-        String newValue = calculateNewValue();
-        Items.add(newValue);
-        CanRemoveItems.setValue(true);
+    public Command AddCommand = new Command() {
+        @Override
+        public void execute() {
+            String newValue = calculateNewValue();
+            Items.add(newValue);
+            CanRemoveItems.setValue(true);
+        }
     };
 
     private String calculateNewValue() {
         return String.valueOf(Math.abs(mRandom.nextInt() % 100));
     }
 
-    public Command RemoveCommand = () -> {
-        Items.remove(0);
-        Integer selectedItemIndex = SelectedItemIndex.getValue() - 1;
-        if (selectedItemIndex < 0) {
-            selectedItemIndex = Items.size() > 0 ? 0 : null;
+    public Command RemoveCommand = new Command() {
+        @Override
+        public void execute() {
+            Items.remove(0);
+            Integer selectedItemIndex = SelectedItemIndex.getValue() - 1;
+            if (selectedItemIndex < 0) {
+                selectedItemIndex = Items.size() > 0 ? 0 : null;
+            }
+            SelectedItemIndex.setValue(selectedItemIndex);
+            CanRemoveItems.setValue(Items.size() > 0);
         }
-        SelectedItemIndex.setValue(selectedItemIndex);
-        CanRemoveItems.setValue(Items.size() > 0);
     };
 
 }

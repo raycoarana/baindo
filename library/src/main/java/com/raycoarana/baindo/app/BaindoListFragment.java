@@ -53,8 +53,8 @@ public class BaindoListFragment extends ListFragment implements BindableSource {
 
     @Override
     public void onDestroy() {
-        super.onDestroy();
         mBinderDelegate.onDestroy();
+        super.onDestroy();
     }
 
     @Override

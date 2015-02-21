@@ -63,11 +63,14 @@ public class SelectedIndexBind extends BaseObservableBind<AbstractProperty<Integ
         onItemSelected(null);
     }
 
-    public void onItemSelected(Integer item) {
-        doInBackgroundThread(() -> {
-            synchronized (this) {
-                if (state == State.BINDED) {
-                    mTarget.setValue(item, SelectedIndexBind.this);
+    public void onItemSelected(final Integer item) {
+        doInBackgroundThread(new Runnable() {
+            @Override
+            public void run() {
+                synchronized (this) {
+                    if (state == State.BINDED) {
+                        mTarget.setValue(item, SelectedIndexBind.this);
+                    }
                 }
             }
         });

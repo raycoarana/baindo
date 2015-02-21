@@ -31,10 +31,13 @@ public class CheckedBind extends BaseObservableBind<AbstractProperty<Boolean>> i
 
     @Override
     public void onCheckedChanged(CompoundButton buttonView, final boolean isChecked) {
-        doInBackgroundThread(() -> {
-            synchronized (this) {
-                if(state == State.BINDED) {
-                    mTarget.setValue(isChecked);
+        doInBackgroundThread(new Runnable() {
+            @Override
+            public void run() {
+                synchronized (this) {
+                    if (state == State.BINDED) {
+                        mTarget.setValue(isChecked, CheckedBind.this);
+                    }
                 }
             }
         });
@@ -43,21 +46,18 @@ public class CheckedBind extends BaseObservableBind<AbstractProperty<Boolean>> i
 
     @Override
     protected void bindView() {
-        Checkable view = getView();
-        if(view instanceof CompoundButton) {
-            ((CompoundButton)view).setOnCheckedChangeListener(this);
+        if (mView instanceof CompoundButton) {
+            ((CompoundButton) mView).setOnCheckedChangeListener(this);
         } else {
             throw new IllegalStateException(String.format("Check binder doesn't supports %s in WRITE or READ_WRITE modes",
-                                                          view.getClass().getName()));
+                                            mView.getClass().getName()));
         }
     }
 
     @Override
     protected void unbindView() {
         Checkable view = getView();
-        if(view instanceof CompoundButton) {
-            ((CompoundButton)view).setOnCheckedChangeListener(null);
-        }
+        ((CompoundButton) view).setOnCheckedChangeListener(null);
     }
 
     @Override
@@ -67,7 +67,12 @@ public class CheckedBind extends BaseObservableBind<AbstractProperty<Boolean>> i
     }
 
     private Checkable getView() {
-        return (Checkable) mView;
+        try {
+            return (Checkable) mView;
+        } catch (ClassCastException ex) {
+            throw new IllegalStateException(String.format("Check binder doesn't supports view %s",
+                                            mView.getClass().getName()));
+        }
     }
 
 }

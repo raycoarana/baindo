@@ -53,8 +53,8 @@ public class BaindoFragment extends Fragment implements BindableSource {
 
     @Override
     public void onDestroy() {
-        super.onDestroy();
         mBinderDelegate.onDestroy();
+        super.onDestroy();
     }
 
     @Override

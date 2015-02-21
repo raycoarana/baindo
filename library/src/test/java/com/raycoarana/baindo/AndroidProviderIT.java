@@ -32,7 +32,6 @@ import static junit.framework.Assert.assertTrue;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
-@Config(emulateSdk = 18)
 public class AndroidProviderIT extends IntegrationTestSuite {
 
     private static final long ONE_SECOND = 1000;

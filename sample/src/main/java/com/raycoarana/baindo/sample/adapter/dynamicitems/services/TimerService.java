@@ -39,7 +39,7 @@ public class TimerService {
         mTimer = new Timer();
     }
 
-    public TimerTask create(Runnable runnable) {
+    public TimerTask create(final Runnable runnable) {
         TimerTask timerTask = new TimerTask() {
             @Override
             public void run() {

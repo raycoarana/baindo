@@ -137,7 +137,7 @@ public class BaindoBinderTest extends UnitTestSuite {
     }
 
     private void givenABaindoBinder() {
-        when(mUnbindableCollector.collect(any())).thenAnswer(answerWithFirstArgument());
+        when(mUnbindableCollector.collect(any(Unbindable.class))).thenAnswer(answerWithFirstArgument());
         mBaindoBinder = new BaindoBinder(mBindableSource,
                                          mWorkDispatcher,
                                          mBinderDelegate,
