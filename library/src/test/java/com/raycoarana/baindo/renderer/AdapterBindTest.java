@@ -16,6 +16,7 @@
 
 package com.raycoarana.baindo.renderer;
 
+import android.view.View;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 
@@ -34,6 +35,7 @@ import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 
 import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.powermock.api.mockito.PowerMockito.when;
 
@@ -108,6 +110,14 @@ public class AdapterBindTest extends UnitTestSuite {
         thenAdapterIsNotifiedOfChanges();
     }
 
+    @Test(expected = IllegalArgumentException.class)
+    public void shouldFailWhenIncompatibleViewIsUsed() {
+        givenAnIncompatibleView();
+        givenAnAdapterFactory();
+        givenAnAdapterBind();
+        whenBindSomeViewResourceToSomeProperty();
+    }
+
     private void givenAnAdapterView() {
         when(mBindableSource.findViewById(SOME_VIEW_RES_ID)).thenReturn(mSomeAdapterView);
         doNothing().when(mSomeAdapterView).setAdapter(mBaseAdapterArgumentCaptor.capture());
@@ -118,6 +128,10 @@ public class AdapterBindTest extends UnitTestSuite {
                 return mBaseAdapterArgumentCaptor.getValue();
             }
         });
+    }
+
+    private void givenAnIncompatibleView() {
+        when(mBindableSource.findViewById(SOME_VIEW_RES_ID)).thenReturn(mock(View.class));
     }
 
     private void givenAnAdapterFactory() {

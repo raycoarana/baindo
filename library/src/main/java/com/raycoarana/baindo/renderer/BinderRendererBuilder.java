@@ -31,7 +31,7 @@ public abstract class BinderRendererBuilder<T> extends RendererBuilder<T> {
 
     private final Map<Class<? extends T>, ? extends BinderRenderer<T>> mContentToPrototypeMap;
     private HashSet<BinderRenderer> mRenderers = new HashSet<>();
-    private View convertView;
+    private View mConvertView;
 
     @SuppressWarnings("unchecked")
     public BinderRendererBuilder(Map<Class<? extends T>, BinderRenderer<T>> contentToPrototypeMap) {
@@ -53,12 +53,12 @@ public abstract class BinderRendererBuilder<T> extends RendererBuilder<T> {
 
     protected RendererBuilder withConvertView(View convertView) {
         super.withConvertView(convertView);
-        this.convertView = convertView;
+        this.mConvertView = convertView;
         return this;
     }
 
     protected Renderer build() {
-        BinderRenderer oldRenderer = unbindRenderer(convertView);
+        BinderRenderer oldRenderer = unbindRenderer(mConvertView);
         BinderRenderer newRenderer = (BinderRenderer) super.build();
         if(oldRenderer != newRenderer) {
             mRenderers.add(newRenderer);

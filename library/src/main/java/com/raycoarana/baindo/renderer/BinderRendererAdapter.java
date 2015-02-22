@@ -20,22 +20,17 @@ import android.view.LayoutInflater;
 
 import com.pedrogomez.renderers.AdapteeCollection;
 import com.pedrogomez.renderers.RendererAdapter;
-import com.pedrogomez.renderers.RendererBuilder;
 import com.raycoarana.baindo.BinderDelegate;
 import com.raycoarana.baindo.Unbindable;
-import com.raycoarana.baindo.UnbindableCollector;
 import com.raycoarana.baindo.UnbindableCollectorProvider;
 
 public class BinderRendererAdapter<T> extends RendererAdapter<T> implements Unbindable {
 
-    private BinderRendererBuilder mRendererBuilder;
+    private final BinderRendererBuilder mRendererBuilder;
 
-    public BinderRendererAdapter(LayoutInflater layoutInflater, RendererBuilder rendererBuilder, AdapteeCollection<T> collection) {
+    public BinderRendererAdapter(LayoutInflater layoutInflater, BinderRendererBuilder rendererBuilder, AdapteeCollection<T> collection) {
         super(layoutInflater, rendererBuilder, collection);
-
-        if(rendererBuilder instanceof BinderRendererBuilder) {
-            mRendererBuilder = (BinderRendererBuilder) rendererBuilder;
-        }
+        mRendererBuilder = rendererBuilder;
     }
 
     void injectBinderDelegate(BinderDelegate binderDelegate) {
@@ -49,7 +44,6 @@ public class BinderRendererAdapter<T> extends RendererAdapter<T> implements Unbi
     @Override
     public void unbind() {
         mRendererBuilder.destroy();
-        mRendererBuilder = null;
     }
 
 }

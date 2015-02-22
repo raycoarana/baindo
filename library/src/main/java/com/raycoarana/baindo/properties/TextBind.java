@@ -45,7 +45,7 @@ public class TextBind extends BaseObservableBind<AbstractProperty<CharSequence>>
             public void run() {
                 synchronized (this) {
                     if (state == State.BINDED) {
-                        mTarget.setValue(editable, TextBind.this);
+                        mTarget.setValue(editable.toString(), TextBind.this);
                     }
                 }
             }
@@ -71,7 +71,12 @@ public class TextBind extends BaseObservableBind<AbstractProperty<CharSequence>>
     }
 
     private TextView getView() {
-        return (TextView) mView;
+        try {
+            return (TextView) mView;
+        } catch (ClassCastException ex) {
+            throw new IllegalStateException(String.format("Text binder doesn't supports view %s",
+                    mView.getClass().getName()));
+        }
     }
 
 }

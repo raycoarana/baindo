@@ -56,14 +56,19 @@ public class AdapterBind<T> extends BaseObservableBind<AbstractCollectionPropert
     @SuppressWarnings("unchecked")
     @Override
     protected void bindView() {
-        AdapterView adapterView = (AdapterView) mView;
-        BaseAdapter baseAdapter = mAdapterFactory.build(mTarget);
-        if(baseAdapter instanceof BinderRendererAdapter) {
-            BinderRendererAdapter binderRendererAdapter = (BinderRendererAdapter) baseAdapter;
-            binderRendererAdapter.injectBinderDelegate(mBinderDelegate);
-            binderRendererAdapter.injectUnbindableCollectorProvider(mUnbindableCollectorProvider);
+        if(mView instanceof AdapterView) {
+            AdapterView adapterView = (AdapterView) mView;
+            BaseAdapter baseAdapter = mAdapterFactory.build(mTarget);
+            if(baseAdapter instanceof BinderRendererAdapter) {
+                BinderRendererAdapter binderRendererAdapter = (BinderRendererAdapter) baseAdapter;
+                binderRendererAdapter.injectBinderDelegate(mBinderDelegate);
+                binderRendererAdapter.injectUnbindableCollectorProvider(mUnbindableCollectorProvider);
+            }
+            adapterView.setAdapter(baseAdapter);
+        } else {
+            throw new IllegalArgumentException(String.format("Can't bind a list to view type %s, it must be an AdapterView",
+                    mView.getClass().getName()));
         }
-        adapterView.setAdapter(baseAdapter);
     }
 
     @Override
@@ -77,20 +82,9 @@ public class AdapterBind<T> extends BaseObservableBind<AbstractCollectionPropert
 
     @Override
     protected void updateView() {
-        if(mView instanceof AdapterView) {
-            AdapterView adapterView = (AdapterView) mView;
-
-            if(adapterView.getAdapter() instanceof BaseAdapter) {
-                BaseAdapter adapter = (BaseAdapter) adapterView.getAdapter();
-                adapter.notifyDataSetChanged();
-            } else {
-                throw new IllegalArgumentException(String.format("Can't bind to %s, it must extends from BaseAdapter",
-                        adapterView.getAdapter().getClass().getName()));
-            }
-        } else {
-            throw new IllegalArgumentException(String.format("Can't bind a list to view type %s, it must be an AdapterView",
-                    mView.getClass().getName()));
-        }
+        AdapterView adapterView = (AdapterView) mView;
+        BaseAdapter adapter = (BaseAdapter) adapterView.getAdapter();
+        adapter.notifyDataSetChanged();
     }
 
 }

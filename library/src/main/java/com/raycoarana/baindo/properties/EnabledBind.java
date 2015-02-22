@@ -33,7 +33,6 @@ public class EnabledBind extends BaseObservableBind<AbstractProperty<Boolean>> {
 
     @Override
     protected void unbindView() {
-        throw new IllegalStateException("Enabled bind doesn't support WRITE or READ_WRITE mode.");
     }
 
     @Override

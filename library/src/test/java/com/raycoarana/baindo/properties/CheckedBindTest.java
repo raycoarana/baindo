@@ -16,205 +16,97 @@
 
 package com.raycoarana.baindo.properties;
 
-import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CheckedTextView;
 import android.widget.CompoundButton;
 
-import com.raycoarana.baindo.BindableSource;
-import com.raycoarana.baindo.WorkDispatcher;
-import com.raycoarana.baindo.WorkDispatcherHelper;
 import com.raycoarana.baindo.observables.AbstractProperty;
-import com.raycoarana.baindo.test.UnitTestSuite;
 
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
-import org.mockito.Mock;
-
-import java.util.Observer;
 
 import static org.mockito.Mockito.atMost;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
-public class CheckedBindTest extends UnitTestSuite {
+public class CheckedBindTest extends AbstractObservableBindTest<Boolean> {
 
-    private static final boolean IS_CHECKED = true;
+    private static final boolean NEW_VALUE = true;
     private static final boolean DEFAULT_VALUE = false;
-
-    @Mock
-    private WorkDispatcher mWorkDispatcher;
-
-    @Mock
-    private BindableSource mBindableSource;
-
-    @Mock
-    private AbstractProperty<Boolean> mProperty;
-
-    @Captor
-    private ArgumentCaptor<Observer> mObserverArgumentCaptor;
 
     @Captor
     private ArgumentCaptor<CompoundButton.OnCheckedChangeListener> mOnCheckedChangeListenerArgumentCaptor;
 
-    private CheckedBind mCheckedBind;
-    private View mView;
-
-    @Test
-    public void shouldUpdatePropertyWhenCheckedChanges() {
-        givenACheckedBind();
-        givenACheckBoxView();
-        givenThatCheckedBindIsBindedAsReadWrite();
-        whenCheckedChanged();
-        thenPropertyIsChanged();
-    }
-
-    @Test
-    public void shouldUpdateViewWhenPropertyChanges() {
-        givenACheckedBind();
-        givenACheckBoxView();
-        givenThatCheckedBindIsBindedAsReadWrite();
-        whenPropertyUpdated();
-        thenViewIsChanged();
-    }
-
-    @Test
-    public void shouldNotUpdatePropertyOnceUnbinded() {
-        givenACheckedBind();
-        givenACheckBoxView();
-        givenThatCheckedBindIsBindedAsReadWrite();
-        givenThatIsUnbinded();
-        whenCheckedChanged();
-        thenPropertyIsNotChanged();
+    public CheckedBindTest() {
+        super(DEFAULT_VALUE, NEW_VALUE);
     }
 
     @Test
     public void shouldNotTryToUnbindViewWhenNotACompoundButton() {
-        givenACheckedBind();
+        givenABaseBind();
         givenACheckedView();
-        givenThatCheckedBindIsBindedAsReadOnly();
+        givenThatBindIsBindedAsReadOnly();
         whenUnbind();
         //Should not fail
     }
 
     @Test(expected = IllegalStateException.class)
-    public void shouldFailWhenTryingToBindToIncompatibleView() {
-        givenACheckedBind();
-        givenSomeView();
-        givenThatCheckedBindIsBindedAsReadWrite();
-    }
-
-    @Test
-    public void shouldNotUpdatePropertyIfReadOnly() {
-        givenACheckedBind();
-        givenACheckBoxView();
-        givenThatCheckedBindIsBindedAsReadOnly();
-        whenCheckedChanged();
-        thenPropertyIsNotChanged();
-    }
-
-    @Test
-    public void shouldNotUpdateViewIfWriteOnly() {
-        givenACheckedBind();
-        givenACheckBoxView();
-        givenThatCheckedBindIsBindedAsWriteOnly();
-        whenPropertyUpdated();
-        thenViewIsNotChanged();
-    }
-
-    @Test(expected = IllegalStateException.class)
     public void shouldFailIfViewIsNotCompoundButtonAndBindIsWrite() {
-        givenACheckedBind();
+        givenABaseBind();
         givenACheckedView();
-        givenThatCheckedBindIsBindedAsWriteOnly();
+        givenThatBindIsBindedAsWriteOnly();
         whenPropertyUpdated();
         thenViewIsNotChanged();
     }
 
     @Test(expected = IllegalStateException.class)
     public void shouldFailIfViewIsNotCompoundButtonAndBindIsReadWrite() {
-        givenACheckedBind();
+        givenABaseBind();
         givenACheckedView();
-        givenThatCheckedBindIsBindedAsReadWrite();
+        givenThatBindIsBindedAsReadWrite();
         whenPropertyUpdated();
         thenViewIsNotChanged();
-    }
-
-    private void givenACheckedBind() {
-        WorkDispatcherHelper.setup(mWorkDispatcher);
-        mCheckedBind = new CheckedBind(mBindableSource, mWorkDispatcher);
-    }
-
-    private void givenACheckBoxView() {
-        mView = mock(CheckBox.class);
-    }
-
-    private void givenSomeView() {
-        mView = mock(View.class);
-    }
-
-    private void givenACheckedView() {
-        mView = mock(CheckedTextView.class);
-    }
-
-    private void givenThatCheckedBindIsBindedAsReadWrite() {
-        mCheckedBind.of(mView).to(mProperty).readWrite();
-    }
-
-    private void givenThatCheckedBindIsBindedAsReadOnly() {
-        mCheckedBind.of(mView).to(mProperty).readOnly();
-    }
-
-    private void givenThatCheckedBindIsBindedAsWriteOnly() {
-        mCheckedBind.of(mView).to(mProperty).writeOnly();
-    }
-
-    private void givenThatIsUnbinded() {
-        mCheckedBind.unbind();
-    }
-
-    private void whenCheckedChanged() {
-        verify(((CompoundButton) mView), atMost(2)).setOnCheckedChangeListener(mOnCheckedChangeListenerArgumentCaptor.capture());
-        if (mOnCheckedChangeListenerArgumentCaptor.getAllValues().size() > 0) {
-            CompoundButton.OnCheckedChangeListener listener = mOnCheckedChangeListenerArgumentCaptor.getValue();
-            if (listener != null) {
-                listener.onCheckedChanged((CompoundButton) mView, IS_CHECKED);
-            }
-        }
-    }
-
-    private void whenPropertyUpdated() {
-        verify(mProperty, atMost(1)).addObserver(mObserverArgumentCaptor.capture());
-        if(mObserverArgumentCaptor.getAllValues().size() > 0) {
-            when(mProperty.getValue()).thenReturn(true);
-            Observer observer = mObserverArgumentCaptor.getValue();
-            observer.update(mProperty, IS_CHECKED);
-        }
     }
 
     private void whenUnbind() {
         givenThatIsUnbinded();
     }
 
-    private void thenPropertyIsChanged() {
-        verify(mProperty).setValue(IS_CHECKED, mCheckedBind);
+    @Override
+    protected BaseObservableBind<AbstractProperty<Boolean>> getBind() {
+        return new CheckedBind(mBindableSource, mWorkDispatcher);
     }
 
-    private void thenViewIsChanged() {
-        verify(((CheckBox) mView)).setChecked(DEFAULT_VALUE);
-        verify(((CheckBox) mView)).setChecked(IS_CHECKED);
+    private void givenACheckedView() {
+        mView = mock(CheckedTextView.class);
     }
 
-    private void thenViewIsNotChanged() {
-        verify(((CheckBox) mView), never()).setChecked(DEFAULT_VALUE);
-        verify(((CheckBox) mView), never()).setChecked(IS_CHECKED);
+    @Override
+    protected void givenACompatibleView() {
+        mView = mock(CheckBox.class);
     }
 
-    private void thenPropertyIsNotChanged() {
-        verify(mProperty, never()).setValue(IS_CHECKED, mCheckedBind);
+    @Override
+    protected void whenViewChanged() {
+        verify(((CompoundButton) mView), atMost(2)).setOnCheckedChangeListener(mOnCheckedChangeListenerArgumentCaptor.capture());
+        if (mOnCheckedChangeListenerArgumentCaptor.getAllValues().size() > 0) {
+            CompoundButton.OnCheckedChangeListener listener = mOnCheckedChangeListenerArgumentCaptor.getValue();
+            if (listener != null) {
+                listener.onCheckedChanged((CompoundButton) mView, NEW_VALUE);
+            }
+        }
+    }
+
+    @Override
+    protected void verifyViewChanged(Boolean value) {
+        verify(((CheckBox) mView)).setChecked(value);
+    }
+
+    @Override
+    protected void verifyViewNotChanged(Boolean value) {
+        verify(((CheckBox) mView), never()).setChecked(value);
     }
 
 }

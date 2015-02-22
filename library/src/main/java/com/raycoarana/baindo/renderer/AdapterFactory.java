@@ -20,14 +20,13 @@ import android.view.LayoutInflater;
 import android.widget.BaseAdapter;
 
 import com.pedrogomez.renderers.AdapteeCollection;
-import com.pedrogomez.renderers.RendererBuilder;
 
 public abstract class AdapterFactory<T> {
 
     private LayoutInflater mLayoutInflater;
-    private RendererBuilder<T> mRendererBuilder;
+    private BinderRendererBuilder<T> mRendererBuilder;
 
-    public AdapterFactory(LayoutInflater layoutInflater, RendererBuilder<T> rendererBuilder) {
+    public AdapterFactory(LayoutInflater layoutInflater, BinderRendererBuilder<T> rendererBuilder) {
         mLayoutInflater = layoutInflater;
         mRendererBuilder = rendererBuilder;
     }

@@ -36,7 +36,7 @@ public class ProgressBind extends BaseObservableBind<AbstractProperty<Integer>> 
             public void run() {
                 synchronized (this) {
                     if (state == State.BINDED) {
-                        mTarget.setValue(progress);
+                        mTarget.setValue(progress, ProgressBind.this);
                     }
                 }
             }
@@ -56,11 +56,7 @@ public class ProgressBind extends BaseObservableBind<AbstractProperty<Integer>> 
     @Override
     protected void unbindView() {
         ProgressBar progressBar = getView();
-        if(progressBar instanceof SeekBar) {
-            ((SeekBar)progressBar).setOnSeekBarChangeListener(null);
-        } else {
-            throw new IllegalStateException("WRITE or READ_WRITE mode is not allowed in progress bind");
-        }
+        ((SeekBar)progressBar).setOnSeekBarChangeListener(null);
     }
 
     @Override
@@ -71,7 +67,12 @@ public class ProgressBind extends BaseObservableBind<AbstractProperty<Integer>> 
     }
 
     private ProgressBar getView() {
-        return (ProgressBar) mView;
+        try {
+            return (ProgressBar) mView;
+        } catch (ClassCastException ex) {
+            throw new IllegalStateException(String.format("Progress binder doesn't supports view %s",
+                    mView.getClass().getName()));
+        }
     }
 
     @Override

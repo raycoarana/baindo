@@ -94,8 +94,8 @@
     <orderEntry type="library" exported="" scope="TEST" name="ant-1.8.0" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="powermock-api-support-1.6.1" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="powermock-reflect-1.6.1" level="project" />
-    <orderEntry type="library" exported="" name="renderers-1.5" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="mockito-core-1.10.8" level="project" />
+    <orderEntry type="library" exported="" name="renderers-1.5" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="asm-commons-5.0.1" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="ant-launcher-1.8.0" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="asm-5.0.1" level="project" />
@@ -105,8 +105,8 @@
     <orderEntry type="library" exported="" scope="TEST" name="powermock-core-1.6.1" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="commons-codec-1.3" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="robolectric-annotations-2.4" level="project" />
-    <orderEntry type="library" exported="" scope="TEST" name="asm-tree-5.0.1" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="sqlite4java-0.282" level="project" />
+    <orderEntry type="library" exported="" scope="TEST" name="asm-tree-5.0.1" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="asm-analysis-5.0.1" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="powermock-api-mockito-1.6.1" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="powermock-module-junit4-common-1.6.1" level="project" />

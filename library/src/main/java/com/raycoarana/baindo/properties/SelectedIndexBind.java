@@ -49,7 +49,12 @@ public class SelectedIndexBind extends BaseObservableBind<AbstractProperty<Integ
     }
 
     private AdapterView getView() {
-        return (AdapterView) mView;
+        try {
+            return (AdapterView) mView;
+        } catch (ClassCastException ex) {
+            throw new IllegalStateException(String.format("SelectedIndex binder doesn't supports view %s",
+                    mView.getClass().getName()));
+        }
     }
 
     @SuppressWarnings("unchecked")

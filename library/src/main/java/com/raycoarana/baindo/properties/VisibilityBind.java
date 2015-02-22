@@ -35,7 +35,6 @@ public class VisibilityBind extends BaseObservableBind<AbstractProperty<Boolean>
 
     @Override
     protected void unbindView() {
-        throw new IllegalStateException("Visibility bind doesn't support WRITE or READ_WRITE mode.");
     }
 
     @Override
