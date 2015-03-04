@@ -17,6 +17,7 @@
 package com.raycoarana.baindo.app;
 
 import android.annotation.TargetApi;
+import android.app.Activity;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.view.View;
@@ -35,6 +36,19 @@ public class BaindoFragment extends Fragment implements BindableSource {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mBinderDelegate = Baindo.buildBinderDelegate();
+        mBinderDelegate.onFragmentCreate(savedInstanceState);
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        mBinderDelegate.onSaveInstanceState(outState);
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        mBinderDelegate.onFragmentAttach(activity.getIntent());
     }
 
     /**

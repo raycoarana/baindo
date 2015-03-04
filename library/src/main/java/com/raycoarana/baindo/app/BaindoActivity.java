@@ -18,6 +18,7 @@ package com.raycoarana.baindo.app;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.PersistableBundle;
@@ -42,6 +43,43 @@ public class BaindoActivity extends Activity implements BindableSource {
     public void onCreate(Bundle savedInstanceState, PersistableBundle persistentState) {
         super.onCreate(savedInstanceState, persistentState);
         mBinderDelegate = Baindo.buildBinderDelegate();
+        mBinderDelegate.onActivityCreate(getIntent(), savedInstanceState);
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        mBinderDelegate.onSaveInstanceState(outState);
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        mBinderDelegate.onNewIntent(intent);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        //mBinderDelegate.onResume();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        //mBinderDelegate.onPause();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        //mBinderDelegate.onStart();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        //mBinderDelegate.onStop();
     }
 
     /**

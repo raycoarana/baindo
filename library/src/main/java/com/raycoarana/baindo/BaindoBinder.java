@@ -17,8 +17,13 @@
 package com.raycoarana.baindo;
 
 import com.raycoarana.baindo.binding.BindTarget;
+import com.raycoarana.baindo.binding.FinalBindTarget;
 import com.raycoarana.baindo.binding.UIAction;
 import com.raycoarana.baindo.binding.ViewToBindSelector;
+import com.raycoarana.baindo.intent.IntentActionBind;
+import com.raycoarana.baindo.intent.IntentDataBind;
+import com.raycoarana.baindo.intent.IntentExtraBind;
+import com.raycoarana.baindo.intent.IntentTypeBind;
 import com.raycoarana.baindo.observables.AbstractCollectionProperty;
 import com.raycoarana.baindo.observables.AbstractProperty;
 import com.raycoarana.baindo.properties.CheckedBind;
@@ -32,6 +37,7 @@ import com.raycoarana.baindo.properties.UIActionBind;
 import com.raycoarana.baindo.properties.VisibilityBind;
 import com.raycoarana.baindo.renderer.AdapterBind;
 import com.raycoarana.baindo.renderer.AdapterFactory;
+import com.raycoarana.baindo.state.StateBind;
 import com.raycoarana.baindo.viewmodel.Command;
 
 /**
@@ -42,6 +48,7 @@ class BaindoBinder implements Binder {
     private final WorkDispatcher mWorkDispatcher;
     private final UnbindableCollectorProvider mUnbindableCollectorProvider;
     private final UnbindableCollector mParentUnbindableCollector;
+    private final LifecycleBinderCollector mLifecycleBinderCollector;
     private BindableSource mBindableSource;
     private BinderDelegate mBinderDelegate;
 
@@ -49,12 +56,14 @@ class BaindoBinder implements Binder {
                         WorkDispatcher workDispatcher,
                         BinderDelegate binderDelegate,
                         UnbindableCollector parentUnbindableCollector,
-                        UnbindableCollectorProvider unbindableCollectorProvider) {
+                        UnbindableCollectorProvider unbindableCollectorProvider,
+                        LifecycleBinderCollector lifecycleBinderCollector) {
         mBindableSource = bindableSource;
         mWorkDispatcher = workDispatcher;
         mBinderDelegate = binderDelegate;
         mUnbindableCollectorProvider = unbindableCollectorProvider;
         mParentUnbindableCollector = parentUnbindableCollector;
+        mLifecycleBinderCollector = lifecycleBinderCollector;
     }
 
     /**
@@ -139,6 +148,46 @@ class BaindoBinder implements Binder {
     @Override
     public ViewToBindSelector<AbstractProperty<Integer>> selectedIndex() {
         return mParentUnbindableCollector.collect(new SelectedIndexBind(mBindableSource, mWorkDispatcher));
+    }
+
+    /**
+     * @see com.raycoarana.baindo.Binder#intentAction()
+     */
+    @Override
+    public FinalBindTarget<AbstractProperty<String>> intentAction() {
+        return mLifecycleBinderCollector.collect(new IntentActionBind(mWorkDispatcher));
+    }
+
+    /**
+     * @see com.raycoarana.baindo.Binder#intentData()
+     */
+    @Override
+    public FinalBindTarget<AbstractProperty<String>> intentData() {
+        return mLifecycleBinderCollector.collect(new IntentDataBind(mWorkDispatcher));
+    }
+
+    /**
+     * @see com.raycoarana.baindo.Binder#intentType()
+     */
+    @Override
+    public FinalBindTarget<AbstractProperty<String>> intentType() {
+        return mLifecycleBinderCollector.collect(new IntentTypeBind(mWorkDispatcher));
+    }
+
+    /**
+     * @see com.raycoarana.baindo.Binder#intentExtraWithKey(String)
+     */
+    @Override
+    public <T> FinalBindTarget<AbstractProperty<T>> intentExtraWithKey(String key) {
+        return mLifecycleBinderCollector.collect(new IntentExtraBind<T>(mWorkDispatcher, key));
+    }
+
+    /**
+     * @see com.raycoarana.baindo.Binder#stateWithKey(String)
+     */
+    @Override
+    public <T> FinalBindTarget<AbstractProperty<T>> stateWithKey(String key) {
+        return mLifecycleBinderCollector.collect(new StateBind<T>(mWorkDispatcher, key));
     }
 
 }

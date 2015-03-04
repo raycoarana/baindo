@@ -17,10 +17,12 @@
 package com.raycoarana.baindo;
 
 import com.raycoarana.baindo.binding.BindTarget;
+import com.raycoarana.baindo.binding.FinalBindTarget;
 import com.raycoarana.baindo.binding.UIAction;
 import com.raycoarana.baindo.binding.ViewToBindSelector;
 import com.raycoarana.baindo.observables.AbstractProperty;
 import com.raycoarana.baindo.observables.AbstractCollectionProperty;
+import com.raycoarana.baindo.observables.Property;
 import com.raycoarana.baindo.renderer.AdapterFactory;
 import com.raycoarana.baindo.viewmodel.Command;
 
@@ -81,5 +83,30 @@ public interface Binder {
      * Selects the Selected item index property of an AdapterView
      */
     ViewToBindSelector<AbstractProperty<Integer>> selectedIndex();
+
+    /**
+     * Selects the current Intent action as source of the binding.
+     */
+    FinalBindTarget<AbstractProperty<String>> intentAction();
+
+    /**
+     * Selects the current Intent data as source of the binding.
+     */
+    FinalBindTarget<AbstractProperty<String>> intentData();
+
+    /**
+     * Selects the current Intent type as source of the binding.
+     */
+    FinalBindTarget<AbstractProperty<String>> intentType();
+
+    /**
+     * Selects the current Intent extra with the selected key as source of the binding.
+     */
+    <T> FinalBindTarget<AbstractProperty<T>> intentExtraWithKey(String key);
+
+    /**
+     * Binds the saved instance state with the selected key as source of binding.
+     */
+    <T> FinalBindTarget<AbstractProperty<T>> stateWithKey(String key);
 
 }

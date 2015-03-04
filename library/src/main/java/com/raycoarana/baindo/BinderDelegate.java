@@ -16,11 +16,14 @@
 
 package com.raycoarana.baindo;
 
+import android.content.Intent;
+import android.os.Bundle;
+
 /**
  * BinderDelegate let you introduce Baindo in your Activities and Fragments in four simple steps.
  *
  * First make your Activity/Fragment implements BindableSource.
- * Then get an instance of a BinderDelegate in the onCreate() method of your Activity/Fragment.
+ * Then get an instance of a BinderDelegate in the onFragmentCreate() method of your Activity/Fragment.
  * Override onDestroy() method and all binderDelegate.onDestroy().
  * Finally create a method called bind() that calls binderDelegate.bind(this):
  *
@@ -37,13 +40,16 @@ public class BinderDelegate {
     private final BaindoBinderFactory mBaindoBinderFactory;
     private final WorkDispatcher mWorkDispatcher;
     private final UnbindableCollector mUnbindableCollector;
+    private final LifecycleBinderCollector mLifecycleBinderCollector;
 
     BinderDelegate(BaindoBinderFactory baindoBinderFactory,
                    WorkDispatcher workDispatcher,
-                   UnbindableCollector unbindableCollector) {
+                   UnbindableCollector unbindableCollector,
+                   LifecycleBinderCollector lifecycleBinderCollector) {
         mBaindoBinderFactory = baindoBinderFactory;
         mWorkDispatcher = workDispatcher;
         mUnbindableCollector = unbindableCollector;
+        mLifecycleBinderCollector = lifecycleBinderCollector;
     }
 
     /**
@@ -60,7 +66,7 @@ public class BinderDelegate {
      * like binder that have its own UnbindableCollector.
      */
     public Binder bind(BindableSource bindableSource, UnbindableCollector unbindableCollector) {
-        return mBaindoBinderFactory.build(bindableSource, mWorkDispatcher, this, unbindableCollector);
+        return mBaindoBinderFactory.build(bindableSource, mWorkDispatcher, this, unbindableCollector, mLifecycleBinderCollector);
     }
 
     /**
@@ -81,4 +87,39 @@ public class BinderDelegate {
         mUnbindableCollector.unbindAndReleaseAll();
     }
 
+    /**
+     * Call this method in the onCreate method of your activity
+     */
+    public void onActivityCreate(Intent intent, Bundle savedInstanceState) {
+        mLifecycleBinderCollector.updateIntent(intent);
+        mLifecycleBinderCollector.updateSavedInstanceState(savedInstanceState);
+    }
+
+    /**
+     * Call this method in the onNewIntent method of your activity
+     */
+    public void onNewIntent(Intent intent) {
+        mLifecycleBinderCollector.updateIntent(intent);
+    }
+
+    /**
+     * Call this method in the onSaveInstanceState method
+     */
+    public void onSaveInstanceState(Bundle outState) {
+        mLifecycleBinderCollector.saveInstanceState(outState);
+    }
+
+    /**
+     * Call this method in the onCreate method of your fragment
+     */
+    public void onFragmentCreate(Bundle savedInstanceState) {
+        mLifecycleBinderCollector.updateSavedInstanceState(savedInstanceState);
+    }
+
+    /**
+     * Call this method in the onAttach method of your fragment
+     */
+    public void onFragmentAttach(Intent intent) {
+        mLifecycleBinderCollector.updateIntent(intent);
+    }
 }

@@ -14,21 +14,18 @@
  *     limitations under the License.
  */
 
-package com.raycoarana.baindo;
+package com.raycoarana.baindo.state.saver;
 
-public final class Baindo {
+import android.os.Bundle;
+import android.util.Size;
 
-    private Baindo(){}
+import com.raycoarana.baindo.state.ValueSaver;
 
-    public static BinderDelegate buildBinderDelegate() {
-        return new BinderDelegate(new BaindoBinderFactory(new UnbindableCollectorProvider()),
-                                  buildWorkDispatcher(),
-                                  new UnbindableCollector(),
-                                  new LifecycleBinderCollector());
-    }
+public class SizeValueSaver implements ValueSaver<Size> {
 
-    static WorkDispatcher buildWorkDispatcher() {
-        return new BaindoWorkDispatcher(new AndroidProvider());
+    @Override
+    public void save(Bundle state, String key, Size value) {
+        state.putSize(key, value);
     }
 
 }

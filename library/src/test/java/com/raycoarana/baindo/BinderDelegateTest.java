@@ -41,6 +41,9 @@ public class BinderDelegateTest extends UnitTestSuite {
     @Mock
     private UnbindableCollector mRendererUnbindableCollection;
 
+    @Mock
+    private LifecycleBinderCollector mLifecycleBinderCollector;
+
     private BinderDelegate mBinderDelegate;
     private Binder mBind;
 
@@ -76,7 +79,7 @@ public class BinderDelegateTest extends UnitTestSuite {
     }
 
     private void givenABinderDelegate() {
-        mBinderDelegate = new BinderDelegate(mBaindoBinderFactory, mWorkDispatcher, mUnbindableCollector);
+        mBinderDelegate = new BinderDelegate(mBaindoBinderFactory, mWorkDispatcher, mUnbindableCollector, mLifecycleBinderCollector);
     }
 
     private void givenThatABindWasCreated() {

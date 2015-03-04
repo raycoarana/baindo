@@ -27,12 +27,14 @@ class BaindoBinderFactory {
     public BaindoBinder build(BindableSource bindableSource,
                               WorkDispatcher workDispatcher,
                               BinderDelegate binderDelegate,
-                              UnbindableCollector unbindableCollector) {
+                              UnbindableCollector unbindableCollector,
+                              LifecycleBinderCollector lifecycleBinderCollector) {
         return new BaindoBinder(bindableSource,
                                 workDispatcher,
                                 binderDelegate,
                                 unbindableCollector,
-                                mUnbindableCollectorProvider);
+                                mUnbindableCollectorProvider,
+                                lifecycleBinderCollector);
     }
 
 }

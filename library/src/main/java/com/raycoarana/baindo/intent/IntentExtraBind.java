@@ -14,21 +14,26 @@
  *     limitations under the License.
  */
 
-package com.raycoarana.baindo;
+package com.raycoarana.baindo.intent;
 
-public final class Baindo {
+import android.content.Intent;
 
-    private Baindo(){}
+import com.raycoarana.baindo.WorkDispatcher;
 
-    public static BinderDelegate buildBinderDelegate() {
-        return new BinderDelegate(new BaindoBinderFactory(new UnbindableCollectorProvider()),
-                                  buildWorkDispatcher(),
-                                  new UnbindableCollector(),
-                                  new LifecycleBinderCollector());
+public class IntentExtraBind<T> extends IntentBind<T> {
+
+    private final String mKey;
+
+    public IntentExtraBind(WorkDispatcher workDispatcher, String key) {
+        super(workDispatcher);
+        mKey = key;
     }
 
-    static WorkDispatcher buildWorkDispatcher() {
-        return new BaindoWorkDispatcher(new AndroidProvider());
+    @SuppressWarnings("unchecked")
+    @Override
+    public T getValueFromIntent(Intent intent) {
+        Object value = intent.getExtras().get(mKey);
+        return (T) value;
     }
 
 }

@@ -14,21 +14,16 @@
  *     limitations under the License.
  */
 
-package com.raycoarana.baindo;
+package com.raycoarana.baindo.binding;
 
-public final class Baindo {
+/**
+ * Selects the destination of the bind at the ViewModel
+ */
+public interface FinalBindTarget<T> {
 
-    private Baindo(){}
-
-    public static BinderDelegate buildBinderDelegate() {
-        return new BinderDelegate(new BaindoBinderFactory(new UnbindableCollectorProvider()),
-                                  buildWorkDispatcher(),
-                                  new UnbindableCollector(),
-                                  new LifecycleBinderCollector());
-    }
-
-    static WorkDispatcher buildWorkDispatcher() {
-        return new BaindoWorkDispatcher(new AndroidProvider());
-    }
+    /**
+     * Selects the destination as a Command or Property at the ViewModel
+     */
+    void to(T target);
 
 }

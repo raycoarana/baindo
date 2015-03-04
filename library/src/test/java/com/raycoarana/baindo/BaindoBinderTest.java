@@ -17,8 +17,14 @@
 package com.raycoarana.baindo;
 
 import com.raycoarana.baindo.binding.BindTarget;
+import com.raycoarana.baindo.binding.FinalBindTarget;
 import com.raycoarana.baindo.binding.UIAction;
 import com.raycoarana.baindo.binding.ViewToBindSelector;
+import com.raycoarana.baindo.intent.IntentActionBind;
+import com.raycoarana.baindo.intent.IntentBind;
+import com.raycoarana.baindo.intent.IntentDataBind;
+import com.raycoarana.baindo.intent.IntentExtraBind;
+import com.raycoarana.baindo.intent.IntentTypeBind;
 import com.raycoarana.baindo.properties.CheckedBind;
 import com.raycoarana.baindo.properties.CommandBind;
 import com.raycoarana.baindo.properties.EnabledBind;
@@ -44,6 +50,8 @@ import static org.mockito.Mockito.when;
 
 public class BaindoBinderTest extends UnitTestSuite {
 
+    private static final String SOME_KEY = "some_key";
+
     @Mock
     private BinderDelegate mBinderDelegate;
 
@@ -62,9 +70,13 @@ public class BaindoBinderTest extends UnitTestSuite {
     @Mock
     private UnbindableCollectorProvider mUnbindableCollectorProvider;
 
+    @Mock
+    private LifecycleBinderCollector mLifecycleBinderCollector;
+
     private BaindoBinder mBaindoBinder;
     private ViewToBindSelector<?> mViewToBindSelector;
     private BindTarget<?> mBindTarget;
+    private FinalBindTarget<?> mFinalBindTarget;
 
     @Test
     public void shouldBuildAnIsCheckedBind() {
@@ -136,13 +148,43 @@ public class BaindoBinderTest extends UnitTestSuite {
         thenASelectedIndexBindIsBuilt();
     }
 
+    @Test
+    public void shouldBuildAIntentActionBind() {
+        givenABaindoBinder();
+        whenIntentActionBind();
+        thenAnIntentActionBindIsBuilt();
+    }
+
+    @Test
+    public void shouldBuildAIntentDataBind() {
+        givenABaindoBinder();
+        whenIntentDataBind();
+        thenAnIntentDataBindIsBuilt();
+    }
+
+    @Test
+    public void shouldBuildAIntentTypeBind() {
+        givenABaindoBinder();
+        whenIntentTypeBind();
+        thenAnIntentTypeBindIsBuilt();
+    }
+
+    @Test
+    public void shouldBuildAIntentExtraBind() {
+        givenABaindoBinder();
+        whenIntentExtraBind();
+        thenAnIntentExtraBindIsBuilt();
+    }
+
     private void givenABaindoBinder() {
         when(mUnbindableCollector.collect(any(Unbindable.class))).thenAnswer(answerWithFirstArgument());
+        when(mLifecycleBinderCollector.collect(any(IntentBind.class))).thenAnswer(answerWithFirstArgument());
         mBaindoBinder = new BaindoBinder(mBindableSource,
                                          mWorkDispatcher,
                                          mBinderDelegate,
                                          mUnbindableCollector,
-                                         mUnbindableCollectorProvider);
+                                         mUnbindableCollectorProvider,
+                                         mLifecycleBinderCollector);
     }
 
     private void whenIsChecked() {
@@ -185,6 +227,22 @@ public class BaindoBinderTest extends UnitTestSuite {
 
     private void whenSelectedIndex() {
         mViewToBindSelector = mBaindoBinder.selectedIndex();
+    }
+
+    private void whenIntentActionBind() {
+        mFinalBindTarget = mBaindoBinder.intentAction();
+    }
+
+    private void whenIntentDataBind() {
+        mFinalBindTarget = mBaindoBinder.intentData();
+    }
+
+    private void whenIntentTypeBind() {
+        mFinalBindTarget = mBaindoBinder.intentType();
+    }
+
+    private void whenIntentExtraBind() {
+        mFinalBindTarget = mBaindoBinder.intentExtraWithKey(SOME_KEY);
     }
 
     private void thenAnIsCheckedBindIsBuilt() {
@@ -235,6 +293,32 @@ public class BaindoBinderTest extends UnitTestSuite {
     private void thenASelectedIndexBindIsBuilt() {
         verifyViewToBindSelectorIsCollected();
         assertThat(mViewToBindSelector, instanceOf(SelectedIndexBind.class));
+    }
+
+    private void thenAnIntentActionBindIsBuilt() {
+        verifyFinalBindTargetIsCollected();
+        assertThat(mFinalBindTarget, instanceOf(IntentActionBind.class));
+    }
+
+    private void thenAnIntentDataBindIsBuilt() {
+        verifyFinalBindTargetIsCollected();
+        assertThat(mFinalBindTarget, instanceOf(IntentDataBind.class));
+    }
+
+    private void thenAnIntentTypeBindIsBuilt() {
+        verifyFinalBindTargetIsCollected();
+        assertThat(mFinalBindTarget, instanceOf(IntentTypeBind.class));
+    }
+
+    private void thenAnIntentExtraBindIsBuilt() {
+        verifyFinalBindTargetIsCollected();
+        assertThat(mFinalBindTarget, instanceOf(IntentExtraBind.class));
+    }
+
+    private void verifyFinalBindTargetIsCollected() {
+        if(mBindTarget instanceof Unbindable) {
+            verify(mUnbindableCollector).collect((Unbindable) mFinalBindTarget);
+        }
     }
 
     private void verifyBindTargetIsCollected() {
