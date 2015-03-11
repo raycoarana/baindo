@@ -39,6 +39,7 @@ public abstract class AbstractProperty<T> extends Observable {
      * by the update event that will be fired.
      */
     public void setValue(T newValue, Observer sender) {
+        mValue = newValue;
         this.onValueChanged(newValue);
 
         setChanged();

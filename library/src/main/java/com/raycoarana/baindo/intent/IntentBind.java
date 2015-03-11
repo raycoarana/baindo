@@ -26,6 +26,7 @@ public abstract class IntentBind<T> implements FinalBindTarget<AbstractProperty<
 
     protected final WorkDispatcher mWorkDispatcher;
     protected AbstractProperty<T> mTarget;
+    protected Intent mLastIntent;
 
     public IntentBind(WorkDispatcher workDispatcher) {
         mWorkDispatcher = workDispatcher;
@@ -34,9 +35,17 @@ public abstract class IntentBind<T> implements FinalBindTarget<AbstractProperty<
     @Override
     public void to(AbstractProperty<T> target) {
         mTarget = target;
+        if(mLastIntent != null) {
+            onNewIntent(mLastIntent);
+        }
     }
 
     public void onNewIntent(final Intent intent) {
+        if(mTarget == null) {
+            mLastIntent = intent;
+            return;
+        }
+
         mWorkDispatcher.doInBackgroundThread(new Runnable() {
             @Override
             public void run() {

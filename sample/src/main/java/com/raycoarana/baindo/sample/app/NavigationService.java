@@ -24,6 +24,8 @@ import com.raycoarana.baindo.sample.adapter.dynamicitems.view.DynamicItemsActivi
 import com.raycoarana.baindo.sample.adapter.staticitems.view.StaticItemsActivity;
 import com.raycoarana.baindo.sample.check.view.CheckActivity;
 import com.raycoarana.baindo.sample.click.view.ClickActivity;
+import com.raycoarana.baindo.sample.intent.view.IntentLauncherActivity;
+import com.raycoarana.baindo.sample.intent.view.IntentReceiverActivity;
 import com.raycoarana.baindo.sample.progress.view.ProgressActivity;
 import com.raycoarana.baindo.sample.text.view.TextActivity;
 import com.raycoarana.baindo.sample.uiaction.view.UIActionActivity;
@@ -78,6 +80,17 @@ public class NavigationService {
 
     public void navigateToDynamicItemsActivity() {
         startActivity(new Intent(mContext, DynamicItemsActivity.class));
+    }
+
+    public void navigateToIntentLauncherActivity() {
+        startActivity(new Intent(mContext, IntentLauncherActivity.class));
+    }
+
+    public void navigateToIntentReceiverActivity(String name, String age) {
+        Intent intent = new Intent(mContext, IntentReceiverActivity.class);
+        intent.putExtra(IntentReceiverActivity.EXTRA_NAME, name);
+        intent.putExtra(IntentReceiverActivity.EXTRA_AGE, age);
+        startActivity(intent);
     }
 
     private void startActivity(Intent intent) {

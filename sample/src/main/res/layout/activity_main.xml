@@ -40,5 +40,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Dynamic items adapter"/>
+    <Button
+        android:id="@+id/intent_sample"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Intent"/>
 
 </LinearLayout>

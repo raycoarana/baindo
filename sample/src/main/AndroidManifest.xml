@@ -21,6 +21,8 @@
         <activity android:name=".uiaction.view.UIActionActivity" />
         <activity android:name=".adapter.staticitems.view.StaticItemsActivity" />
         <activity android:name=".adapter.dynamicitems.view.DynamicItemsActivity" />
+        <activity android:name=".intent.view.IntentLauncherActivity" />
+        <activity android:name=".intent.view.IntentReceiverActivity" />
 
     </application>
 

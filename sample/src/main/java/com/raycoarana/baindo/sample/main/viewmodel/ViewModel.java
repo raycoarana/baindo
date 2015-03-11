@@ -72,4 +72,11 @@ public class ViewModel {
         }
     };
 
+    public Command OpenIntentSampleCommand = new Command() {
+        @Override
+        public void execute() {
+            mNavigationService.navigateToIntentLauncherActivity();
+        }
+    };
+
 }

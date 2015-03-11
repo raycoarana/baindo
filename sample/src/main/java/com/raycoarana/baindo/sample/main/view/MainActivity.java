@@ -42,6 +42,7 @@ public class MainActivity extends BaindoActivity {
         bind().click().of(R.id.uiaction_sample).to(mViewModel.OpenUIActionSampleCommand);
         bind().click().of(R.id.static_items_adapter_sample).to(mViewModel.OpenStaticItemsAdapterSampleCommand);
         bind().click().of(R.id.dynamic_items_adapter_sample).to(mViewModel.OpenDynamicItemsAdapterSampleCommand);
+        bind().click().of(R.id.intent_sample).to(mViewModel.OpenIntentSampleCommand);
     }
 
 }

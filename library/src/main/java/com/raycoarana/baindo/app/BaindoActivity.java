@@ -36,6 +36,7 @@ public class BaindoActivity extends Activity implements BindableSource {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mBinderDelegate = Baindo.buildBinderDelegate();
+        mBinderDelegate.onActivityCreate(getIntent(), savedInstanceState);
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
