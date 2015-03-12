@@ -16,11 +16,14 @@
 
 package com.raycoarana.baindo.state.saver;
 
+import android.annotation.TargetApi;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.SizeF;
 
 import com.raycoarana.baindo.state.ValueSaver;
 
+@TargetApi(Build.VERSION_CODES.LOLLIPOP)
 public class SizeFValueSaver implements ValueSaver<SizeF> {
 
     @Override

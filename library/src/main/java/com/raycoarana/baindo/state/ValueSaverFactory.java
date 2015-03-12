@@ -16,9 +16,9 @@
 
 package com.raycoarana.baindo.state;
 
+import android.annotation.TargetApi;
+import android.os.Build;
 import android.os.Parcelable;
-import android.util.Size;
-import android.util.SizeF;
 
 import com.raycoarana.baindo.state.saver.BooleanArrayValueSaver;
 import com.raycoarana.baindo.state.saver.BooleanValueSaver;
@@ -80,8 +80,16 @@ public class ValueSaverFactory {
         mTypeMap.put(CharSequence[].class, new CharSequenceArrayValueSaver());
         mTypeMap.put(Parcelable.class, new ParcelableValueSaver());
         mTypeMap.put(Parcelable[].class, new ParcelableArrayValueSaver());
-        mTypeMap.put(Size.class, new SizeValueSaver());
-        mTypeMap.put(SizeF.class, new SizeFValueSaver());
+
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            lollipop();
+        }
+    }
+
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    private void lollipop() {
+        mTypeMap.put(android.util.Size.class, new SizeValueSaver());
+        mTypeMap.put(android.util.SizeF.class, new SizeFValueSaver());
     }
 
     public synchronized static ValueSaverFactory getInstance() {
