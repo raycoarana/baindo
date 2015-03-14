@@ -20,6 +20,11 @@ import com.raycoarana.baindo.binding.BindToTarget;
 import com.raycoarana.baindo.binding.FinalBindTarget;
 import com.raycoarana.baindo.binding.UIAction;
 import com.raycoarana.baindo.binding.ViewToBindSelector;
+import com.raycoarana.baindo.events.OnDestroyEventBind;
+import com.raycoarana.baindo.events.OnPauseEventBind;
+import com.raycoarana.baindo.events.OnResumeEventBind;
+import com.raycoarana.baindo.events.OnStartEventBind;
+import com.raycoarana.baindo.events.OnStopEventBind;
 import com.raycoarana.baindo.intent.IntentActionBind;
 import com.raycoarana.baindo.intent.IntentDataBind;
 import com.raycoarana.baindo.intent.IntentExtraBind;
@@ -31,6 +36,7 @@ import com.raycoarana.baindo.properties.ClickToCommandBind;
 import com.raycoarana.baindo.properties.EnabledBind;
 import com.raycoarana.baindo.properties.InvisibilityBind;
 import com.raycoarana.baindo.properties.LongClickToCommandBind;
+import com.raycoarana.baindo.events.OnCreateEventBind;
 import com.raycoarana.baindo.properties.ProgressBind;
 import com.raycoarana.baindo.properties.SelectedIndexBind;
 import com.raycoarana.baindo.properties.TextBind;
@@ -198,6 +204,54 @@ class BaindoBinder implements Binder {
     @Override
     public <T> FinalBindTarget<AbstractProperty<T>> stateWithKey(String key) {
         return mLifecycleBinderCollector.collect(new StateBind<T>(mWorkDispatcher, key));
+    }
+
+    /**
+     * @see com.raycoarana.baindo.Binder#onCreate()
+     */
+    @Override
+    public FinalBindTarget<Command> onCreate() {
+        return mLifecycleBinderCollector.collect(new OnCreateEventBind(mWorkDispatcher));
+    }
+
+    /**
+     * @see com.raycoarana.baindo.Binder#onDestroy()
+     */
+    @Override
+    public FinalBindTarget<Command> onDestroy() {
+        return mLifecycleBinderCollector.collect(new OnDestroyEventBind(mWorkDispatcher));
+    }
+
+    /**
+     * @see com.raycoarana.baindo.Binder#onStart()
+     */
+    @Override
+    public FinalBindTarget<Command> onStart() {
+        return mLifecycleBinderCollector.collect(new OnStartEventBind(mWorkDispatcher));
+    }
+
+    /**
+     * @see com.raycoarana.baindo.Binder#onStop()
+     */
+    @Override
+    public FinalBindTarget<Command> onStop() {
+        return mLifecycleBinderCollector.collect(new OnStopEventBind(mWorkDispatcher));
+    }
+
+    /**
+     * @see com.raycoarana.baindo.Binder#onResume()
+     */
+    @Override
+    public FinalBindTarget<Command> onResume() {
+        return mLifecycleBinderCollector.collect(new OnResumeEventBind(mWorkDispatcher));
+    }
+
+    /**
+     * @see com.raycoarana.baindo.Binder#onPause()
+     */
+    @Override
+    public FinalBindTarget<Command> onPause() {
+        return mLifecycleBinderCollector.collect(new OnPauseEventBind(mWorkDispatcher));
     }
 
 }

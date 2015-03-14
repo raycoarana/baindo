@@ -113,4 +113,34 @@ public interface Binder {
      */
     <T> FinalBindTarget<AbstractProperty<T>> stateWithKey(String key);
 
+    /**
+     * Binds onCreate() as source of binding.
+     */
+    FinalBindTarget<Command> onCreate();
+
+    /**
+     * Binds onDestroy() as source of binding.
+     */
+    FinalBindTarget<Command> onDestroy();
+
+    /**
+     * Binds onStart() as source of binding.
+     */
+    FinalBindTarget<Command> onStart();
+
+    /**
+     * Binds onStop() as source of binding.
+     */
+    FinalBindTarget<Command> onStop();
+
+    /**
+     * Binds onResume() as source of binding.
+     */
+    FinalBindTarget<Command> onResume();
+
+    /**
+     * Binds onPause() as source of binding.
+     */
+    FinalBindTarget<Command> onPause();
+
 }

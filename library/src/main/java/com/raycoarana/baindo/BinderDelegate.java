@@ -69,6 +69,22 @@ public class BinderDelegate {
         return mBaindoBinderFactory.build(bindableSource, mWorkDispatcher, this, unbindableCollector, mLifecycleBinderCollector);
     }
 
+    public void onResume() {
+        mLifecycleBinderCollector.onResume();
+    }
+
+    public void onPause() {
+        mLifecycleBinderCollector.onPause();
+    }
+
+    public void onStart() {
+        mLifecycleBinderCollector.onStart();
+    }
+
+    public void onStop() {
+        mLifecycleBinderCollector.onStop();
+    }
+
     /**
      * Unbinds all binds created by this delegate and exits the background thread that processes
      * all event notifications to the ViewModel.
@@ -76,6 +92,7 @@ public class BinderDelegate {
      * Call this method in the onDestroy() method of your Activity/Fragment.
      */
     public void onDestroy() {
+        mLifecycleBinderCollector.onDestroy();
         unbind();
         mWorkDispatcher.onDestroy();
     }
@@ -93,6 +110,7 @@ public class BinderDelegate {
     public void onActivityCreate(Intent intent, Bundle savedInstanceState) {
         mLifecycleBinderCollector.updateIntent(intent);
         mLifecycleBinderCollector.updateSavedInstanceState(savedInstanceState);
+        mLifecycleBinderCollector.onCreate();
     }
 
     /**
@@ -114,6 +132,7 @@ public class BinderDelegate {
      */
     public void onFragmentCreate(Bundle savedInstanceState) {
         mLifecycleBinderCollector.updateSavedInstanceState(savedInstanceState);
+        mLifecycleBinderCollector.onCreate();
     }
 
     /**

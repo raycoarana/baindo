@@ -78,7 +78,6 @@ public class BaindoWorkDispatcher implements WorkDispatcher {
         mBackgroundHandler.getLooper().quit();
     }
 
-
     /**
      * Executes a loop that process all notifications sent to the ViewModel.
      */

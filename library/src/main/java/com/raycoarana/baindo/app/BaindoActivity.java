@@ -62,25 +62,25 @@ public class BaindoActivity extends Activity implements BindableSource {
     @Override
     protected void onResume() {
         super.onResume();
-        //mBinderDelegate.onResume();
+        mBinderDelegate.onResume();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        //mBinderDelegate.onPause();
+        mBinderDelegate.onPause();
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        //mBinderDelegate.onStart();
+        mBinderDelegate.onStart();
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        //mBinderDelegate.onStop();
+        mBinderDelegate.onStop();
     }
 
     /**

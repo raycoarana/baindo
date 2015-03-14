@@ -51,6 +51,30 @@ public class BaindoListFragment extends ListFragment implements BindableSource {
         mBinderDelegate.onFragmentAttach(activity.getIntent());
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        mBinderDelegate.onResume();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        mBinderDelegate.onPause();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        mBinderDelegate.onStart();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        mBinderDelegate.onStop();
+    }
+
     /**
      * Creates and returns a new Binder ready to bind a view property with a ViewModel property.
      */
