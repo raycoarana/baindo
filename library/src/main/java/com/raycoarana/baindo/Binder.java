@@ -58,6 +58,11 @@ public interface Binder {
     ViewToBindSelector<Void, Command> click();
 
     /**
+     * Selects the OnLongClickListener event as the source of the binding
+     */
+    ViewToBindSelector<Void, Command> longClick();
+
+    /**
      * Selects the Progress property as the source of the binding
      */
     ViewToBindSelector<Integer, AbstractProperty<Integer>> progress();

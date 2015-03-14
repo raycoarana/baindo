@@ -1,17 +1,18 @@
 /*
  * Copyright 2015 Rayco Araña
  *
- *     Licensed under the Apache License, Version 2.0 (the "License");
- *     you may not use this file except in compliance with the License.
- *     You may obtain a copy of the License at
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *  http://www.apache.org/licenses/LICENSE-2.0
  *
- *     Unless required by applicable law or agreed to in writing, software
- *     distributed under the License is distributed on an "AS IS" BASIS,
- *     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *     See the License for the specific language governing permissions and
- *     limitations under the License.
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
  */
 
 package com.raycoarana.baindo.properties;
@@ -29,9 +30,10 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.Mock;
 
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.verify;
 
-public class CommandBindTest extends UnitTestSuite {
+public class LongClickToCommandBindTest extends UnitTestSuite {
 
     @Mock
     private WorkDispatcher mWorkDispatcher;
@@ -46,21 +48,21 @@ public class CommandBindTest extends UnitTestSuite {
     private Command mCommand;
 
     @Captor
-    private ArgumentCaptor<View.OnClickListener> onClickListenerArgumentCaptor;
+    private ArgumentCaptor<View.OnLongClickListener> onLongClickListenerArgumentCaptor;
 
-    private CommandBind mBind;
+    private LongClickToCommandBind mBind;
 
     @Test
-    public void shouldExecuteCommandWhenViewClicked() {
-        givenACommandBind();
+    public void shouldExecuteCommandWhenViewIsLongClicked() {
+        givenAClickToCommandBind();
         givenThatCommandIsBindedToView();
-        whenViewIsClicked();
+        whenViewIsLongClicked();
         thenCommandIsExecuted();
     }
 
     @Test
     public void shouldUnbindView() {
-        givenACommandBind();
+        givenAClickToCommandBind();
         givenThatCommandIsBindedToView();
         whenUnbind();
         thenViewIsUnbind();
@@ -68,25 +70,25 @@ public class CommandBindTest extends UnitTestSuite {
 
     @Test(expected = IllegalStateException.class)
     public void shouldFailWhenTryingToSetADirectionOfBindingReadOnly() {
-        givenACommandBind();
+        givenAClickToCommandBind();
         givenThatCommandIsBindedToViewReadOnly();
     }
 
     @Test(expected = IllegalStateException.class)
     public void shouldFailWhenTryingToSetADirectionOfBindingWriteOnly() {
-        givenACommandBind();
+        givenAClickToCommandBind();
         givenThatCommandIsBindedToViewWriteOnly();
     }
 
     @Test(expected = IllegalStateException.class)
     public void shouldFailWhenTryingToSetADirectionOfBindingReadWrite() {
-        givenACommandBind();
+        givenAClickToCommandBind();
         givenThatCommandIsBindedToViewReadWrite();
     }
 
-    protected void givenACommandBind() {
+    protected void givenAClickToCommandBind() {
         WorkDispatcherHelper.setup(mWorkDispatcher);
-        mBind =  new CommandBind(mBindableSource, mWorkDispatcher);
+        mBind =  new LongClickToCommandBind(mBindableSource, mWorkDispatcher);
     }
 
     private void givenThatCommandIsBindedToView() {
@@ -105,9 +107,9 @@ public class CommandBindTest extends UnitTestSuite {
         mBind.of(mView).to(mCommand).readWrite();
     }
 
-    private void whenViewIsClicked() {
-        verify(mView).setOnClickListener(onClickListenerArgumentCaptor.capture());
-        onClickListenerArgumentCaptor.getValue().onClick(mView);
+    private void whenViewIsLongClicked() {
+        verify(mView).setOnLongClickListener(onLongClickListenerArgumentCaptor.capture());
+        assertTrue(onLongClickListenerArgumentCaptor.getValue().onLongClick(mView));
     }
 
     private void thenCommandIsExecuted() {
@@ -119,7 +121,7 @@ public class CommandBindTest extends UnitTestSuite {
     }
 
     private void thenViewIsUnbind() {
-        verify(mView).setOnClickListener(null);
+        verify(mView).setOnLongClickListener(null);
     }
 
 }

@@ -35,8 +35,9 @@ public class ClickActivity extends BaindoActivity {
     }
 
     private void bindViews() {
-        bind().text().of(R.id.message).to(mViewModel.Message).readOnly();
+        bind().<String>text().of(R.id.message).to(mViewModel.Message).readOnly();
         bind().click().of(R.id.button).to(mViewModel.SayHelloCommand);
+        bind().longClick().of(R.id.button).to(mViewModel.SayGoodByeCommand);
     }
 
 }

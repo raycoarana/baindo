@@ -27,9 +27,10 @@ import com.raycoarana.baindo.intent.IntentTypeBind;
 import com.raycoarana.baindo.observables.AbstractCollectionProperty;
 import com.raycoarana.baindo.observables.AbstractProperty;
 import com.raycoarana.baindo.properties.CheckedBind;
-import com.raycoarana.baindo.properties.CommandBind;
+import com.raycoarana.baindo.properties.ClickToCommandBind;
 import com.raycoarana.baindo.properties.EnabledBind;
 import com.raycoarana.baindo.properties.InvisibilityBind;
+import com.raycoarana.baindo.properties.LongClickToCommandBind;
 import com.raycoarana.baindo.properties.ProgressBind;
 import com.raycoarana.baindo.properties.SelectedIndexBind;
 import com.raycoarana.baindo.properties.TextBind;
@@ -103,7 +104,15 @@ class BaindoBinder implements Binder {
      */
     @Override
     public ViewToBindSelector<Void, Command> click() {
-        return mParentUnbindableCollector.collect(new CommandBind(mBindableSource, mWorkDispatcher));
+        return mParentUnbindableCollector.collect(new ClickToCommandBind(mBindableSource, mWorkDispatcher));
+    }
+
+    /**
+     * @see com.raycoarana.baindo.Binder#longClick()
+     */
+    @Override
+    public ViewToBindSelector<Void, Command> longClick() {
+        return mParentUnbindableCollector.collect(new LongClickToCommandBind(mBindableSource, mWorkDispatcher));
     }
 
     /**

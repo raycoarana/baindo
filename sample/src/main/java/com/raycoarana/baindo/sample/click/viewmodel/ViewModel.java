@@ -24,7 +24,7 @@ import com.raycoarana.baindo.viewmodel.Command;
  */
 public class ViewModel {
 
-    public final Property<CharSequence> Message = new Property<>();
+    public final Property<String> Message = new Property<>();
 
     public final Command SayHelloCommand = new Command() {
         @Override
@@ -33,4 +33,10 @@ public class ViewModel {
         }
     };
 
+    public final Command SayGoodByeCommand = new Command() {
+        @Override
+        public void execute() {
+            Message.setValue("GoodBye!");
+        }
+    };
 }

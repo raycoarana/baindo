@@ -26,9 +26,10 @@ import com.raycoarana.baindo.intent.IntentDataBind;
 import com.raycoarana.baindo.intent.IntentExtraBind;
 import com.raycoarana.baindo.intent.IntentTypeBind;
 import com.raycoarana.baindo.properties.CheckedBind;
-import com.raycoarana.baindo.properties.CommandBind;
+import com.raycoarana.baindo.properties.ClickToCommandBind;
 import com.raycoarana.baindo.properties.EnabledBind;
 import com.raycoarana.baindo.properties.InvisibilityBind;
+import com.raycoarana.baindo.properties.LongClickToCommandBind;
 import com.raycoarana.baindo.properties.ProgressBind;
 import com.raycoarana.baindo.properties.SelectedIndexBind;
 import com.raycoarana.baindo.properties.TextBind;
@@ -111,6 +112,13 @@ public class BaindoBinderTest extends UnitTestSuite {
         givenABaindoBinder();
         whenClick();
         thenAClickBindIsBuilt();
+    }
+
+    @Test
+    public void shouldBuildALongClickBind() {
+        givenABaindoBinder();
+        whenLongClick();
+        thenALongClickBindIsBuilt();
     }
 
     @Test
@@ -207,6 +215,10 @@ public class BaindoBinderTest extends UnitTestSuite {
         mViewToBindSelector = mBaindoBinder.click();
     }
 
+    private void whenLongClick() {
+        mViewToBindSelector = mBaindoBinder.longClick();
+    }
+
     private void whenProgress() {
         mViewToBindSelector = mBaindoBinder.progress();
     }
@@ -267,7 +279,12 @@ public class BaindoBinderTest extends UnitTestSuite {
 
     private void thenAClickBindIsBuilt() {
         verifyViewToBindSelectorIsCollected();
-        assertThat(mViewToBindSelector, instanceOf(CommandBind.class));
+        assertThat(mViewToBindSelector, instanceOf(ClickToCommandBind.class));
+    }
+
+    private void thenALongClickBindIsBuilt() {
+        verifyViewToBindSelectorIsCollected();
+        assertThat(mViewToBindSelector, instanceOf(LongClickToCommandBind.class));
     }
 
     private void thenAProgressBindIsBuilt() {
