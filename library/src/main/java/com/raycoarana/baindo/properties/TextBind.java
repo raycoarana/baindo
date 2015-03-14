@@ -24,7 +24,7 @@ import com.raycoarana.baindo.BindableSource;
 import com.raycoarana.baindo.WorkDispatcher;
 import com.raycoarana.baindo.observables.AbstractProperty;
 
-public class TextBind extends BaseObservableBind<AbstractProperty<CharSequence>> implements TextWatcher {
+public class TextBind<T extends CharSequence> extends BaseObservableBind<CharSequence, AbstractProperty<T>> implements TextWatcher {
 
     public TextBind(BindableSource bindableSource, WorkDispatcher workDispatcher) {
         super(bindableSource, workDispatcher);
@@ -45,7 +45,14 @@ public class TextBind extends BaseObservableBind<AbstractProperty<CharSequence>>
             public void run() {
                 synchronized (this) {
                     if (state == State.BINDED) {
-                        mTarget.setValue(editable.toString(), TextBind.this);
+                        T newValue;
+                        try {
+                            //noinspection unchecked
+                            newValue = (T) editable.toString();
+                        } catch (ClassCastException ex) {
+                            throw new IllegalStateException("Text binding with direction write or read/write only supports String or CharSequence properties");
+                        }
+                        mTarget.setValue(newValue, TextBind.this);
                     }
                 }
             }

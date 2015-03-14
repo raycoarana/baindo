@@ -75,7 +75,7 @@ public class CheckedBindTest extends AbstractObservableBindTest<Boolean> {
     }
 
     @Override
-    protected BaseObservableBind<AbstractProperty<Boolean>> getBind() {
+    protected BaseObservableBind<Boolean, AbstractProperty<Boolean>> getBind() {
         return new CheckedBind(mBindableSource, mWorkDispatcher);
     }
 

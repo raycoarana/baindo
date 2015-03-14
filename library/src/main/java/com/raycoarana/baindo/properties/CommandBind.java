@@ -25,7 +25,7 @@ import com.raycoarana.baindo.viewmodel.Command;
 /**
  * Binds/unbind a Command to a view's OnClickListener event.
  */
-public class CommandBind extends BaseBind<Command> {
+public class CommandBind extends BaseBind<Void, Command> {
 
     public CommandBind(BindableSource bindableSource, WorkDispatcher workDispatcher) {
         super(bindableSource, workDispatcher, FINAL_BIND_LEVEL);

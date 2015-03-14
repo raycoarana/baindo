@@ -17,6 +17,7 @@
 package com.raycoarana.baindo.sample.intent.view;
 
 import android.os.Bundle;
+import android.text.SpannableString;
 
 import com.raycoarana.baindo.app.BaindoActivity;
 import com.raycoarana.baindo.sample.R;
@@ -34,13 +35,23 @@ public class IntentReceiverActivity extends BaindoActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_intent_receiver);
 
+        bindIntent();
         bindViews();
     }
 
-    private void bindViews() {
+    private void bindIntent() {
         bind().<String>intentExtraWithKey(EXTRA_NAME).to(mViewModel.Name);
-        bind().<String>intentExtraWithKey(EXTRA_AGE).to(mViewModel.Age);
-        bind().text().of(R.id.hello).to(mViewModel.HelloMessage).readOnly();
+        bind().<Integer>intentExtraWithKey(EXTRA_AGE).to(mViewModel.Age);
+        bind().intentAction().to(mViewModel.Action);
+        bind().intentData().to(mViewModel.Data);
+        bind().intentType().to(mViewModel.Type);
+    }
+
+    private void bindViews() {
+        bind().<String>text().of(R.id.hello).to(mViewModel.HelloMessage).readOnly();
+        bind().<String>text().of(R.id.action).to(mViewModel.Action).readOnly();
+        bind().<String>text().of(R.id.data).to(mViewModel.Data).readOnly();
+        bind().<String>text().of(R.id.type).to(mViewModel.Type).readOnly();
     }
 
 }

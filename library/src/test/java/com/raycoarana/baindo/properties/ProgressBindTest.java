@@ -66,7 +66,7 @@ public class ProgressBindTest extends AbstractObservableBindTest<Integer> {
     }
 
     @Override
-    protected BaseObservableBind<AbstractProperty<Integer>> getBind() {
+    protected BaseObservableBind<Integer, AbstractProperty<Integer>> getBind() {
         return new ProgressBind(mBindableSource, mWorkDispatcher);
     }
 

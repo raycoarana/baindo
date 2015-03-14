@@ -18,7 +18,7 @@ package com.raycoarana.baindo.observables;
 
 import java.util.Observer;
 
-public abstract class AbstractProperty<T> extends Observable {
+public abstract class AbstractProperty<T> extends Observable<T> {
 
     protected T mValue;
 

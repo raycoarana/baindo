@@ -23,13 +23,14 @@ import com.raycoarana.baindo.BindableSource;
 import com.raycoarana.baindo.Unbindable;
 import com.raycoarana.baindo.WorkDispatcher;
 import com.raycoarana.baindo.binding.BindLevel;
-import com.raycoarana.baindo.binding.BindTarget;
+import com.raycoarana.baindo.binding.BindToTarget;
 import com.raycoarana.baindo.binding.ViewToBindSelector;
+import com.raycoarana.baindo.observables.BindableTarget;
 
 /**
  * Base class to create bind between a view property and a Command/Property of a ViewModel.
  */
-public abstract class BaseBind<T> implements ViewToBindSelector<T>, BindTarget<T>, Unbindable, BindLevel {
+public abstract class BaseBind<Type, Property> implements ViewToBindSelector<Type, Property>, BindToTarget<Type, Property>, Unbindable, BindLevel {
 
     protected enum State { BINDED, UNBINDED }
 
@@ -37,7 +38,7 @@ public abstract class BaseBind<T> implements ViewToBindSelector<T>, BindTarget<T
     private WorkDispatcher mWorkDispatcher;
     private BindLevel mBindLevel;
     protected View mView;
-    protected T mTarget;
+    protected Property mTarget;
     protected BindWay mBindWay = BindWay.READ_WRITE;
     protected State state;
 
@@ -56,7 +57,7 @@ public abstract class BaseBind<T> implements ViewToBindSelector<T>, BindTarget<T
      * @see com.raycoarana.baindo.binding.ViewToBindSelector#of(int)
      */
     @Override
-    public BindTarget<T> of(int viewId) {
+    public BindToTarget<Type, Property> of(int viewId) {
         mView = mBindableSource.findViewById(viewId);
         return this;
     }
@@ -65,7 +66,7 @@ public abstract class BaseBind<T> implements ViewToBindSelector<T>, BindTarget<T
      * @see com.raycoarana.baindo.binding.ViewToBindSelector#of(android.view.View)
      */
     @Override
-    public BindTarget<T> of(View view) {
+    public BindToTarget<Type, Property> of(View view) {
         mView = view;
         return this;
     }
@@ -74,15 +75,15 @@ public abstract class BaseBind<T> implements ViewToBindSelector<T>, BindTarget<T
      * @see com.raycoarana.baindo.binding.ViewToBindSelector#of(android.view.MenuItem)
      */
     @Override
-    public BindTarget<T> of(MenuItem menuItem) {
+    public BindToTarget<Type, Property> of(MenuItem menuItem) {
         throw new RuntimeException("Can't use this binder with a menu item");
     }
 
     /**
-     * @see com.raycoarana.baindo.binding.BindTarget#to(Object)
+     * @see BindToTarget#to(BindableTarget)
      */
     @Override
-    public BindLevel to(T target) {
+    public BindLevel to(Property target) {
         mTarget = target;
         if(mBindLevel == FINAL_BIND_LEVEL) {
             bind();

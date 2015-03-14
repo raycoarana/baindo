@@ -24,7 +24,7 @@ import org.junit.Test;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 
-public abstract class AbstractObservableBindTest<T> extends AbstractBindTest<T, BaseObservableBind<AbstractProperty<T>>> {
+public abstract class AbstractObservableBindTest<T> extends AbstractBindTest<T, BaseObservableBind<T, AbstractProperty<T>>> {
 
     public AbstractObservableBindTest(T defaultValue, T newValue, boolean writeSupported) {
         super(defaultValue, newValue, writeSupported);

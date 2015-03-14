@@ -48,7 +48,7 @@ public class UIActionBindTest extends UnitTestSuite {
     @Captor
     private ArgumentCaptor<Observer> mObserverArgumentCaptor;
 
-    private UIActionBind<Object> mUIActionBind;
+    private UIActionBind<Object, Object> mUIActionBind;
 
     @Test
     public void shouldExecuteUIActionWhenPropertyChanges() {

@@ -16,13 +16,12 @@
 
 package com.raycoarana.baindo;
 
-import com.raycoarana.baindo.binding.BindTarget;
+import com.raycoarana.baindo.binding.BindToTarget;
 import com.raycoarana.baindo.binding.FinalBindTarget;
 import com.raycoarana.baindo.binding.UIAction;
 import com.raycoarana.baindo.binding.ViewToBindSelector;
 import com.raycoarana.baindo.observables.AbstractProperty;
 import com.raycoarana.baindo.observables.AbstractCollectionProperty;
-import com.raycoarana.baindo.observables.Property;
 import com.raycoarana.baindo.renderer.AdapterFactory;
 import com.raycoarana.baindo.viewmodel.Command;
 
@@ -34,55 +33,55 @@ public interface Binder {
     /**
      * Selects the IsChecked property as the source of the binding
      */
-    ViewToBindSelector<AbstractProperty<Boolean>> isChecked();
+    ViewToBindSelector<Boolean, AbstractProperty<Boolean>> isChecked();
 
     /**
      * Selects the Enable property as the source of the binding
      */
-    ViewToBindSelector<AbstractProperty<Boolean>> enabled();
+    ViewToBindSelector<Boolean, AbstractProperty<Boolean>> enabled();
 
     /**
      * Selects the Visibility property as the source of the binding
      */
-    ViewToBindSelector<AbstractProperty<Boolean>> visibility();
+    ViewToBindSelector<Boolean, AbstractProperty<Boolean>> visibility();
 
     /**
      * Selects the Visibility property as the source of the binging, but mapping it in the
      * opposite way of what visibility do. True value will make the view to be gone, False value
      * will make the view to be shown.
      */
-    ViewToBindSelector<AbstractProperty<Boolean>> invisibility();
+    ViewToBindSelector<Boolean, AbstractProperty<Boolean>> invisibility();
 
     /**
      * Selects the OnClickListener event as the source of the binding
      */
-    ViewToBindSelector<Command> click();
+    ViewToBindSelector<Void, Command> click();
 
     /**
      * Selects the Progress property as the source of the binding
      */
-    ViewToBindSelector<AbstractProperty<Integer>> progress();
+    ViewToBindSelector<Integer, AbstractProperty<Integer>> progress();
 
     /**
      * Selects the Text property as the source of the binding
      */
-    ViewToBindSelector<AbstractProperty<CharSequence>> text();
+    <T extends CharSequence> ViewToBindSelector<CharSequence, AbstractProperty<T>> text();
 
     /**
      * Selects an UI Action as the source of the binding. I will be executed every time the
      * property is changed.
      */
-    <T> BindTarget<AbstractProperty<T>> uiAction(UIAction<T> uiAction);
+    <T extends U, U> BindToTarget<U, AbstractProperty<T>> uiAction(UIAction<T> uiAction);
 
     /**
      * Prepares an adapter's binding with its factory
      */
-    <T> ViewToBindSelector<AbstractCollectionProperty<T>> adapterWithFactory(AdapterFactory<T> adapterFactory);
+    <T> ViewToBindSelector<T, AbstractCollectionProperty<T>> adapterWithFactory(AdapterFactory<T> adapterFactory);
 
     /**
      * Selects the Selected item index property of an AdapterView
      */
-    ViewToBindSelector<AbstractProperty<Integer>> selectedIndex();
+    ViewToBindSelector<Integer, AbstractProperty<Integer>> selectedIndex();
 
     /**
      * Selects the current Intent action as source of the binding.

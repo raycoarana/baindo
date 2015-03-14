@@ -38,7 +38,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-public abstract class AbstractBindTest<T, Bind extends BaseBind<AbstractProperty<T>>> extends UnitTestSuite {
+public abstract class AbstractBindTest<T, Bind extends BaseBind<T, AbstractProperty<T>>> extends UnitTestSuite {
 
     protected final T mDefaultValue;
     protected final T mNewValue;

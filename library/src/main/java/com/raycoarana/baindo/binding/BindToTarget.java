@@ -19,11 +19,11 @@ package com.raycoarana.baindo.binding;
 /**
  * Selects the destination of the bind at the ViewModel
  */
-public interface BindTarget<T> {
+public interface BindToTarget<Type, Property> {
 
     /**
      * Selects the destination as a Command or Property at the ViewModel
      */
-    BindLevel to(T target);
+    BindLevel to(Property target);
 
 }

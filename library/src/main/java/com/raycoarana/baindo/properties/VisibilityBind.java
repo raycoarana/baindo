@@ -22,7 +22,7 @@ import com.raycoarana.baindo.BindableSource;
 import com.raycoarana.baindo.WorkDispatcher;
 import com.raycoarana.baindo.observables.AbstractProperty;
 
-public class VisibilityBind extends BaseObservableBind<AbstractProperty<Boolean>> {
+public class VisibilityBind extends BaseObservableBind<Boolean, AbstractProperty<Boolean>> {
 
     public VisibilityBind(BindableSource bindableSource, WorkDispatcher workDispatcher) {
         super(bindableSource, workDispatcher);

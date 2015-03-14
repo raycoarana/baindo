@@ -16,6 +16,8 @@
 
 package com.raycoarana.baindo.viewmodel;
 
+import com.raycoarana.baindo.observables.BindableTarget;
+
 /**
  * Execute an action in response to an user action
  */

@@ -23,7 +23,7 @@ import com.raycoarana.baindo.BindableSource;
 import com.raycoarana.baindo.WorkDispatcher;
 import com.raycoarana.baindo.observables.AbstractProperty;
 
-public class ProgressBind extends BaseObservableBind<AbstractProperty<Integer>> implements SeekBar.OnSeekBarChangeListener {
+public class ProgressBind extends BaseObservableBind<Integer, AbstractProperty<Integer>> implements SeekBar.OnSeekBarChangeListener {
 
     public ProgressBind(BindableSource bindableSource, WorkDispatcher workDispatcher) {
         super(bindableSource, workDispatcher);

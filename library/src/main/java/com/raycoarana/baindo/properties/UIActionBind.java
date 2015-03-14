@@ -20,7 +20,7 @@ import com.raycoarana.baindo.WorkDispatcher;
 import com.raycoarana.baindo.binding.UIAction;
 import com.raycoarana.baindo.observables.AbstractProperty;
 
-public class UIActionBind<T> extends BaseObservableBind<AbstractProperty<T>> {
+public class UIActionBind<T extends U, U> extends BaseObservableBind<U, AbstractProperty<T>> {
 
     private final UIAction<T> mUIAction;
 

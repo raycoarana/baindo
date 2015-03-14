@@ -44,8 +44,8 @@ public class TextBindTest extends AbstractObservableBindTest<CharSequence> {
     }
 
     @Override
-    protected BaseObservableBind<AbstractProperty<CharSequence>> getBind() {
-        return new TextBind(mBindableSource, mWorkDispatcher);
+    protected BaseObservableBind<CharSequence, AbstractProperty<CharSequence>> getBind() {
+        return new TextBind<>(mBindableSource, mWorkDispatcher);
     }
 
     @Override

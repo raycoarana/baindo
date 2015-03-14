@@ -19,6 +19,7 @@ package com.raycoarana.baindo.sample.app;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 
 import com.raycoarana.baindo.sample.adapter.dynamicitems.view.DynamicItemsActivity;
 import com.raycoarana.baindo.sample.adapter.staticitems.view.StaticItemsActivity;
@@ -86,8 +87,10 @@ public class NavigationService {
         startActivity(new Intent(mContext, IntentLauncherActivity.class));
     }
 
-    public void navigateToIntentReceiverActivity(String name, String age) {
+    public void navigateToIntentReceiverActivity(String name, Integer age) {
         Intent intent = new Intent(mContext, IntentReceiverActivity.class);
+        intent.setAction(Intent.ACTION_EDIT);
+        intent.setDataAndType(Uri.parse("content://people/you"), "type/people");
         intent.putExtra(IntentReceiverActivity.EXTRA_NAME, name);
         intent.putExtra(IntentReceiverActivity.EXTRA_AGE, age);
         startActivity(intent);

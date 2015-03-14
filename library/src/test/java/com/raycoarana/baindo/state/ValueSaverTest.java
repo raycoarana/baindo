@@ -22,18 +22,39 @@ import android.os.Bundle;
 import android.util.Size;
 import android.util.SizeF;
 
+import com.raycoarana.baindo.AndroidUnitTestHelper;
 import com.raycoarana.baindo.test.UnitTestSuite;
 
+import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.powermock.api.mockito.PowerMockito;
+import org.powermock.core.classloader.annotations.PrepareForTest;
+import org.powermock.core.classloader.annotations.SuppressStaticInitializationFor;
+import org.powermock.modules.junit4.PowerMockRunner;
+import org.powermock.reflect.Whitebox;
+
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 
 import static org.mockito.Mockito.verify;
 import static org.powermock.api.mockito.PowerMockito.mock;
 
+@RunWith(PowerMockRunner.class)
+@SuppressStaticInitializationFor("android.os.Build.VERSION")
+@PrepareForTest({Build.VERSION.class})
 public class ValueSaverTest extends UnitTestSuite {
 
     private static final String SOME_KEY = "some_key";
 
-    private ValueSaverFactory mValueSaverFactory = ValueSaverFactory.getInstance();
+    private ValueSaverFactory mValueSaverFactory;
+
+    @Before
+    public void setUp() {
+        AndroidUnitTestHelper.mockSDKAsLollipop();
+
+        mValueSaverFactory = ValueSaverFactory.getInstance();
+    }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Test

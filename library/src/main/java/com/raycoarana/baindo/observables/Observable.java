@@ -32,7 +32,7 @@ import java.util.Observer;
  *
  * @see java.util.Observer
  */
-public class Observable extends java.util.Observable {
+public class Observable<T> extends java.util.Observable {
 
     List<Observer> observers = new ArrayList<>();
 

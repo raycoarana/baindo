@@ -23,7 +23,7 @@ import com.raycoarana.baindo.BindableSource;
 import com.raycoarana.baindo.WorkDispatcher;
 import com.raycoarana.baindo.observables.AbstractProperty;
 
-public class CheckedBind extends BaseObservableBind<AbstractProperty<Boolean>> implements CompoundButton.OnCheckedChangeListener {
+public class CheckedBind extends BaseObservableBind<Boolean, AbstractProperty<Boolean>> implements CompoundButton.OnCheckedChangeListener {
 
     public CheckedBind(BindableSource bindableSource, WorkDispatcher workDispatcher) {
         super(bindableSource, workDispatcher);

@@ -16,7 +16,7 @@
 
 package com.raycoarana.baindo;
 
-import com.raycoarana.baindo.binding.BindTarget;
+import com.raycoarana.baindo.binding.BindToTarget;
 import com.raycoarana.baindo.binding.FinalBindTarget;
 import com.raycoarana.baindo.binding.UIAction;
 import com.raycoarana.baindo.binding.ViewToBindSelector;
@@ -70,7 +70,7 @@ class BaindoBinder implements Binder {
      * @see com.raycoarana.baindo.Binder#isChecked()
      */
     @Override
-    public ViewToBindSelector<AbstractProperty<Boolean>> isChecked() {
+    public ViewToBindSelector<Boolean, AbstractProperty<Boolean>> isChecked() {
         return mParentUnbindableCollector.collect(new CheckedBind(mBindableSource, mWorkDispatcher));
     }
 
@@ -78,7 +78,7 @@ class BaindoBinder implements Binder {
      * @see com.raycoarana.baindo.Binder#enabled()
      */
     @Override
-    public ViewToBindSelector<AbstractProperty<Boolean>> enabled() {
+    public ViewToBindSelector<Boolean, AbstractProperty<Boolean>> enabled() {
         return mParentUnbindableCollector.collect(new EnabledBind(mBindableSource, mWorkDispatcher));
     }
 
@@ -86,7 +86,7 @@ class BaindoBinder implements Binder {
      * @see com.raycoarana.baindo.Binder#visibility()
      */
     @Override
-    public ViewToBindSelector<AbstractProperty<Boolean>> visibility() {
+    public ViewToBindSelector<Boolean, AbstractProperty<Boolean>> visibility() {
         return mParentUnbindableCollector.collect(new VisibilityBind(mBindableSource, mWorkDispatcher));
     }
 
@@ -94,7 +94,7 @@ class BaindoBinder implements Binder {
      * @see com.raycoarana.baindo.Binder#invisibility()
      */
     @Override
-    public ViewToBindSelector<AbstractProperty<Boolean>> invisibility() {
+    public ViewToBindSelector<Boolean, AbstractProperty<Boolean>> invisibility() {
         return mParentUnbindableCollector.collect(new InvisibilityBind(mBindableSource, mWorkDispatcher));
     }
 
@@ -102,7 +102,7 @@ class BaindoBinder implements Binder {
      * @see com.raycoarana.baindo.Binder#click()
      */
     @Override
-    public ViewToBindSelector<Command> click() {
+    public ViewToBindSelector<Void, Command> click() {
         return mParentUnbindableCollector.collect(new CommandBind(mBindableSource, mWorkDispatcher));
     }
 
@@ -110,7 +110,7 @@ class BaindoBinder implements Binder {
      * @see com.raycoarana.baindo.Binder#progress()
      */
     @Override
-    public ViewToBindSelector<AbstractProperty<Integer>> progress() {
+    public ViewToBindSelector<Integer, AbstractProperty<Integer>> progress() {
         return mParentUnbindableCollector.collect(new ProgressBind(mBindableSource, mWorkDispatcher));
     }
 
@@ -118,23 +118,24 @@ class BaindoBinder implements Binder {
      * @see com.raycoarana.baindo.Binder#text()
      */
     @Override
-    public ViewToBindSelector<AbstractProperty<CharSequence>> text() {
-        return mParentUnbindableCollector.collect(new TextBind(mBindableSource, mWorkDispatcher));
+    public <T extends CharSequence> ViewToBindSelector<CharSequence, AbstractProperty<T>> text() {
+        return mParentUnbindableCollector.collect(new TextBind<T>(mBindableSource, mWorkDispatcher));
     }
 
     /**
      * @see com.raycoarana.baindo.Binder#uiAction(com.raycoarana.baindo.binding.UIAction)
      */
     @Override
-    public <T> BindTarget<AbstractProperty<T>> uiAction(UIAction<T> uiAction) {
-        return mParentUnbindableCollector.collect(new UIActionBind<>(uiAction, mWorkDispatcher));
+    public <T extends U, U> BindToTarget<U, AbstractProperty<T>> uiAction(UIAction<T> uiAction) {
+        UIActionBind<T, U> uiActionBind = new UIActionBind<>(uiAction, mWorkDispatcher);
+        return mParentUnbindableCollector.collect(uiActionBind);
     }
 
     /**
      * @see com.raycoarana.baindo.Binder#adapterWithFactory(com.raycoarana.baindo.renderer.AdapterFactory)
      */
     @Override
-    public <T> ViewToBindSelector<AbstractCollectionProperty<T>> adapterWithFactory(AdapterFactory<T> adapterFactory) {
+    public <T> ViewToBindSelector<T, AbstractCollectionProperty<T>> adapterWithFactory(AdapterFactory<T> adapterFactory) {
         return mParentUnbindableCollector.collect(new AdapterBind<>(mBindableSource,
                                                               mWorkDispatcher,
                                                               mBinderDelegate,
@@ -146,7 +147,7 @@ class BaindoBinder implements Binder {
      * @see com.raycoarana.baindo.Binder#selectedIndex()
      */
     @Override
-    public ViewToBindSelector<AbstractProperty<Integer>> selectedIndex() {
+    public ViewToBindSelector<Integer, AbstractProperty<Integer>> selectedIndex() {
         return mParentUnbindableCollector.collect(new SelectedIndexBind(mBindableSource, mWorkDispatcher));
     }
 

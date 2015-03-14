@@ -30,19 +30,22 @@ public class IntentReceiverViewModel {
 
     };
 
-    public AbstractProperty<String> Age = new AbstractProperty<String>() {
+    public AbstractProperty<Integer> Age = new AbstractProperty<Integer>() {
 
         @Override
-        public void onValueChanged(String newValue) {
+        public void onValueChanged(Integer newValue) {
             updateHelloMessage();
         }
 
     };
 
-    public Property<CharSequence> HelloMessage = new Property<>();
+    public Property<String> HelloMessage = new Property<>();
+    public Property<String> Action = new Property<>();
+    public Property<String> Data = new Property<>();
+    public Property<String> Type = new Property<>();
 
     private void updateHelloMessage() {
-        HelloMessage.setValue(String.format("Hi %s! You are %s years old.", Name.getValue(), Age.getValue()));
+        HelloMessage.setValue(String.format("Hi %s! You are %d years old.", Name.getValue(), Age.getValue()));
     }
 
 }

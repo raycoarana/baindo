@@ -27,7 +27,7 @@ import com.raycoarana.baindo.WorkDispatcher;
 import com.raycoarana.baindo.observables.AbstractCollectionProperty;
 import com.raycoarana.baindo.properties.BaseObservableBind;
 
-public class AdapterBind<T> extends BaseObservableBind<AbstractCollectionProperty<T>> {
+public class AdapterBind<T> extends BaseObservableBind<T, AbstractCollectionProperty<T>> {
 
     private AdapterFactory<T> mAdapterFactory;
     private BinderDelegate mBinderDelegate;

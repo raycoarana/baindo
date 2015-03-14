@@ -30,7 +30,7 @@ public class IntentLauncherViewModel {
         public void execute() {
             NavigationService navigationService = NavigationService.getInstance();
             navigationService.navigateToIntentReceiverActivity(Name.getValue().toString(),
-                    Age.getValue().toString());
+                    Integer.valueOf(Age.getValue().toString()));
         }
     };
 

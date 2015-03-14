@@ -19,11 +19,11 @@ package com.raycoarana.baindo.properties;
 import com.raycoarana.baindo.BindableSource;
 import com.raycoarana.baindo.WorkDispatcher;
 import com.raycoarana.baindo.binding.BindLevel;
+import com.raycoarana.baindo.observables.Observable;
 
-import java.util.Observable;
 import java.util.Observer;
 
-public abstract class BaseObservableBind<T extends Observable> extends BaseBind<T> implements Observer {
+public abstract class BaseObservableBind<Type, Property extends Observable<? extends Type>> extends BaseBind<Type, Property> implements Observer {
 
     public BaseObservableBind(BindableSource bindableSource, WorkDispatcher workDispatcher) {
         super(bindableSource, workDispatcher);
@@ -49,7 +49,7 @@ public abstract class BaseObservableBind<T extends Observable> extends BaseBind<
     protected abstract void updateView();
 
     @Override
-    public void update(Observable observable, Object o) {
+    public void update(java.util.Observable observable, Object o) {
         doInUIThread(new Runnable() {
             @Override
             public void run() {

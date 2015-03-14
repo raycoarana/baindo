@@ -20,7 +20,7 @@ import com.raycoarana.baindo.BindableSource;
 import com.raycoarana.baindo.WorkDispatcher;
 import com.raycoarana.baindo.observables.AbstractProperty;
 
-public class EnabledBind extends BaseObservableBind<AbstractProperty<Boolean>> {
+public class EnabledBind extends BaseObservableBind<Boolean, AbstractProperty<Boolean>> {
 
     public EnabledBind(BindableSource bindableSource, WorkDispatcher workDispatcher) {
         super(bindableSource, workDispatcher);

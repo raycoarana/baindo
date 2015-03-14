@@ -20,7 +20,7 @@ import com.pedrogomez.renderers.AdapteeCollection;
 
 import java.util.Collection;
 
-public abstract class AbstractCollectionProperty<T> extends com.raycoarana.baindo.observables.Observable implements AdapteeCollection<T> {
+public abstract class AbstractCollectionProperty<T> extends com.raycoarana.baindo.observables.Observable<T> implements AdapteeCollection<T> {
 
     public boolean add(T element) {
         return false;

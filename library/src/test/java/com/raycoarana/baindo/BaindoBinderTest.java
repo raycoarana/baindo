@@ -16,7 +16,7 @@
 
 package com.raycoarana.baindo;
 
-import com.raycoarana.baindo.binding.BindTarget;
+import com.raycoarana.baindo.binding.BindToTarget;
 import com.raycoarana.baindo.binding.FinalBindTarget;
 import com.raycoarana.baindo.binding.UIAction;
 import com.raycoarana.baindo.binding.ViewToBindSelector;
@@ -74,8 +74,8 @@ public class BaindoBinderTest extends UnitTestSuite {
     private LifecycleBinderCollector mLifecycleBinderCollector;
 
     private BaindoBinder mBaindoBinder;
-    private ViewToBindSelector<?> mViewToBindSelector;
-    private BindTarget<?> mBindTarget;
+    private ViewToBindSelector<?, ?> mViewToBindSelector;
+    private BindToTarget<?, ?> mBindToTarget;
     private FinalBindTarget<?> mFinalBindTarget;
 
     @Test
@@ -217,7 +217,7 @@ public class BaindoBinderTest extends UnitTestSuite {
 
     @SuppressWarnings("unchecked")
     private void whenUIAction() {
-        mBindTarget = mBaindoBinder.uiAction(mock(UIAction.class));
+        mBindToTarget = mBaindoBinder.uiAction(mock(UIAction.class));
     }
 
     @SuppressWarnings("unchecked")
@@ -282,7 +282,7 @@ public class BaindoBinderTest extends UnitTestSuite {
 
     private void thenAnUIActionBindIsBuilt() {
         verifyBindTargetIsCollected();
-        assertThat(mBindTarget, instanceOf(UIActionBind.class));
+        assertThat(mBindToTarget, instanceOf(UIActionBind.class));
     }
 
     private void thenAnAdapterWithFactoryBindIsBuilt() {
@@ -316,14 +316,14 @@ public class BaindoBinderTest extends UnitTestSuite {
     }
 
     private void verifyFinalBindTargetIsCollected() {
-        if(mBindTarget instanceof Unbindable) {
+        if(mBindToTarget instanceof Unbindable) {
             verify(mUnbindableCollector).collect((Unbindable) mFinalBindTarget);
         }
     }
 
     private void verifyBindTargetIsCollected() {
-        if(mBindTarget instanceof Unbindable) {
-            verify(mUnbindableCollector).collect((Unbindable) mBindTarget);
+        if(mBindToTarget instanceof Unbindable) {
+            verify(mUnbindableCollector).collect((Unbindable) mBindToTarget);
         }
     }
 
