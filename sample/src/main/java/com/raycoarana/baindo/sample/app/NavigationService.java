@@ -28,6 +28,7 @@ import com.raycoarana.baindo.sample.click.view.ClickActivity;
 import com.raycoarana.baindo.sample.intent.view.IntentLauncherActivity;
 import com.raycoarana.baindo.sample.intent.view.IntentReceiverActivity;
 import com.raycoarana.baindo.sample.progress.view.ProgressActivity;
+import com.raycoarana.baindo.sample.state.view.StateActivity;
 import com.raycoarana.baindo.sample.text.view.TextActivity;
 import com.raycoarana.baindo.sample.uiaction.view.UIActionActivity;
 
@@ -94,6 +95,10 @@ public class NavigationService {
         intent.putExtra(IntentReceiverActivity.EXTRA_NAME, name);
         intent.putExtra(IntentReceiverActivity.EXTRA_AGE, age);
         startActivity(intent);
+    }
+
+    public void navigateToStateActivity() {
+        startActivity(new Intent(mContext, StateActivity.class));
     }
 
     private void startActivity(Intent intent) {

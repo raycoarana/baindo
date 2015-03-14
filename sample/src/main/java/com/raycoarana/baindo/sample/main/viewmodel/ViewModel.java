@@ -79,4 +79,11 @@ public class ViewModel {
         }
     };
 
+    public Command OpenStateSampleCommand = new Command() {
+        @Override
+        public void execute() {
+            mNavigationService.navigateToStateActivity();
+        }
+    };
+
 }
