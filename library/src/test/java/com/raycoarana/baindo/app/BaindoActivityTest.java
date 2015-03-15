@@ -16,6 +16,7 @@
 
 package com.raycoarana.baindo.app;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 
@@ -39,6 +40,12 @@ public class BaindoActivityTest extends UnitTestSuite {
 
     @Mock
     private BinderDelegate mBinderDelegate;
+
+    @Mock
+    private Intent mNewIntent;
+
+    @Mock
+    private Bundle mState;
 
     private BaindoActivity mBaindoActivity;
 
@@ -77,6 +84,60 @@ public class BaindoActivityTest extends UnitTestSuite {
     }
 
     @Test
+    public void shouldDelegateOnStart() {
+        givenABinderDelegate();
+        givenABaindoActivity();
+        whenOnCreate();
+        whenOnStart();
+        thenOnStartIsDelegated();
+    }
+
+    @Test
+    public void shouldDelegateOnResume() {
+        givenABinderDelegate();
+        givenABaindoActivity();
+        whenOnCreate();
+        whenOnResume();
+        thenOnResumeIsDelegated();
+    }
+
+    @Test
+    public void shouldDelegateOnPause() {
+        givenABinderDelegate();
+        givenABaindoActivity();
+        whenOnCreate();
+        whenOnPause();
+        thenOnPauseIsDelegated();
+    }
+
+    @Test
+    public void shouldDelegateOnStop() {
+        givenABinderDelegate();
+        givenABaindoActivity();
+        whenOnCreate();
+        whenOnStop();
+        thenOnStopIsDelegated();
+    }
+
+    @Test
+    public void shouldDelegateOnNewIntent() {
+        givenABinderDelegate();
+        givenABaindoActivity();
+        whenOnCreate();
+        whenOnNewIntent();
+        thenOnNewIntentIsDelegated();
+    }
+
+    @Test
+    public void shouldDelegateOnSaveInstanceState() {
+        givenABinderDelegate();
+        givenABaindoActivity();
+        whenOnCreate();
+        whenOnSaveInstanceState();
+        thenOnSaveInstanceStateIsDelegated();
+    }
+
+    @Test
     public void shouldDestroyBaindoOnDestroy() {
         givenABinderDelegate();
         givenABaindoActivity();
@@ -100,6 +161,30 @@ public class BaindoActivityTest extends UnitTestSuite {
 
     private void whenOnCreateWithPersistableBundle() {
         mBaindoActivity.onCreate(mock(Bundle.class), mock(PersistableBundle.class));
+    }
+
+    private void whenOnStart() {
+        mBaindoActivity.onStart();
+    }
+
+    private void whenOnStop() {
+        mBaindoActivity.onStop();
+    }
+
+    private void whenOnPause() {
+        mBaindoActivity.onPause();
+    }
+
+    private void whenOnResume() {
+        mBaindoActivity.onResume();
+    }
+
+    private void whenOnNewIntent() {
+        mBaindoActivity.onNewIntent(mNewIntent);
+    }
+
+    private void whenOnSaveInstanceState() {
+        mBaindoActivity.onSaveInstanceState(mState);
     }
 
     private void whenOnDestroy() {
@@ -129,6 +214,30 @@ public class BaindoActivityTest extends UnitTestSuite {
 
     private void thenUnbindIsDelegated() {
         verify(mBinderDelegate).unbind();
+    }
+
+    private void thenOnStartIsDelegated() {
+        verify(mBinderDelegate).onStart();
+    }
+
+    private void thenOnStopIsDelegated() {
+        verify(mBinderDelegate).onStop();
+    }
+
+    private void thenOnResumeIsDelegated() {
+        verify(mBinderDelegate).onResume();
+    }
+
+    private void thenOnPauseIsDelegated() {
+        verify(mBinderDelegate).onPause();
+    }
+
+    private void thenOnNewIntentIsDelegated() {
+        verify(mBinderDelegate).onNewIntent(mNewIntent);
+    }
+
+    private void thenOnSaveInstanceStateIsDelegated() {
+        verify(mBinderDelegate).onSaveInstanceState(mState);
     }
 
 }

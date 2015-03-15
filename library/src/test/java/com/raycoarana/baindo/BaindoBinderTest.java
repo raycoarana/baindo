@@ -20,6 +20,12 @@ import com.raycoarana.baindo.binding.BindToTarget;
 import com.raycoarana.baindo.binding.FinalBindTarget;
 import com.raycoarana.baindo.binding.UIAction;
 import com.raycoarana.baindo.binding.ViewToBindSelector;
+import com.raycoarana.baindo.events.OnCreateEventBind;
+import com.raycoarana.baindo.events.OnDestroyEventBind;
+import com.raycoarana.baindo.events.OnPauseEventBind;
+import com.raycoarana.baindo.events.OnResumeEventBind;
+import com.raycoarana.baindo.events.OnStartEventBind;
+import com.raycoarana.baindo.events.OnStopEventBind;
 import com.raycoarana.baindo.intent.IntentActionBind;
 import com.raycoarana.baindo.intent.IntentBind;
 import com.raycoarana.baindo.intent.IntentDataBind;
@@ -37,6 +43,7 @@ import com.raycoarana.baindo.properties.UIActionBind;
 import com.raycoarana.baindo.properties.VisibilityBind;
 import com.raycoarana.baindo.renderer.AdapterBind;
 import com.raycoarana.baindo.renderer.AdapterFactory;
+import com.raycoarana.baindo.state.StateBind;
 import com.raycoarana.baindo.test.UnitTestSuite;
 
 import org.junit.Test;
@@ -184,9 +191,66 @@ public class BaindoBinderTest extends UnitTestSuite {
         thenAnIntentExtraBindIsBuilt();
     }
 
+    @Test
+    public void shouldBuildAStateBind() {
+        givenABaindoBinder();
+        whenStateBind();
+        thenAStateBindIsBuilt();
+    }
+
+    @Test
+    public void shouldBuildOnCreateBind() {
+        givenABaindoBinder();
+        whenOnCreateBind();
+        thenAnOnCreateBindIsBuilt();
+    }
+
+    @Test
+    public void shouldBuildOnDestroyBind() {
+        givenABaindoBinder();
+        whenOnDestroyBind();
+        thenAnOnDestroyBindIsBuilt();
+    }
+
+    @Test
+    public void shouldBuildOnStartBind() {
+        givenABaindoBinder();
+        whenOnStartBind();
+        thenAnOnStartBindIsBuilt();
+    }
+
+    @Test
+    public void shouldBuildOnStopBind() {
+        givenABaindoBinder();
+        whenOnStopBind();
+        thenAnOnStopBindIsBuilt();
+    }
+
+    @Test
+    public void shouldBuildOnResumeBind() {
+        givenABaindoBinder();
+        whenOnResumeBind();
+        thenAnOnResumeBindIsBuilt();
+    }
+
+    @Test
+    public void shouldBuildOnPauseBind() {
+        givenABaindoBinder();
+        whenOnPauseBind();
+        thenAnOnPauseBindIsBuilt();
+    }
+
+    @SuppressWarnings("unchecked")
     private void givenABaindoBinder() {
         when(mUnbindableCollector.collect(any(Unbindable.class))).thenAnswer(answerWithFirstArgument());
         when(mLifecycleBinderCollector.collect(any(IntentBind.class))).thenAnswer(answerWithFirstArgument());
+        when(mLifecycleBinderCollector.collect(any(StateBind.class))).thenAnswer(answerWithFirstArgument());
+        when(mLifecycleBinderCollector.collect(any(OnCreateEventBind.class))).thenAnswer(answerWithFirstArgument());
+        when(mLifecycleBinderCollector.collect(any(OnDestroyEventBind.class))).thenAnswer(answerWithFirstArgument());
+        when(mLifecycleBinderCollector.collect(any(OnStartEventBind.class))).thenAnswer(answerWithFirstArgument());
+        when(mLifecycleBinderCollector.collect(any(OnStopEventBind.class))).thenAnswer(answerWithFirstArgument());
+        when(mLifecycleBinderCollector.collect(any(OnResumeEventBind.class))).thenAnswer(answerWithFirstArgument());
+        when(mLifecycleBinderCollector.collect(any(OnPauseEventBind.class))).thenAnswer(answerWithFirstArgument());
         mBaindoBinder = new BaindoBinder(mBindableSource,
                                          mWorkDispatcher,
                                          mBinderDelegate,
@@ -255,6 +319,34 @@ public class BaindoBinderTest extends UnitTestSuite {
 
     private void whenIntentExtraBind() {
         mFinalBindTarget = mBaindoBinder.intentExtraWithKey(SOME_KEY);
+    }
+
+    private void whenStateBind() {
+        mFinalBindTarget = mBaindoBinder.stateWithKey(SOME_KEY);
+    }
+
+    private void whenOnCreateBind() {
+        mFinalBindTarget = mBaindoBinder.onCreate();
+    }
+
+    private void whenOnDestroyBind() {
+        mFinalBindTarget = mBaindoBinder.onDestroy();
+    }
+
+    private void whenOnStartBind() {
+        mFinalBindTarget = mBaindoBinder.onStart();
+    }
+
+    private void whenOnStopBind() {
+        mFinalBindTarget = mBaindoBinder.onStop();
+    }
+
+    private void whenOnResumeBind() {
+        mFinalBindTarget = mBaindoBinder.onResume();
+    }
+
+    private void whenOnPauseBind() {
+        mFinalBindTarget = mBaindoBinder.onPause();
     }
 
     private void thenAnIsCheckedBindIsBuilt() {
@@ -348,6 +440,41 @@ public class BaindoBinderTest extends UnitTestSuite {
         if(mViewToBindSelector instanceof Unbindable) {
             verify(mUnbindableCollector).collect((Unbindable) mViewToBindSelector);
         }
+    }
+
+    private void thenAStateBindIsBuilt() {
+        verifyFinalBindTargetIsCollected();
+        assertThat(mFinalBindTarget, instanceOf(StateBind.class));
+    }
+
+    private void thenAnOnCreateBindIsBuilt() {
+        verifyFinalBindTargetIsCollected();
+        assertThat(mFinalBindTarget, instanceOf(OnCreateEventBind.class));
+    }
+
+    private void thenAnOnDestroyBindIsBuilt() {
+        verifyFinalBindTargetIsCollected();
+        assertThat(mFinalBindTarget, instanceOf(OnDestroyEventBind.class));
+    }
+
+    private void thenAnOnStartBindIsBuilt() {
+        verifyFinalBindTargetIsCollected();
+        assertThat(mFinalBindTarget, instanceOf(OnStartEventBind.class));
+    }
+
+    private void thenAnOnStopBindIsBuilt() {
+        verifyFinalBindTargetIsCollected();
+        assertThat(mFinalBindTarget, instanceOf(OnStopEventBind.class));
+    }
+
+    private void thenAnOnResumeBindIsBuilt() {
+        verifyFinalBindTargetIsCollected();
+        assertThat(mFinalBindTarget, instanceOf(OnResumeEventBind.class));
+    }
+
+    private void thenAnOnPauseBindIsBuilt() {
+        verifyFinalBindTargetIsCollected();
+        assertThat(mFinalBindTarget, instanceOf(OnPauseEventBind.class));
     }
 
 }

@@ -16,6 +16,9 @@
 
 package com.raycoarana.baindo;
 
+import android.content.Intent;
+import android.os.Bundle;
+
 import com.raycoarana.baindo.test.UnitTestSuite;
 
 import org.junit.Test;
@@ -44,6 +47,12 @@ public class BinderDelegateTest extends UnitTestSuite {
     @Mock
     private LifecycleBinderCollector mLifecycleBinderCollector;
 
+    @Mock
+    private Intent mIntent;
+
+    @Mock
+    private Bundle mState;
+
     private BinderDelegate mBinderDelegate;
     private Binder mBind;
 
@@ -71,6 +80,48 @@ public class BinderDelegateTest extends UnitTestSuite {
     }
 
     @Test
+    public void shouldDelegateOnResumeToLifecycleBinderCollector() {
+        givenABinderDelegate();
+        whenOnResume();
+        thenOnResumeIsDelegatedToLifecycleBinderCollector();
+    }
+
+    @Test
+    public void shouldDelegateOnPauseToLifecycleBinderCollector() {
+        givenABinderDelegate();
+        whenOnPause();
+        thenOnPauseIsDelegatedToLifecycleBinderCollector();
+    }
+
+    @Test
+    public void shouldDelegateOnStartToLifecycleBinderCollector() {
+        givenABinderDelegate();
+        whenOnStart();
+        thenOnStartIsDelegatedToLifecycleBinderCollector();
+    }
+
+    @Test
+    public void shouldDelegateOnStopToLifecycleBinderCollector() {
+        givenABinderDelegate();
+        whenOnStop();
+        thenOnStopIsDelegatedToLifecycleBinderCollector();
+    }
+
+    @Test
+    public void shouldDelegateOnActivityCreateToLifecycleBinderCollector() {
+        givenABinderDelegate();
+        whenOnActivityCreate();
+        thenOnActivityCreateIsDelegatedToLifecycleBinderCollector();
+    }
+
+    @Test
+    public void shouldDelegateOnFragmentCreateToLifecycleBinderCollector() {
+        givenABinderDelegate();
+        whenOnFragmentCreate();
+        thenOnFragmentCreateIsDelegatedToLifecycleBinderCollector();
+    }
+
+    @Test
     public void shouldBindRendererWithoutCallUnbindOnDestroy() {
         givenABinderDelegate();
         givenThatABindWithUnbindableCollectorWasCreated();
@@ -88,6 +139,30 @@ public class BinderDelegateTest extends UnitTestSuite {
 
     private void givenThatABindWithUnbindableCollectorWasCreated() {
         mBind = mBinderDelegate.bind(mSomeBindableSource, mRendererUnbindableCollection);
+    }
+
+    private void whenOnActivityCreate() {
+        mBinderDelegate.onActivityCreate(mIntent, mState);
+    }
+
+    private void whenOnFragmentCreate() {
+        mBinderDelegate.onFragmentCreate(mState);
+    }
+
+    private void whenOnResume() {
+        mBinderDelegate.onResume();
+    }
+
+    private void whenOnPause() {
+        mBinderDelegate.onPause();
+    }
+
+    private void whenOnStart() {
+        mBinderDelegate.onStart();
+    }
+
+    private void whenOnStop() {
+        mBinderDelegate.onStop();
     }
 
     private void whenOnDestroy() {
@@ -108,6 +183,33 @@ public class BinderDelegateTest extends UnitTestSuite {
 
     private void thenWorkDispatcherIsDestroyed() {
         verify(mWorkDispatcher).onDestroy();
+    }
+
+    private void thenOnResumeIsDelegatedToLifecycleBinderCollector() {
+        verify(mLifecycleBinderCollector).onResume();
+    }
+
+    private void thenOnPauseIsDelegatedToLifecycleBinderCollector() {
+        verify(mLifecycleBinderCollector).onPause();
+    }
+
+    private void thenOnStartIsDelegatedToLifecycleBinderCollector() {
+        verify(mLifecycleBinderCollector).onStart();
+    }
+
+    private void thenOnStopIsDelegatedToLifecycleBinderCollector() {
+        verify(mLifecycleBinderCollector).onStop();
+    }
+
+    private void thenOnActivityCreateIsDelegatedToLifecycleBinderCollector() {
+        verify(mLifecycleBinderCollector).updateIntent(mIntent);
+        verify(mLifecycleBinderCollector).updateSavedInstanceState(mState);
+        verify(mLifecycleBinderCollector).onCreate();
+    }
+
+    private void thenOnFragmentCreateIsDelegatedToLifecycleBinderCollector() {
+        verify(mLifecycleBinderCollector).updateSavedInstanceState(mState);
+        verify(mLifecycleBinderCollector).onCreate();
     }
 
 }
