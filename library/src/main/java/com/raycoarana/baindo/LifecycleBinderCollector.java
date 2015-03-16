@@ -48,32 +48,32 @@ public class LifecycleBinderCollector {
     private Intent mCurrentIntent;
     private Bundle mSavedInstanceState;
 
-    public FinalBindTarget<Command> collect(OnCreateEventBind eventBind) {
+    public AbstractEventBind collect(OnCreateEventBind eventBind) {
         collectEvent(eventBind, mOnCreateEventBinds);
         return eventBind;
     }
 
-    public FinalBindTarget<Command> collect(OnDestroyEventBind eventBind) {
+    public AbstractEventBind collect(OnDestroyEventBind eventBind) {
         collectEvent(eventBind, mOnDestroyEventBinds);
         return eventBind;
     }
 
-    public FinalBindTarget<Command> collect(OnPauseEventBind eventBind) {
+    public AbstractEventBind collect(OnPauseEventBind eventBind) {
         collectEvent(eventBind, mOnPauseEventBinds);
         return eventBind;
     }
 
-    public FinalBindTarget<Command> collect(OnResumeEventBind eventBind) {
+    public AbstractEventBind collect(OnResumeEventBind eventBind) {
         collectEvent(eventBind, mOnResumeEventBinds);
         return eventBind;
     }
 
-    public FinalBindTarget<Command> collect(OnStartEventBind eventBind) {
+    public AbstractEventBind collect(OnStartEventBind eventBind) {
         collectEvent(eventBind, mOnStartEventBinds);
         return eventBind;
     }
 
-    public FinalBindTarget<Command> collect(OnStopEventBind eventBind) {
+    public AbstractEventBind collect(OnStopEventBind eventBind) {
         collectEvent(eventBind, mOnStopEventBinds);
         return eventBind;
     }
