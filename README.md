@@ -9,7 +9,7 @@ efficient way. Contrary to other frameworks, Baindo is built with performance in
 kind of reflection. Bind your views and adapters with Baindo to your ViewModels and keep them away from any
 dependency with you UI.
 
-Baindo uses [Pedro Gome'z Renderers](https://github.com/pedrovgs/Renderers) library as a base
+Baindo uses [Pedro Gomez's Renderers](https://github.com/pedrovgs/Renderers) library as a base
 to build the binders to adapters.
 
 How to use it?
