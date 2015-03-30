@@ -28,8 +28,9 @@ public class BaindoWorkDispatcher implements WorkDispatcher {
 
     private final AndroidProvider mAndroidProvider;
     private final Handler mHandler;
-    private final CountDownLatch mBackgroundThreadReady = new CountDownLatch(1);
     private Handler mBackgroundHandler;
+
+    final CountDownLatch mBackgroundThreadReady = new CountDownLatch(1);
 
     public BaindoWorkDispatcher(AndroidProvider androidProvider) {
         mAndroidProvider = androidProvider;
