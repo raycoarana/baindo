@@ -7,7 +7,7 @@ Baindo
 Baindo is a library that let you implement the MVVM (Model View View-Model) pattern in a very simple and
 efficient way. Contrary to other frameworks, Baindo is built with performance in mind, so it doesn't use any
 kind of reflection. Bind your views and adapters with Baindo to your ViewModels and keep them away from any
-dependency with you UI.
+dependency with your UI.
 
 Baindo uses [Pedro Gomez's Renderers](https://github.com/pedrovgs/Renderers) library as a base
 to build the binders to adapters.
