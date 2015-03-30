@@ -23,6 +23,8 @@ public interface FinalBindTarget<T> {
 
     /**
      * Selects the destination as a Command or Property at the ViewModel
+     *
+     * @param target target of the bind
      */
     void to(T target);
 

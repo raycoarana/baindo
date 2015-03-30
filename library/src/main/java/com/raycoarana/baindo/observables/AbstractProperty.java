@@ -37,6 +37,9 @@ public abstract class AbstractProperty<T> extends Observable<T> {
     /**
      * Sets a new value for this property, preventing that the sender observer gets called
      * by the update event that will be fired.
+     *
+     * @param newValue new value for the property
+     * @param sender observer to ignore when notifying changes
      */
     public void setValue(T newValue, Observer sender) {
         mValue = newValue;
@@ -50,6 +53,8 @@ public abstract class AbstractProperty<T> extends Observable<T> {
      * Sets a new value for this property. Caller of this method must not be an Observer of this
      * property (or you will suffer a infinite loop). If you want to change the value of this
      * property from an Observer, use setValue(T, Observer)
+     *
+     * @param newValue new value for the property
      *
      * @see AbstractProperty#setValue(Object, java.util.Observer)
      */

@@ -19,8 +19,6 @@ package com.raycoarana.baindo.binding;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.raycoarana.baindo.observables.BindableTarget;
-
 /**
  * Selects a view to be bind.
  */
@@ -28,16 +26,25 @@ public interface ViewToBindSelector<Type, Property> {
 
     /**
      * Selects the view that would be the source of the bind by its resource id.
+     *
+     * @param viewId id of the view to use as the source of the bind
+     * @return object to select the target of the bind
      */
     BindToTarget<Type, Property> of(int viewId);
 
     /**
      * Selects the view that would be the source of the bind.
+     *
+     * @param view view to use as the source of the bind
+     * @return object to select the target of the bind
      */
     BindToTarget<Type, Property> of(View view);
 
     /**
      * Selects the menu item that would be the source of the bind.
+     *
+     * @param item menu item to use as the source of the bind
+     * @return object to select the target of the bind
      */
     BindToTarget<Type, Property> of(MenuItem item);
 

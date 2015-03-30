@@ -40,18 +40,18 @@ Download via Maven:
 <dependency>
   <groupId>com.raycoarana</groupId>
   <artifactId>baindo</artifactId>
-  <version>0.0.1/version>
+  <version>1.0.0-SNAPSHOT/version>
 </dependency>
 ```
 or Gradle:
 ```groovy
-compile 'com.raycoarana:baindo:0.0.1'
+compile 'com.raycoarana:baindo:1.0.0-SNAPSHOT'
 ```
 
 License
 -------
 
-    Copyright 2014 Rayco Araña
+    Copyright 2015 Rayco Araña
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.

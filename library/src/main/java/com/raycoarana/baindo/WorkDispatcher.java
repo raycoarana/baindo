@@ -24,11 +24,15 @@ public interface WorkDispatcher {
 
     /**
      * Ensures that this Runnable is executed in the UI Thread.
+     *
+     * @param runnable code to execute in the UI Thread
      */
     void doInUIThread(Runnable runnable);
 
     /**
      * Ensures that this Runnable is executed in the ViewModel Background Thread.
+     *
+     * @param runnable code to execute in the background thread
      */
     void doInBackgroundThread(Runnable runnable);
 

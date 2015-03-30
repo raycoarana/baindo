@@ -41,13 +41,13 @@ public class TextBind<T extends CharSequence> extends BaseObservableBind<CharSeq
     @Override
     public void afterTextChanged(final Editable editable) {
         doInBackgroundThread(new Runnable() {
+            @SuppressWarnings("unchecked")
             @Override
             public void run() {
                 synchronized (this) {
                     if (state == State.BINDED) {
                         T newValue;
                         try {
-                            //noinspection unchecked
                             newValue = (T) editable.toString();
                         } catch (ClassCastException ex) {
                             throw new IllegalStateException("Text binding with direction write or read/write only supports String or CharSequence properties");

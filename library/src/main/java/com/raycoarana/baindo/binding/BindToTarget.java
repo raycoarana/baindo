@@ -23,6 +23,9 @@ public interface BindToTarget<Type, Property> {
 
     /**
      * Selects the destination as a Command or Property at the ViewModel
+     *
+     * @param target property target of the bind
+     * @return object to select the direction of the bind
      */
     BindLevel to(Property target);
 

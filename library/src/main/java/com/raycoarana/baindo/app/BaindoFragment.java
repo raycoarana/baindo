@@ -77,6 +77,8 @@ public class BaindoFragment extends Fragment implements BindableSource {
 
     /**
      * Creates and returns a new Binder ready to bind a view property with a ViewModel property.
+     *
+     * @return a new Binder ready to bind a view property with a ViewModel property
      */
     public Binder bind() {
         return mBinderDelegate.bind(this);

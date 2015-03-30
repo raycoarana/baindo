@@ -56,6 +56,9 @@ public class BinderDelegate {
      * Creates a binder, it's recommended not to use this method directly for your bindings, instead
      * create a bind() method in your Activity/Fragment that calls this method passing the
      * Activity/Fragment as a BindableSource.
+     *
+     * @param bindableSource source of views to bind
+     * @return a new binder
      */
     public Binder bind(BindableSource bindableSource) {
         return bind(bindableSource, mUnbindableCollector);
@@ -64,6 +67,10 @@ public class BinderDelegate {
     /**
      * Creates a binder with the provided BindableSource and UnbindableCollector, for use in Adapters
      * like binder that have its own UnbindableCollector.
+     *
+     * @param bindableSource source of views to bind
+     * @param unbindableCollector collection to store all created unbindable elements
+     * @return a new binder
      */
     public Binder bind(BindableSource bindableSource, UnbindableCollector unbindableCollector) {
         return mBaindoBinderFactory.build(bindableSource, mWorkDispatcher, this, unbindableCollector, mLifecycleBinderCollector);
@@ -106,6 +113,9 @@ public class BinderDelegate {
 
     /**
      * Call this method in the onCreate method of your activity
+     *
+     * @param intent Intent of onCreate()
+     * @param savedInstanceState Bundle of onCreate()
      */
     public void onActivityCreate(Intent intent, Bundle savedInstanceState) {
         mLifecycleBinderCollector.updateIntent(intent);
@@ -115,6 +125,8 @@ public class BinderDelegate {
 
     /**
      * Call this method in the onNewIntent method of your activity
+     *
+     * @param intent Intent of onNewIntent()
      */
     public void onNewIntent(Intent intent) {
         mLifecycleBinderCollector.updateIntent(intent);
@@ -122,6 +134,8 @@ public class BinderDelegate {
 
     /**
      * Call this method in the onSaveInstanceState method
+     *
+     * @param outState Bundle of onSaveInstanceState()
      */
     public void onSaveInstanceState(Bundle outState) {
         mLifecycleBinderCollector.saveInstanceState(outState);
@@ -129,6 +143,8 @@ public class BinderDelegate {
 
     /**
      * Call this method in the onCreate method of your fragment
+     *
+     * @param savedInstanceState Bundle of onCreate()
      */
     public void onFragmentCreate(Bundle savedInstanceState) {
         mLifecycleBinderCollector.updateSavedInstanceState(savedInstanceState);
@@ -137,6 +153,8 @@ public class BinderDelegate {
 
     /**
      * Call this method in the onAttach method of your fragment
+     *
+     * @param intent Intent of onAttach() event
      */
     public void onFragmentAttach(Intent intent) {
         mLifecycleBinderCollector.updateIntent(intent);

@@ -95,9 +95,9 @@
     <orderEntry type="library" exported="" scope="TEST" name="maven-ant-tasks-2.1.3" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="ant-1.8.0" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="powermock-api-support-1.6.1" level="project" />
-    <orderEntry type="library" exported="" scope="TEST" name="mockito-core-1.10.8" level="project" />
     <orderEntry type="library" exported="" name="renderers-1.5" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="powermock-reflect-1.6.1" level="project" />
+    <orderEntry type="library" exported="" scope="TEST" name="mockito-core-1.10.8" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="ant-launcher-1.8.0" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="asm-commons-5.0.1" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="asm-5.0.1" level="project" />

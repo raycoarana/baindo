@@ -25,7 +25,6 @@ import com.raycoarana.baindo.WorkDispatcher;
 import com.raycoarana.baindo.binding.BindLevel;
 import com.raycoarana.baindo.binding.BindToTarget;
 import com.raycoarana.baindo.binding.ViewToBindSelector;
-import com.raycoarana.baindo.observables.BindableTarget;
 
 /**
  * Base class to create bind between a view property and a Command/Property of a ViewModel.
@@ -80,7 +79,7 @@ public abstract class BaseBind<Type, Property> implements ViewToBindSelector<Typ
     }
 
     /**
-     * @see BindToTarget#to(BindableTarget)
+     * @see BindToTarget#to(Object)
      */
     @Override
     public BindLevel to(Property target) {
@@ -125,6 +124,8 @@ public abstract class BaseBind<Type, Property> implements ViewToBindSelector<Typ
 
     /**
      * Execute some work on the UI thread.
+     *
+     * @param runnable code to execute in the UI Thread
      */
     public void doInUIThread(Runnable runnable) {
         synchronized (this) {
@@ -136,6 +137,8 @@ public abstract class BaseBind<Type, Property> implements ViewToBindSelector<Typ
 
     /**
      * Execute some work on the ViewModel background thread.
+     *
+     * @param runnable code to execute in the background thread
      */
     public void doInBackgroundThread(Runnable runnable) {
         synchronized (this) {

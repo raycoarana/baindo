@@ -17,6 +17,7 @@
 package com.raycoarana.baindo.observables;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
@@ -29,6 +30,10 @@ public class CollectionProperty<T> extends AbstractCollectionProperty<T> impleme
 
     public CollectionProperty() {
         mList = new ArrayList<>();
+    }
+
+    public CollectionProperty(T[] items) {
+        mList = Arrays.asList(items);
     }
 
     public CollectionProperty(List<T> listToObserv) {
