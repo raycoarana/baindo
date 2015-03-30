@@ -187,7 +187,7 @@ public class BaindoWorkDispatcherTest extends UnitTestSuite {
 
     private void thenBackgroundThreadIsInitialized() {
         try {
-            mBaindoWorkDispatcher.mBackgroundThreadReady.await();
+            mBaindoWorkDispatcher.mBackgroundThread.join();
         } catch (InterruptedException e) {
             throw new IllegalStateException("BinderDispatcher doesn't finish it's initialization");
         }
